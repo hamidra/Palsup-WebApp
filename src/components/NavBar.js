@@ -1,31 +1,31 @@
 import React from 'react';
 
 const NavBar = () => (
-    <nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+    <nav className="navbar sticky-top navbar-expand-sm navbar-light bg-light">
+        <a className="navbar-brand" href="#">Navbar</a>
         <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#myNavbar">
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="navbar-nav mr-auto mt-2 mt-sm-0">
-                <li class="nav-item d-sm-none">
-                    <a class="nav-link" href="#">Profile</a>
+        <div className="collapse navbar-collapse" id="myNavbar">
+            <ul className="navbar-nav mr-auto mt-2 mt-sm-0">
+                <li className="nav-item d-sm-none">
+                    <a className="nav-link" href="#">Profile</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Message</a>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Message</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Notifications</a>
+                <li className="nav-item">
+                    <a className="nav-link" href="#">Notifications</a>
                 </li>
-                <li class="nav-item d-sm-none">
-                    <a class="nav-link" href="#">Login</a>
+                <li className="nav-item d-sm-none">
+                    <a className="nav-link" href="#">Login</a>
                 </li>
             </ul>
-            <a class="nav-link d-none d-sm-inline-block" href="#">User</a>
+            <a className="nav-link d-none d-sm-inline-block" href="#">User</a>
         </div>
     </nav>
 );
