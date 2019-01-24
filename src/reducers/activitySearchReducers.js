@@ -6,8 +6,8 @@ var initialState = {
   user: { didInvalidate: false, isFetching: false, info: {}, fetchError: null },
   activity: {},
   events: { didInvalidate: false, isFetching: false, items: [] },
-  pals: { didInvalidate: false, isfetching: false, items: [] },
-  filters: { visibilityFilter: actions.visibilityFilter.SHOW_EVENTS }
+  pals: { didInvalidate: false, isFetching: false, items: [] },
+  filters: { viewFilter: actions.viewFilter.SHOW_EVENTS }
 };
 const userReducer = createReducer(
   {
@@ -45,7 +45,7 @@ const palsReducer = createReducer(
       Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
-        items: [payload.pals]
+        items: [...payload.pals]
       })
   },
   initialState.pals
@@ -61,8 +61,8 @@ const activityReducer = createReducer(
 
 const filtersReducer = createReducer(
   {
-    [actions.visibilityFilterChanged]: (state, payload) =>
-      Object.assign({}, state, { visibilityFilter: payload.visibilityFilter })
+    [actions.viewFilterChanged]: (state, payload) =>
+      Object.assign({}, state, { viewFilter: payload.viewFilter })
   },
   initialState.filters
 );

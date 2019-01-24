@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
 import {
   activityChange,
-  fetchEventsAsync
+  fetchEventsAsync,
+  fetchPalsAsync
 } from '../actions/activitySearchActions';
 
 const mapStateToProps = state => ({
@@ -12,7 +13,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleInputChange: event =>
     dispatch(activityChange({ name: event.target.value })),
-  handleButtonClick: () => dispatch(fetchEventsAsync())
+  handleButtonClick: () => {
+    dispatch(fetchEventsAsync());
+    dispatch(fetchPalsAsync());
+  }
 });
 
 export default connect(

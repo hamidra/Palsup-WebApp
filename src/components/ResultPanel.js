@@ -1,18 +1,15 @@
 import React from 'react';
-import SwitchTab from './SwitchTab';
+import SwitchViewContainer from '../containers/SwitchViewContainer';
 import EventsPanelContainer from '../containers/EventsPanelContainer';
-import PalsPanel from './PalsPanel';
-import Pals from '../mocks/MockPals';
+import PalsPanelContainer from '../containers/PalsPanelContainer';
+import { viewFilter } from '../actions/activitySearchActions';
 
-const ResultPanel = () => {
-  var pals = Pals();
-  return (
-    <div className="justify-content-center">
-      <SwitchTab />
-      <EventsPanelContainer />
-      <PalsPanel pals={pals} />
-    </div>
-  );
-};
+const ResultPanel = ({activeView}) => (
+  <div className="justify-content-center">
+    <SwitchViewContainer />
+    {activeView === viewFilter.SHOW_EVENTS && <EventsPanelContainer />}
+    {activeView === viewFilter.SHOW_PALS && <PalsPanelContainer />}
+  </div>
+);
 
 export default ResultPanel;

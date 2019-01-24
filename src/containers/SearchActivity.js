@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from '../components/NavBar';
 import SearchBarContainer from '../containers/SearchBarContainer';
-import ResultPanel from '../components/ResultPanel';
+import ResultPanelContainer from '../containers/ResultPanelContainer';
 
 class SearchActivity extends Component {
   render() {
@@ -9,7 +9,7 @@ class SearchActivity extends Component {
       <div className="container">
         <NavBar />
         <SearchBarContainer />
-        <ResultPanel />
+        <ResultPanelContainer />
       </div>
     );
   }

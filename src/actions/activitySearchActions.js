@@ -1,17 +1,18 @@
 import { createAction } from 'redux-act';
 import fetch from 'cross-fetch';
 import getMockEvents from '../mocks/MockEvents';
+import getMockPals from '../mocks/MockPals';
 
 /**
- * Visibility Filters
+ * view Filters
  */
-export const visibilityFilter = Object.freeze({
+export const viewFilter = Object.freeze({
   SHOW_EVENTS: 'SHOW_EVENTS',
   SHOW_PALS: 'SHOW_PALS'
 });
-export const visibilityFilterChanged = createAction(
-  'VISIBILITY_FILTER_CHANGED',
-  visibilityFilter => ({ visibilityFilter })
+export const viewFilterChanged = createAction(
+  'VIEW_FILTER_CHANGED',
+  viewFilter => ({ viewFilter })
 );
 
 /**
@@ -54,6 +55,11 @@ export const fetchPalsSucceeded = createAction(
 export const fetchPalsFailed = createAction('FETCH_PALS_FAILED', error => ({
   error
 }));
+export const fetchPalsAsync = () => (dispatch, getState) => {
+  var fetchPromise = new Promise(resolve => resolve(getMockPals()));
+  dispatch(fetchPalsStarted());
+  fetchPromise.then(response => dispatch(fetchPalsSucceeded(response)));
+};
 
 /**
  * Activity Search

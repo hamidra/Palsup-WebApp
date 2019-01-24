@@ -1,4 +1,4 @@
-const Pals = () => [
+const getMockPals = () => [
   {
     id: '1', // the Id of the pal
     userId: '1', // the userId of the person who is behind this pal,
@@ -68,4 +68,4 @@ const Pals = () => [
   }*/
 ];
 
-export default Pals;
+export default getMockPals;
