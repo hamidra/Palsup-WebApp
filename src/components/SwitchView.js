@@ -1,12 +1,12 @@
 import React from 'react';
-import { viewFilter } from '../actions/activitySearchActions';
+import viewFilter from '../actions/viewFilter';
 
 const SwitchPanel = ({ activeView, handleViewSwitch }) => (
   <ul className="nav nav-tabs justify-content-center">
     <li className="nav-item">
       <a
         className={`nav-link ${
-          activeView == viewFilter.SHOW_EVENTS ? 'active' : ''
+          activeView === viewFilter.SHOW_EVENTS ? 'active' : ''
         }`}
         onClick={() => handleViewSwitch(viewFilter.SHOW_EVENTS)}
         href="#">
@@ -16,7 +16,7 @@ const SwitchPanel = ({ activeView, handleViewSwitch }) => (
     <li className="nav-item">
       <a
         className={`nav-link ${
-          activeView == viewFilter.SHOW_PALS ? 'active' : ''
+          activeView === viewFilter.SHOW_PALS ? 'active' : ''
         }`}
         onClick={() => handleViewSwitch(viewFilter.SHOW_PALS)}
         href="#">

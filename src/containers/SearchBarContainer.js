@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
 import {
   activityChange,
-  fetchEventsAsync,
-  fetchPalsAsync
+  fetchEventsAsync
 } from '../actions/activitySearchActions';
+import { fetchPalsAsync } from '../actions/asyncFetchPals';
 
 const mapStateToProps = state => ({
   inputValue: state.activity && state.activity.name ? state.activity.name : ''

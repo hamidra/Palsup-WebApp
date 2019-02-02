@@ -36,7 +36,7 @@ const NavBar = () => (
         </li>
       </ul>
       <a className="nav-link d-none d-sm-inline-block" href="#">
-        User
+        SignUp/User
       </a>
     </div>
   </nav>

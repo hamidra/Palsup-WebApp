@@ -1,14 +1,9 @@
 import * as actions from '../actions/activitySearchActions';
 import { createReducer } from 'redux-act';
 import { combineReducers } from 'redux';
+import initialState from './initialState';
+import palsReducer from './palsReducer';
 
-var initialState = {
-  user: { didInvalidate: false, isFetching: false, info: {}, fetchError: null },
-  activity: {},
-  events: { didInvalidate: false, isFetching: false, items: [] },
-  pals: { didInvalidate: false, isFetching: false, items: [] },
-  filters: { viewFilter: actions.viewFilter.SHOW_EVENTS }
-};
 const userReducer = createReducer(
   {
     [actions.fetchUserStarted]: state =>
@@ -35,20 +30,6 @@ const eventsReducer = createReducer(
       })
   },
   initialState.events
-);
-
-const palsReducer = createReducer(
-  {
-    [actions.fetchPalsStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
-    [actions.fetchPalsSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: [...payload.pals]
-      })
-  },
-  initialState.pals
 );
 
 const activityReducer = createReducer(
