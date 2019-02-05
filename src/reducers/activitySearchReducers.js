@@ -3,6 +3,7 @@ import { createReducer } from 'redux-act';
 import { combineReducers } from 'redux';
 import initialState from './initialState';
 import palsReducer from './palsReducer';
+import eventsReducer from './eventsReducer';
 
 const userReducer = createReducer(
   {
@@ -16,20 +17,6 @@ const userReducer = createReducer(
       })
   },
   initialState.user
-);
-
-const eventsReducer = createReducer(
-  {
-    [actions.fetchEventsStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
-    [actions.fetchEventsSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: [...payload.events]
-      })
-  },
-  initialState.events
 );
 
 const activityReducer = createReducer(

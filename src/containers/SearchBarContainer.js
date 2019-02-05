@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
-import {
-  activityChange,
-  fetchEventsAsync
-} from '../actions/activitySearchActions';
+import { activityChange } from '../actions/activitySearchActions';
+import { fetchEventsAsync } from '../actions/asyncFetchEvents';
 import { fetchPalsAsync } from '../actions/asyncFetchPals';
 
 const mapStateToProps = state => ({

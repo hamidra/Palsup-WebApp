@@ -19,23 +19,6 @@ export const fetchUserFailed = createAction('FETCH_USER_FAILED', error => ({
 }));
 
 /**
- * Fetch Events
- */
-export const fetchEventsStarted = createAction('FETCH_EVENTS_STARTED');
-export const fetchEventsSucceeded = createAction(
-  'FETCH_EVENTS_SUCCEEDED',
-  events => ({ events })
-);
-export const fetchEventsFailed = createAction('FETCH_EVENTS_FAILED', error => ({
-  error
-}));
-export const fetchEventsAsync = () => (dispatch, getState) => {
-  var fetchPromise = new Promise(resolve => resolve(getMockEvents()));
-  dispatch(fetchEventsStarted());
-  fetchPromise.then(response => dispatch(fetchEventsSucceeded(response)));
-};
-
-/**
  * Activity Search
  */
 export const activityChange = createAction('ACTIVITY_CHANGE', activity => ({
