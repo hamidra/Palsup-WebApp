@@ -47,7 +47,7 @@ export const fetchPalsFailed = createAction('FETCH_PALS_FAILED', error => ({
 
 export const fetchPalsAsync = () => (dispatch, getState) => {
   dispatch(fetchPalsStarted());
-  return fetch('http://localhost:3000/graphql', {
+  return fetch('http://192.168.1.221:3000/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
