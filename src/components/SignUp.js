@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { createUser } from '../controllers/userController';
 
 export default class SignUp extends Component {
-  signUpUser(values, actions) {
+  signUpUser(values) {
     var user = {
       gender: values.gender,
       name: values.name,
@@ -16,10 +16,11 @@ export default class SignUp extends Component {
     return createUser(user)
       .then(r => r.json())
       .then(json => {
-        if (json.data) {
+        if (json.error) {
+          throw new Error(json.error);
+        } else if (json.data) {
           alert(JSON.stringify(json, null, 2));
         } else {
-          console.log(`no data field in the result ${JSON.stringify(json)}`);
           throw new Error('no data field in the result');
         }
       });
@@ -44,7 +45,10 @@ export default class SignUp extends Component {
                 password: '',
                 dob: ''
               }}
-              onSubmit={this.signUpUser}>
+              onSubmit={(values, actions) => {
+                this.signUpUser(values);
+                actions.setSubmitting(false);
+              }}>
               <Form>
                 <div className="form-row">
                   <div className="form-group col-sm-6">
