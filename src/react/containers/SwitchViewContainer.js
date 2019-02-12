@@ -1,14 +1,13 @@
 import { connect } from 'react-redux';
 import SwitchView from '../components/SwitchView';
-import {
-  viewFilterChanged
-} from '../actions/activitySearchActions';
+import * as filter from '../../redux/dux/filter';
 
 const mapStateToProps = state => ({
-  activeView: state.filters ? state.filters.viewFilter : ''
+  activeView: state.filter ? state.filter.viewFilter : ''
 });
 const mapDispatchToProps = dispatch => ({
-  handleViewSwitch: viewFilter => dispatch(viewFilterChanged(viewFilter))
+  handleViewSwitch: viewFilter =>
+    dispatch(filter.actions.viewFilterChanged(viewFilter))
 });
 
 export default connect(

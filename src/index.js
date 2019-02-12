@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Root from './Layouts/Root';
+import Root from './react/Layouts/Root';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<Root />, document.getElementById('root'));

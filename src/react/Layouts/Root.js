@@ -1,11 +1,11 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import configureStore from '../configureStore';
+import configureStore from '../../redux/configureStore';
 import NavBar from '../components/NavBar';
-import SearchActivity from '../containers/SearchActivity';
+import SearchActivity from './SearchActivity';
 import MessageList from '../components/MessageList';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import SignUp from '../components/SignUp';
+import SignUpFormContainer from '../containers/SignUpFormContainer';
 
 const store = configureStore();
 
@@ -16,7 +16,7 @@ const Root = () => (
       <Switch>
         <Route path="/search" component={SearchActivity} />
         <Route path="/messages" component={MessageList} />
-        <Route path="/SignUp" component={SignUp} />
+        <Route path="/SignUp" component={SignUpFormContainer} />
       </Switch>
     </Provider>
   </Router>

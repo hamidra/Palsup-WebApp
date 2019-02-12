@@ -1,14 +1,14 @@
 import React from 'react';
-import viewFilter from '../actions/viewFilter';
+import * as types from '../../redux/types';
 
 const SwitchPanel = ({ activeView, handleViewSwitch }) => (
   <ul className="nav nav-tabs justify-content-center">
     <li className="nav-item">
       <a
         className={`nav-link ${
-          activeView === viewFilter.SHOW_EVENTS ? 'active' : ''
+          activeView === types.viewFilter.SHOW_EVENTS ? 'active' : ''
         }`}
-        onClick={() => handleViewSwitch(viewFilter.SHOW_EVENTS)}
+        onClick={() => handleViewSwitch(types.viewFilter.SHOW_EVENTS)}
         href="#">
         Events
       </a>
@@ -16,9 +16,9 @@ const SwitchPanel = ({ activeView, handleViewSwitch }) => (
     <li className="nav-item">
       <a
         className={`nav-link ${
-          activeView === viewFilter.SHOW_PALS ? 'active' : ''
+          activeView === types.viewFilter.SHOW_PALS ? 'active' : ''
         }`}
-        onClick={() => handleViewSwitch(viewFilter.SHOW_PALS)}
+        onClick={() => handleViewSwitch(types.viewFilter.SHOW_PALS)}
         href="#">
         Pals
       </a>
