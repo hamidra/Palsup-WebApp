@@ -13,8 +13,9 @@ export const graphqlCall = async query => {
     body: JSON.stringify(query)
   });
   var json = await result.json();
+  console.log(json);
   if (json.errors) {
-    throw new Error(json.error);
+    throw new Error(json.errors);
   } else if (!json.data) {
     throw new Error('no data was returned');
   } else {

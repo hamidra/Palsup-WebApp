@@ -1,21 +1,29 @@
 import { createAction, createReducer } from 'redux-act';
-import { createUser } from '../../webClients/graphql/apiProvider';
+import {
+  createUser,
+  getUserByAuthInfo
+} from '../../webClients/graphql/apiProvider';
 import { toUser } from '../../webClients/graphql/converters';
 import initialState from './initialState';
 
+const persistUserState = (state, userState) => {
+  localStorage.setItem('user', JSON.stringify(userState));
+  return Object.assign({}, state, userState);
+};
+
 export const actions = {
-  fetchUserStarted: createAction('FETCH_USER_STARTED'),
-  fetchUserSucceeded: createAction('FETCH_USER_SUCCEEDED', userInfo => ({
+  fetchUserStarted: createAction('USER/FETCH_USER_STARTED'),
+  fetchUserSucceeded: createAction('USER/FETCH_USER_SUCCEEDED', userInfo => ({
     userInfo
   })),
-  fetchUserFailed: createAction('FETCH_USER_FAILED', error => ({
+  fetchUserFailed: createAction('USER/FETCH_USER_FAILED', error => ({
     error
   })),
-  createUserStarted: createAction('CREATE_USER_STARTED'),
-  createUserSucceeded: createAction('CREATE_USER_SUCCEEDED', userInfo => ({
+  createUserStarted: createAction('USER/CREATE_USER_STARTED'),
+  createUserSucceeded: createAction('USER/CREATE_USER_SUCCEEDED', userInfo => ({
     userInfo
   })),
-  createUserFailed: createAction('CREATE_USER_FAILED', error => ({
+  createUserFailed: createAction('USER/CREATE_USER_FAILED', error => ({
     error
   })),
 
@@ -41,6 +49,15 @@ export const asyncActions = {
     } catch (err) {
       dispatch(actions.createUserFailed(err));
     }
+  },
+  fetchUserByAuthInfo: authInfo => async (dispatch, getState) => {
+    dispatch(actions.fetchUserStarted());
+    try {
+      var gqlUser = await getUserByAuthInfo(authInfo);
+      dispatch(actions.fetchUserSucceeded(toUser(gqlUser)));
+    } catch (err) {
+      dispatch(actions.fetchUserFailed(err));
+    }
   }
 };
 
@@ -48,18 +65,20 @@ const reducer = createReducer(
   {
     [actions.fetchUserStarted]: state =>
       Object.assign({}, state, { isFetching: true }),
-    [actions.fetchUserSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
+    [actions.fetchUserSucceeded]: (state, payload) => {
+      return persistUserState(state, {
         isFetching: false,
         didInvalidate: false,
         info: payload.userInfo
-      }),
-    [actions.createUserSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
+      });
+    },
+    [actions.createUserSucceeded]: (state, payload) => {
+      return persistUserState(state, {
         isFetching: false,
         didInvalidate: false,
         info: payload.userInfo
-      })
+      });
+    }
   },
   initialState.user
 );

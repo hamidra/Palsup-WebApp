@@ -1,17 +1,22 @@
 import React from 'react';
-import moment from 'moment';
 import Card from './Card';
+import { displayDateFromNow } from '../../../utilities';
 
-const EventCard = ({ event }) => (
+const EventCard = ({ event, handleLikeClick }) => (
   <Card>
     <img src={event.image} className="card-img-top" alt="..." />
     <div className="card-body">
       <h5 className="card-title">{event.activity}</h5>
-      <h6 className="card-subtitle">
-        {moment(event.date.startDate).fromNow() || 'anytime!'}
-      </h6>
+      <h6 className="card-subtitle">{displayDateFromNow(event.date)}</h6>
     </div>
-    <div className="card-footer">footer</div>
+    <div className="card-footer d-flex">
+      <button type="button" class="btn mr-auto">
+        attendees
+      </button>
+      <button type="button" class="btn ml-auto">
+        Like
+      </button>
+    </div>
   </Card>
 );
 

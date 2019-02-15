@@ -6,8 +6,11 @@ import SearchActivity from './SearchActivity';
 import MessageList from '../components/MessageList';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUpFormContainer from '../containers/SignUpFormContainer';
+import SignInFormContainer from '../containers/SignInFormContainer';
 
-const store = configureStore();
+const store = configureStore({
+  user: JSON.parse(localStorage.getItem('user'))
+});
 
 const Root = () => (
   <Router>
@@ -17,6 +20,7 @@ const Root = () => (
         <Route path="/search" component={SearchActivity} />
         <Route path="/messages" component={MessageList} />
         <Route path="/SignUp" component={SignUpFormContainer} />
+        <Route path="/SignIn" component={SignInFormContainer} />
       </Switch>
     </Provider>
   </Router>

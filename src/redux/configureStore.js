@@ -6,6 +6,7 @@ import reducers from './dux/index';
 const loggerMiddleware = createLogger();
 
 export default function configureStore(preloadedState) {
+  console.log(preloadedState);
   return createStore(
     reducers,
     preloadedState,

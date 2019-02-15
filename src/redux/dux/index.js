@@ -1,14 +1,18 @@
 import { combineReducers } from 'redux';
 import userReducer from './user';
+import userEventsReducere from './userEvents';
+import userPalsReducers from './userPals';
 import activityReducer from './activity';
-import eventReducer from './events';
-import palReducer from './pals';
+import activityEventReducer from './activityEvents';
+import activityPalReducer from './activityPals';
 import filterReducer from './filter';
 
 export default combineReducers({
   user: userReducer,
+  userEvents: userEventsReducere,
+  userPals: userPalsReducers,
   activity: activityReducer,
-  events: eventReducer,
-  pals: palReducer,
+  activityEvents: activityEventReducer,
+  activityPals: activityPalReducer,
   filter: filterReducer
 });

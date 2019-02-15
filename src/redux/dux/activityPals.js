@@ -4,9 +4,12 @@ import { getPalsByActivity } from '../../webClients/graphql/apiProvider';
 import { toPal } from '../../webClients/graphql/converters';
 
 export const actions = {
-  fetchPalsStarted: createAction('FETCH_PALS_STARTED'),
-  fetchPalsSucceeded: createAction('FETCH_PALS_SUCCEEDED', pals => ({ pals })),
-  fetchPalsFailed: createAction('FETCH_PALS_FAILED', error => ({
+  fetchPalsStarted: createAction('ACTIVITYPALS/FETCH_PALS_STARTED'),
+  fetchPalsSucceeded: createAction(
+    'ACTIVITYPALS/FETCH_PALS_SUCCEEDED',
+    pals => ({ pals })
+  ),
+  fetchPalsFailed: createAction('ACTIVITYPALS/FETCH_PALS_FAILED', error => ({
     error
   }))
 };
@@ -36,6 +39,6 @@ const reducer = createReducer(
         items: [...payload.pals]
       })
   },
-  initialState.pals
+  initialState.activityPals
 );
 export default reducer;

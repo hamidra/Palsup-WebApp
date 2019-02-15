@@ -4,13 +4,19 @@ import { getEventsByActivity } from '../../webClients/graphql/apiProvider';
 import { toEvent } from '../../webClients/graphql/converters';
 
 export const actions = {
-  fetchEventsStarted: createAction('FETCH_EVENTS_STARTED'),
-  fetchEventsSucceeded: createAction('FETCH_EVENTS_SUCCEEDED', events => ({
-    events
-  })),
-  fetchEventsFailed: createAction('FETCH_EVENTS_FAILED', error => ({
-    error
-  }))
+  fetchEventsStarted: createAction('ACTIVITYEVENTS/FETCH_EVENTS_STARTED'),
+  fetchEventsSucceeded: createAction(
+    'ACTIVITYEVENTS/FETCH_EVENTS_SUCCEEDED',
+    events => ({
+      events
+    })
+  ),
+  fetchEventsFailed: createAction(
+    'ACTIVITYEVENTS/FETCH_EVENTS_FAILED',
+    error => ({
+      error
+    })
+  )
 };
 
 export const asyncActions = {
@@ -38,6 +44,6 @@ const reducer = createReducer(
         items: [...payload.events]
       })
   },
-  initialState.events
+  initialState.activityEvents
 );
 export default reducer;

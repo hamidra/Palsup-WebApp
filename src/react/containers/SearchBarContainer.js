@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
 import SearchBar from '../components/SearchBar';
 import * as activity from '../../redux/dux/activity';
-import * as events from '../../redux/dux/events';
-import * as pals from '../../redux/dux/pals';
+import * as activityEvents from '../../redux/dux/activityEvents';
+import * as activityPals from '../../redux/dux/activityPals';
+import * as userPals from '../../redux/dux/userPals';
 
 const mapStateToProps = state => ({
   inputValue: state.activity && state.activity.name ? state.activity.name : ''
@@ -12,8 +13,9 @@ const mapDispatchToProps = dispatch => ({
   handleInputChange: event =>
     dispatch(activity.actions.activityChange({ name: event.target.value })),
   handleButtonClick: () => {
-    dispatch(events.asyncActions.fetchEvents());
-    dispatch(pals.asyncActions.fetchPals());
+    dispatch(userPals.asyncActions.createPal());
+    dispatch(activityEvents.asyncActions.fetchEvents());
+    dispatch(activityPals.asyncActions.fetchPals());
   }
 });
 
