@@ -3,8 +3,8 @@ import initialState from './initialState';
 import {
   getPalsForUser,
   createPal
-} from '../../webClients/graphql/gqlProvider';
-import { toPal } from '../../webClients/graphql/converters';
+} from '../../serviceProviders/graphql/gqlProvider';
+import { toPal } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
   fetchPalsStarted: createAction('USERPALS/FETCH_PALS_STARTED'),
@@ -35,7 +35,8 @@ export const asyncActions = {
           date: getState().activity.date
         };
         var gqlPal = await createPal(pal);
-        dispatch(actions.createPalSucceeded(toPal(gqlPal)));
+        pal = toPal(gqlPal);
+        dispatch(actions.createPalSucceeded({ [pal.id]: pal }));
       } catch (err) {
         console.log(err);
         dispatch(actions.createPalFailed(err));
@@ -47,7 +48,11 @@ export const asyncActions = {
     dispatch(actions.fetchPalsStarted());
     try {
       var gqlPals = await getPalsForUser(userId);
-      var pals = gqlPals.map(gqlPal => toPal(gqlPal));
+      var pals = gqlPals.reduce((pals, gqlPal) => {
+        var pal = toPal(gqlPal);
+        pals[pal.id] = pal;
+        return pals;
+      });
       return dispatch(actions.fetchPalsSucceeded(pals));
     } catch (err) {
       return dispatch(actions.fetchPalsFailed(err));
@@ -57,18 +62,17 @@ export const asyncActions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchPalsStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
-    [actions.fetchPalsSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: [...payload.pals]
-      }),
-    [actions.createPalSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        items: [...state.items, payload.pal]
-      })
+    [actions.fetchPalsStarted]: state => ({ ...state, isFetching: true }),
+    [actions.fetchPalsSucceeded]: (state, payload) => ({
+      ...state,
+      isFetching: false,
+      didInvalidate: false,
+      items: { ...payload.pals }
+    }),
+    [actions.createPalSucceeded]: (state, payload) => ({
+      ...state,
+      items: { ...state.items, ...payload.pal }
+    })
   },
   initialState.userPals
 );

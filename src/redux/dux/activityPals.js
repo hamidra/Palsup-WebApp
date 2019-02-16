@@ -4,8 +4,8 @@ import {
   getPalsByActivity,
   addToPalsInterested,
   removeFromPalsInterested
-} from '../../webClients/graphql/gqlProvider';
-import { toPal } from '../../webClients/graphql/converters';
+} from '../../serviceProviders/graphql/gqlProvider';
+import { toPal } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
   fetchPalsStarted: createAction('ACTIVITYPALS/FETCH_PALS_STARTED'),

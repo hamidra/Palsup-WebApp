@@ -2,8 +2,8 @@ import { createAction, createReducer } from 'redux-act';
 import {
   createUser,
   getUserByAuthInfo
-} from '../../webClients/graphql/gqlProvider';
-import { toUser } from '../../webClients/graphql/converters';
+} from '../../serviceProviders/graphql/gqlProvider';
+import { toUser } from '../../serviceProviders/graphql/converters';
 import initialState from './initialState';
 
 const persistUserState = (state, userState) => {

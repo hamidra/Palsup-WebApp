@@ -1,7 +1,7 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import { getEventsForUser } from '../../webClients/graphql/gqlProvider';
-import { toEvent } from '../../webClients/graphql/converters';
+import { getEventsForUser } from '../../serviceProviders/graphql/gqlProvider';
+import { toEvent } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
   fetchEventsStarted: createAction('USEREVENTS/FETCH_EVENTS_STARTED'),
