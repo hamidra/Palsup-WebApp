@@ -8,7 +8,7 @@ import initialState from './initialState';
 
 const persistUserState = (state, userState) => {
   localStorage.setItem('user', JSON.stringify(userState));
-  return Object.assign({}, state, userState);
+  return { ...state, ...userState };
 };
 
 export const actions = {
@@ -62,8 +62,7 @@ export const asyncActions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchUserStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
+    [actions.fetchUserStarted]: state => ({ ...state, isFetching: true }),
     [actions.fetchUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
         isFetching: false,

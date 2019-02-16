@@ -9,8 +9,10 @@ export const actions = {
 
 const reducer = createReducer(
   {
-    [actions.viewFilterChanged]: (state, payload) =>
-      Object.assign({}, state, { viewFilter: payload.viewFilter })
+    [actions.viewFilterChanged]: (state, payload) => ({
+      ...state,
+      viewFilter: payload.viewFilter
+    })
   },
   initialState.filter
 );

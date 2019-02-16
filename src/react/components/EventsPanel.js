@@ -3,9 +3,11 @@ import EventCard from './cards/EventCard';
 
 const EventsPanel = ({ events }) => (
   <div className="row justify-content-center">
-    {events.map((event, index) => (
-      <EventCard event={event} key={event.id || index} />
-    ))}
+    {Object.keys(events).map(eventId => {
+      if (eventId) {
+        return <EventCard event={events[eventId]} key={events[eventId].id} />;
+      }
+    })}
   </div>
 );
 

@@ -21,7 +21,11 @@ export const asyncActions = {
     dispatch(actions.fetchEventsStarted());
     try {
       var gqlEvents = await getEventsForUser(userId);
-      var events = gqlEvents.map(gqlEvent => toEvent(gqlEvent));
+      var events = gqlEvents.reduce((events, gqlEvent) => {
+        const event = toEvent(gqlEvent);
+        event.id && (events[event.id] = event);
+        return events;
+      });
       return dispatch(actions.fetchEventsSucceeded(events));
     } catch (err) {
       return dispatch(actions.fetchEventsFailed(err));
@@ -31,14 +35,13 @@ export const asyncActions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchEventsStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
-    [actions.fetchEventsSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: [...payload.events]
-      })
+    [actions.fetchEventsStarted]: state => ({ ...state, isFetching: true }),
+    [actions.fetchEventsSucceeded]: (state, payload) => ({
+      ...state,
+      isFetching: false,
+      didInvalidate: false,
+      items: { ...payload.events }
+    })
   },
   initialState.userEvents
 );

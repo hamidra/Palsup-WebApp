@@ -67,6 +67,7 @@ export const createPal = async pal => {
           startDate
           endDate
         }
+        interested
       }
     }`;
   var data = await graphqlCall({ query, variables: { pal: pal } });
@@ -103,6 +104,7 @@ export const getPalsByActivity = async activityFilter => {
       getPalsByActivity(activityFilter:$activityFilter) {
         id,
         user{
+          id
           picture {
             large
           }
@@ -112,6 +114,7 @@ export const getPalsByActivity = async activityFilter => {
           startDate
           endDate
         }
+        interested
       }
     }`;
   var data = await graphqlCall({
@@ -131,6 +134,7 @@ export const getPalsForUser = async userId => {
           startDate
           endDate
         }
+        interested
       }
     }`;
   var data = await graphqlCall({

@@ -3,13 +3,16 @@ import PalCard from './cards/PalCard';
 
 const PalsPanel = ({ pals, handleLikeClick }) => (
   <div className="row justify-content-center">
-    {pals.map((pal, index) => (
-      <PalCard
-        pal={pal}
-        handleLikeClick={handleLikeClick}
-        key={pal.id || index}
-      />
-    ))}
+    {Object.keys(pals).map(palId => {
+      if (palId)
+        return (
+          <PalCard
+            pal={pals[palId]}
+            handleLikeClick={handleLikeClick}
+            key={pals[palId].id}
+          />
+        );
+    })}
   </div>
 );
 

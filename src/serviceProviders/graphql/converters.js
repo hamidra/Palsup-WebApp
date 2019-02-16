@@ -1,14 +1,16 @@
 export const toPal = gqlPal =>
   gqlPal && {
     id: gqlPal.id, // the Id of the pal
+    userId: gqlPal.user && gqlPal.user.id,
     activity: gqlPal.activity,
     // the date the pal is planning on to do the activity
     date: gqlPal.date && {
       startDate: new Date(Number(gqlPal.date.startDate)),
       endDate: new Date(Number(gqlPal.date.endDate))
     },
+    interested: gqlPal.interested,
     image: gqlPal.user && gqlPal.user.picture && gqlPal.user.picture.large,
-    isLiked: false // assumption: gql api will not return the items that are laready liked by user. so liked is set to false.
+    liked: false // assumption: gql api will not return the items that are laready liked by user. so liked is set to false.
   };
 
 export const toEvent = gqlEvent =>

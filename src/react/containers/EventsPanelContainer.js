@@ -6,7 +6,7 @@ const mapStateToProps = state => ({
   events:
     state.activityEvents && state.activityEvents.items
       ? state.activityEvents.items
-      : []
+      : {}
 });
 
 export default connect(mapStateToProps)(EventsPanel);

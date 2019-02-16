@@ -9,8 +9,10 @@ export const actions = {
 
 const reducer = createReducer(
   {
-    [actions.activityChanged]: (state, payload) =>
-      Object.assign({}, state, payload.activity)
+    [actions.activityChanged]: (state, payload) => ({
+      ...state,
+      ...payload.activity
+    })
   },
   initialState.activity
 );

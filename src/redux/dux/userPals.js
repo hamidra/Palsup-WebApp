@@ -50,7 +50,7 @@ export const asyncActions = {
       var gqlPals = await getPalsForUser(userId);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         var pal = toPal(gqlPal);
-        pals[pal.id] = pal;
+        pal.id && (pals[pal.id] = pal);
         return pals;
       });
       return dispatch(actions.fetchPalsSucceeded(pals));

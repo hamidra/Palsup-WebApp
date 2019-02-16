@@ -7,6 +7,10 @@ import {
 } from '../../serviceProviders/graphql/gqlProvider';
 import { toPal } from '../../serviceProviders/graphql/converters';
 
+const checkForMatch = (userPal, likedPal) =>
+  userPal.interested.includes(likedPal.userId) &&
+  likedPal.interested.includes(userPal.userId);
+
 export const actions = {
   fetchPalsStarted: createAction('ACTIVITYPALS/FETCH_PALS_STARTED'),
   fetchPalsSucceeded: createAction(
@@ -31,7 +35,11 @@ export const asyncActions = {
     try {
       const activityFilter = { activity: getState().activity.name };
       var gqlPals = await getPalsByActivity(activityFilter);
-      var pals = gqlPals.map(gqlPal => toPal(gqlPal));
+      var pals = gqlPals.reduce((pals, gqlPal) => {
+        const pal = toPal(gqlPal);
+        pal.id && (pals[pal.id] = pal);
+        return pals;
+      }, {});
       return dispatch(actions.fetchPalsSucceeded(pals));
     } catch (err) {
       return dispatch(actions.fetchPalsFailed(err));
@@ -55,24 +63,27 @@ export const asyncActions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchPalsStarted]: state =>
-      Object.assign({}, state, { isFetching: true }),
-    [actions.fetchPalsSucceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        isFetching: false,
-        didInvalidate: false,
-        items: [...payload.pals]
-      }),
-    [actions.palToggleLikeSuceeded]: (state, payload) =>
-      Object.assign({}, state, {
-        items: state.items.map(pal => {
-          if (pal.id != payload.palId) {
-            return pal;
-          } else {
-            return Object.assign({}, pal, { liked: payload.liked });
+    [actions.fetchPalsStarted]: state => ({ ...state, isFetching: true }),
+    [actions.fetchPalsSucceeded]: (state, payload) => ({
+      ...state,
+      isFetching: false,
+      didInvalidate: false,
+      items: { ...payload.pals }
+    }),
+    [actions.palToggleLikeSuceeded]: (state, payload) => {
+      if (payload.palId) {
+        return {
+          ...state,
+          items: {
+            ...state.items,
+            [payload.palId]: {
+              ...state.items[payload.palId],
+              liked: payload.liked
+            }
           }
-        })
-      })
+        };
+      }
+    }
   },
   initialState.activityPals
 );
