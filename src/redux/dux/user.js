@@ -2,7 +2,7 @@ import { createAction, createReducer } from 'redux-act';
 import {
   createUser,
   getUserByAuthInfo
-} from '../../webClients/graphql/apiProvider';
+} from '../../webClients/graphql/gqlProvider';
 import { toUser } from '../../webClients/graphql/converters';
 import initialState from './initialState';
 
@@ -36,8 +36,7 @@ export const actions = {
   /**
    * Like
    */
-  likedEvent: createAction('LIKED_EVENT'),
-  likedPal: createAction('LIKED_PAL')
+  likedEvent: createAction('LIKED_EVENT')
 };
 
 export const asyncActions = {

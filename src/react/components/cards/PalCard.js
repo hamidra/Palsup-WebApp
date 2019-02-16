@@ -11,7 +11,11 @@ const PalCard = ({ pal, handleLikeClick }) => (
       <h6 className="card-subtitle">{displayDateFromNow(pal.date)}</h6>
     </div>
     <div className="card-footer d-flex">
-      <button type="button" class="btn ml-auto" onClick={handleLikeClick}>
+      <button
+        type="button"
+        class="btn ml-auto"
+        style={{ backgroundColor: pal.liked && 'blue' }}
+        onClick={() => handleLikeClick(pal.id, !pal.liked)}>
         Like
       </button>
     </div>

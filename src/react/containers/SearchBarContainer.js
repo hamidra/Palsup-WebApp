@@ -10,8 +10,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleInputChange: event =>
-    dispatch(activity.actions.activityChange({ name: event.target.value })),
+  handleInputChange: value =>
+    dispatch(activity.actions.activityChanged({ name: value })),
   handleButtonClick: () => {
     dispatch(userPals.asyncActions.createPal());
     dispatch(activityEvents.asyncActions.fetchEvents());

@@ -3,7 +3,7 @@ import initialState from './initialState';
 import {
   getPalsForUser,
   createPal
-} from '../../webClients/graphql/apiProvider';
+} from '../../webClients/graphql/gqlProvider';
 import { toPal } from '../../webClients/graphql/converters';
 
 export const actions = {

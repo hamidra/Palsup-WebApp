@@ -73,6 +73,30 @@ export const createPal = async pal => {
   return data.createPal;
 };
 
+export const addToPalsInterested = async (palId, userId) => {
+  const query = `
+  mutation($palId:ID!, $userId:ID!){
+    addToPalsInterested(palId:$palId, userId:$userId)
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { palId: palId, userId: userId }
+  });
+  return data.addToPalsInterested;
+};
+
+export const removeFromPalsInterested = async (palId, userId) => {
+  const query = `
+  mutation($palId:ID!, $userId:ID!){
+    removeFromPalsInterested(palId:$palId, userId:$userId)
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { palId: palId, userId: userId }
+  });
+  return data.addToPalsInterested;
+};
+
 export const getPalsByActivity = async activityFilter => {
   const query = `
     query ($activityFilter: ActivityFilterInput){

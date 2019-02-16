@@ -1,6 +1,10 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import { getPalsByActivity } from '../../webClients/graphql/apiProvider';
+import {
+  getPalsByActivity,
+  addToPalsInterested,
+  removeFromPalsInterested
+} from '../../webClients/graphql/gqlProvider';
 import { toPal } from '../../webClients/graphql/converters';
 
 export const actions = {
@@ -11,7 +15,14 @@ export const actions = {
   ),
   fetchPalsFailed: createAction('ACTIVITYPALS/FETCH_PALS_FAILED', error => ({
     error
-  }))
+  })),
+  palToggleLikeSuceeded: createAction(
+    'ACTIVITYPALS/PAL_TOGGLE_LIKE_SUCCEEDED',
+    (palId, liked) => ({
+      palId,
+      liked
+    })
+  )
 };
 
 export const asyncActions = {
@@ -25,6 +36,20 @@ export const asyncActions = {
     } catch (err) {
       return dispatch(actions.fetchPalsFailed(err));
     }
+  },
+  toggleLikePal: (palId, liked) => async (dispatch, getState) => {
+    try {
+      if (getState().user.info) {
+        if (liked) {
+          await addToPalsInterested(palId, getState().user.info.id);
+        } else {
+          await removeFromPalsInterested(palId, getState().user.info.id);
+        }
+        dispatch(actions.palToggleLikeSuceeded(palId, liked));
+      }
+    } catch (err) {
+      console.log(`toggling pal like failed with error: ${err}`);
+    }
   }
 };
 
@@ -37,6 +62,16 @@ const reducer = createReducer(
         isFetching: false,
         didInvalidate: false,
         items: [...payload.pals]
+      }),
+    [actions.palToggleLikeSuceeded]: (state, payload) =>
+      Object.assign({}, state, {
+        items: state.items.map(pal => {
+          if (pal.id != payload.palId) {
+            return pal;
+          } else {
+            return Object.assign({}, pal, { liked: payload.liked });
+          }
+        })
       })
   },
   initialState.activityPals

@@ -2,14 +2,14 @@ import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
 
 export const actions = {
-  activityChange: createAction('ACTIVITY/ACTIVITY_CHANGE', activity => ({
+  activityChanged: createAction('ACTIVITY/ACTIVITY_CHANGED', activity => ({
     activity
   }))
 };
 
 const reducer = createReducer(
   {
-    [actions.activityChange]: (state, payload) =>
+    [actions.activityChanged]: (state, payload) =>
       Object.assign({}, state, payload.activity)
   },
   initialState.activity

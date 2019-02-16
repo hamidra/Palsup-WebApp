@@ -1,6 +1,6 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import { getEventsForUser } from '../../webClients/graphql/apiProvider';
+import { getEventsForUser } from '../../webClients/graphql/gqlProvider';
 import { toEvent } from '../../webClients/graphql/converters';
 
 export const actions = {
