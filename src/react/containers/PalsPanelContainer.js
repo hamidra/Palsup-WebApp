@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import PalsPanel from '../components/PalsPanel';
-import * as activityPals from '../../redux/dux/activityPals';
+import * as dux from '../../redux/dux/index';
 
 const mapStateToProps = state => ({
   pals:
@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   handleLikeClick: (palId, liked) =>
-    dispatch(activityPals.asyncActions.toggleLikePal(palId, liked))
+    dispatch(dux.asyncActions.toggleLikePal(palId, liked))
 });
 
 export default connect(

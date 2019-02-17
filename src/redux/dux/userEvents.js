@@ -13,6 +13,16 @@ export const actions = {
   ),
   fetchEventsFailed: createAction('USEREVENTS/FETCH_EVENTS_FAILED', error => ({
     error
+  })),
+  createEventStarted: createAction('USEREVENTS/CREATE_EVENT_STARTED'),
+  createEventSucceeded: createAction(
+    'USEREVENTS/CREATE_EVENT_SUCCEEDED',
+    events => ({
+      events
+    })
+  ),
+  createEventFailed: createAction('USEREVENTS/CREATE_EVENT_FAILED', error => ({
+    error
   }))
 };
 

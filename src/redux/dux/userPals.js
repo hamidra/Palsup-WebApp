@@ -1,9 +1,6 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import {
-  getPalsForUser,
-  createPal
-} from '../../serviceProviders/graphql/gqlProvider';
+import { getPalsForUser } from '../../serviceProviders/graphql/gqlProvider';
 import { toPal } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
@@ -24,26 +21,6 @@ export const actions = {
 };
 
 export const asyncActions = {
-  createPal: () => async (dispatch, getState) => {
-    if (!getState().user.didInvalidate && getState().user.info) {
-      dispatch(actions.createPalStarted());
-      try {
-        var pal = {
-          userId: getState().user.info.id,
-          activity: getState().activity.name,
-          location: getState().activity.location,
-          date: getState().activity.date
-        };
-        var gqlPal = await createPal(pal);
-        pal = toPal(gqlPal);
-        dispatch(actions.createPalSucceeded({ [pal.id]: pal }));
-      } catch (err) {
-        console.log(err);
-        dispatch(actions.createPalFailed(err));
-      }
-    }
-    console.log('no user is signed in');
-  },
   fetchPals: userId => async (dispatch, getState) => {
     dispatch(actions.fetchPalsStarted());
     try {
@@ -71,7 +48,7 @@ const reducer = createReducer(
     }),
     [actions.createPalSucceeded]: (state, payload) => ({
       ...state,
-      items: { ...state.items, ...payload.pal }
+      items: { ...state.items, [payload.pal.id]: payload.pal }
     })
   },
   initialState.userPals

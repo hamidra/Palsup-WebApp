@@ -1,15 +1,7 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import {
-  getPalsByActivity,
-  addToPalsInterested,
-  removeFromPalsInterested
-} from '../../serviceProviders/graphql/gqlProvider';
+import { getPalsByActivity } from '../../serviceProviders/graphql/gqlProvider';
 import { toPal } from '../../serviceProviders/graphql/converters';
-
-const checkForMatch = (userPal, likedPal) =>
-  userPal.interested.includes(likedPal.userId) &&
-  likedPal.interested.includes(userPal.userId);
 
 export const actions = {
   fetchPalsStarted: createAction('ACTIVITYPALS/FETCH_PALS_STARTED'),
@@ -43,20 +35,6 @@ export const asyncActions = {
       return dispatch(actions.fetchPalsSucceeded(pals));
     } catch (err) {
       return dispatch(actions.fetchPalsFailed(err));
-    }
-  },
-  toggleLikePal: (palId, liked) => async (dispatch, getState) => {
-    try {
-      if (getState().user.info) {
-        if (liked) {
-          await addToPalsInterested(palId, getState().user.info.id);
-        } else {
-          await removeFromPalsInterested(palId, getState().user.info.id);
-        }
-        dispatch(actions.palToggleLikeSuceeded(palId, liked));
-      }
-    } catch (err) {
-      console.log(`toggling pal like failed with error: ${err}`);
     }
   }
 };
