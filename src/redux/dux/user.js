@@ -1,6 +1,7 @@
 import { createAction, createReducer } from 'redux-act';
 import {
   createUser,
+  updateUser,
   getUserByAuthInfo
 } from '../../serviceProviders/graphql/gqlProvider';
 import { toUser } from '../../serviceProviders/graphql/converters';
@@ -26,7 +27,13 @@ export const actions = {
   createUserFailed: createAction('USER/CREATE_USER_FAILED', error => ({
     error
   })),
-
+  updateUserStarted: createAction('USER/UPDATE_USER_STARTED'),
+  updateUserSucceeded: createAction('USER/UPDATE_USER_SUCCEEDED', userInfo => ({
+    userInfo
+  })),
+  updateUserFailed: createAction('USER/UPDATE_USER_FAILED', error => ({
+    error
+  })),
   /**
    * Login
    */
@@ -47,6 +54,15 @@ export const asyncActions = {
       dispatch(actions.createUserSucceeded(toUser(gqlUser)));
     } catch (err) {
       dispatch(actions.createUserFailed(err));
+    }
+  },
+  updateUser: (id, user) => async (dispatch, getState) => {
+    dispatch(actions.updateUserStarted());
+    try {
+      var gqlUser = await updateUser(id, user);
+      dispatch(actions.updateUserSucceeded(toUser(gqlUser)));
+    } catch (err) {
+      dispatch(actions.updateUserFailed(err));
     }
   },
   fetchUserByAuthInfo: authInfo => async (dispatch, getState) => {
@@ -72,8 +88,11 @@ const reducer = createReducer(
     },
     [actions.createUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
-        isFetching: false,
-        didInvalidate: false,
+        info: payload.userInfo
+      });
+    },
+    [actions.updateUserSucceeded]: (state, payload) => {
+      return persistUserState(state, {
         info: payload.userInfo
       });
     }

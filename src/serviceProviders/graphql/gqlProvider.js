@@ -22,10 +22,48 @@ export const createUser = async user => {
               longitude
             }
           }
+          picture{
+            large
+            medium
+            thumbnail
+          }
       }
     }`;
   var data = await graphqlCall({ query, variables: { user: user } });
   return data.createUser;
+};
+
+export const updateUser = async (id, user) => {
+  const query = `
+    mutation($id:ID!, $user:UserInput){
+      updateUser(id:$id, user:$user ) {
+          id
+          name{
+            first
+            last
+          }
+          gender
+          registrationDate
+          dob
+          email
+          cell
+          location{
+            city
+            state
+            coordinates{
+              latitude
+              longitude
+            }
+          }
+          picture{
+            large
+            medium
+            thumbnail
+          }
+      }
+    }`;
+  var data = await graphqlCall({ query, variables: { id: id, user: user } });
+  return data.updateUser;
 };
 
 export const getUserByAuthInfo = async authInfo => {
@@ -47,6 +85,11 @@ export const getUserByAuthInfo = async authInfo => {
           latitude
           longitude
         }
+      }
+      picture{
+        large
+        medium
+        thumbnail
       }
     }
   }`;

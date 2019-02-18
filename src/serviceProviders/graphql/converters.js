@@ -44,5 +44,10 @@ export const toUser = gqlUser =>
         latitude: gqlUser.coordinates.latitude,
         longitude: gqlUser.coordinates.longitude
       }
+    },
+    picture: gqlUser.picture && {
+      large: gqlUser.picture.large,
+      medium: gqlUser.picture.medium,
+      thumbnail: gqlUser.picture.thumbnail
     }
   };
