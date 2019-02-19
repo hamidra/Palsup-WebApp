@@ -2,8 +2,8 @@ import React from 'react';
 import Card from './Card';
 import { displayDateFromNow } from '../../../utilities';
 
-const EventCard = ({ event, handleLikeClick }) => (
-  <Card>
+const EventCard = ({ event, modalId, handleLikeClick }) => (
+  <Card modalId={modalId}>
     <img src={event.image} className="card-img-top" alt="..." />
     <div className="card-body">
       <h5 className="card-title">{event.activity}</h5>

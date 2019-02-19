@@ -16,3 +16,14 @@ code {
 .card-container {
   min-width: 18rem;
 }
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-close {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+}
