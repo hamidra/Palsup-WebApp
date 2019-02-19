@@ -9,7 +9,8 @@ export const toPal = gqlPal =>
       endDate: new Date(Number(gqlPal.date.endDate))
     },
     interested: gqlPal.interested,
-    image: gqlPal.user && gqlPal.user.picture && gqlPal.user.picture.large,
+    user: gqlPal.user,
+    location: gqlPal.location,
     liked: false // assumption: gql api will not return the items that are laready liked by user. so liked is set to false.
   };
 

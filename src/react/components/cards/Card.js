@@ -1,10 +1,7 @@
 import React from 'react';
 
-const Card = ({ children, modalId }) => (
-  <div
-    className="card-container col-3 p-2"
-    data-toggle="modal"
-    data-target={`#${modalId}`}>
+const Card = ({ children }) => (
+  <div className="card-container col-3 p-2">
     <div className="card shadow">{children}</div>
   </div>
 );

@@ -146,16 +146,24 @@ export const getPalsByActivity = async activityFilter => {
     query ($activityFilter: ActivityFilterInput){
       getPalsByActivity(activityFilter:$activityFilter) {
         id,
-        user{
+        user {
           id
+          name {
+            first
+            last
+          }
           picture {
             large
           }
         }
         activity
-        date{
+        date {
           startDate
           endDate
+        }
+        location {
+          state
+          city
         }
         interested
       }

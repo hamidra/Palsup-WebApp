@@ -6,7 +6,7 @@ const EventsPanel = ({ events }) => (
   <div className="row justify-content-center">
     {Object.keys(events).map(eventId => {
       if (eventId) {
-        const modalId = `Modal_${eventId}`;
+        const modalId = `EventModal_${eventId}`;
         return (
           <div>
             <EventCard
