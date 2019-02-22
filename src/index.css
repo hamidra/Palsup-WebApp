@@ -27,3 +27,8 @@ code {
   right: 25px;
   top: 25px;
 }
+
+.thumbnail {
+  width: 4rem;
+  height: 4rem;
+}

@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUpFormContainer from '../containers/SignUpFormContainer';
 import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
+import Playground from './Playground';
 
 const store = configureStore({
   user: JSON.parse(localStorage.getItem('user'))
@@ -17,6 +18,7 @@ const Root = () => (
   <Router>
     <Provider store={store}>
       <NavBar />
+      <Playground />
       <div className="container">
         <Switch>
           <Route path="/search" component={SearchActivity} />
