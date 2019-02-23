@@ -18,10 +18,14 @@ export const toEvent = gqlEvent =>
   gqlEvent && {
     id: gqlEvent.id, // the Id of the pal
     activity: gqlEvent.activity,
+    description: gqlEvent.description,
     //the date the pal is planning on to do the activity
     date: gqlEvent.date && {
       startDate: new Date(Number(gqlEvent.date.startDate)),
       endDate: new Date(Number(gqlEvent.date.endDate))
+    },
+    group: gqlEvent.group && {
+      members: gqlEvent.group.members
     },
     image: gqlEvent.image //Url to the pals image
   };

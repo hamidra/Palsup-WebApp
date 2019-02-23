@@ -49,7 +49,7 @@ export const asyncActions = {
         activity: userPal.activity,
         location: userPal.location || { state: 'WA', city: 'Seattle' },
         date: userPal.date,
-        attendees: [getState().user.info.id, interestedPal.userId]
+        group: { members: [getState().user.info.id, interestedPal.userId] }
       };
       var gqlEvent = await createEvent(event);
       event = toEvent(gqlEvent);

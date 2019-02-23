@@ -224,6 +224,13 @@ export const getEventsByActivity = async activityFilter => {
             startDate
             endDate
         }
+        group {
+          members {
+            picture {
+              thumbnail
+            }
+          }
+        }
         image
       }
     }`;
@@ -241,9 +248,14 @@ export const getEventsForUser = async userId => {
         id
         description
         activity
-        date{
+        date {
             startDate
             endDate
+        }
+        group {
+          members {
+            thumbnails
+          }
         }
         image
       }
@@ -253,4 +265,31 @@ export const getEventsForUser = async userId => {
     variables: { userId: userId }
   });
   return data.getEventsForUser;
+};
+
+export const getEventConversation = async eventId => {
+  const query = `
+  query ($eventId: ID!){
+    getEventConversation(eventId:$eventId)
+    {
+      from{
+        id
+        name{
+          first
+          last
+        }
+        picture{
+          thumbnail
+        }
+      }
+      content{
+        text
+      }
+    }
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { eventId: eventId }
+  });
+  return data.getEventConversation;
 };

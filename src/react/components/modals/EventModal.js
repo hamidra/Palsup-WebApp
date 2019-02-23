@@ -17,10 +17,11 @@ const EventModal = ({ event, modalId }) => (
       <img
         src={
           event &&
-          event.attendees &&
-          event.attendees[0] &&
-          event.attendees[0].picture &&
-          event.attendees[0].picture.thumbnail
+          event.group &&
+          event.group.members &&
+          event.group.members[0] &&
+          event.group.members[0].picture &&
+          event.group.members[0].picture.thumbnail
         }
       />
     </div>
