@@ -30,6 +30,13 @@ export const toEvent = gqlEvent =>
     image: gqlEvent.image //Url to the pals image
   };
 
+export const toEventConversation = gqlConv =>
+  gqlConv && {
+    id: gqlConv.id,
+    type: 'event',
+    messages: gqlConv.group && gqlConv.group.conversation
+  };
+
 export const toUser = gqlUser =>
   gqlUser && {
     id: gqlUser.id,

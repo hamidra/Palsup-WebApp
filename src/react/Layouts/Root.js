@@ -3,11 +3,12 @@ import { Provider } from 'react-redux';
 import configureStore from '../../redux/configureStore';
 import NavBar from '../components/NavBar';
 import SearchActivity from './SearchActivity';
-import MessageList from '../components/MessageList';
+import MessageThread from '../containers/MessageThreadContainer';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUpFormContainer from '../containers/SignUpFormContainer';
 import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
+import Messages from './Messages';
 import Playground from './Playground';
 
 const store = configureStore({
@@ -15,21 +16,20 @@ const store = configureStore({
 });
 
 const Root = () => (
-  <Router>
-    <Provider store={store}>
-      <NavBar />
-      <Playground />
+  <Provider store={store}>
+    <Router>
       <div className="container">
+        <NavBar />
         <Switch>
           <Route path="/search" component={SearchActivity} />
-          <Route path="/messages" component={MessageList} />
-          <Route path="/SignUp" component={SignUpFormContainer} />
-          <Route path="/SignIn" component={SignInFormContainer} />
-          <Route path="/Profile" component={UserProfileContainer} />
+          <Route path="/messages" component={Messages} />
+          <Route path="/signup" component={SignUpFormContainer} />
+          <Route path="/signin" component={SignInFormContainer} />
+          <Route path="/profile" component={UserProfileContainer} />
         </Switch>
       </div>
-    </Provider>
-  </Router>
+    </Router>
+  </Provider>
 );
 
 export default Root;

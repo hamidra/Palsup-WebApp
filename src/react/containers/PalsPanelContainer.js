@@ -6,7 +6,7 @@ const mapStateToProps = state => ({
   pals:
     state.activityPals && state.activityPals.items
       ? state.activityPals.items
-      : []
+      : {}
 });
 
 const mapDispatchToProps = dispatch => ({

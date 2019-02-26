@@ -1,7 +1,11 @@
-import React from 'react';
-import MessageThread from '../containers/MessageThreadContainer';
-import MessageList from '../containers/MessageListContainer';
-const messageThread = [
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import MessageListContainer from '../containers/MessageListContainer';
+import MessageThreadContainer from '../containers/MessageThreadContainer';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import * as userEventDux from '../../redux/dux/userEvents';
+
+/*const messages = [
   {
     // message
     id: '2',
@@ -80,11 +84,39 @@ const events = {
     id: '5c70d51dbbb4ac37652d4789',
     image: 'https://via.placeholder.com/150/0000FF/'
   }
+};*/
+
+const Messages = class extends Component {
+  componentDidMount() {
+    this.props.handleComponentDidMount();
+  }
+  render() {
+    return (
+      <div className="row">
+        <div className="col-lg-4 d-none d-lg-block h-100 shadow-sm">
+          <MessageListContainer />
+        </div>
+        <div className="col-12 col-lg-8">
+          <Route
+            exact
+            path="/messages/event/:id"
+            render={({ match }) => (
+              <MessageThreadContainer eventId={match.params.id} />
+            )}
+          />
+        </div>
+      </div>
+    );
+  }
 };
 
-export default () => (
-  <div>
-    {/*<MessageThread messageThread={messageThread} />*/}
-    <MessageList events={events} />
-  </div>
-);
+const mapDispatchToProps = dispatch => ({
+  handleComponentDidMount: () => {
+    dispatch(userEventDux.asyncActions.fetchEvents());
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Messages);

@@ -254,7 +254,9 @@ export const getEventsForUser = async userId => {
         }
         group {
           members {
-            thumbnails
+            picture {
+              thumbnail
+            }
           }
         }
         image
@@ -270,20 +272,24 @@ export const getEventsForUser = async userId => {
 export const getEventConversation = async eventId => {
   const query = `
   query ($eventId: ID!){
-    getEventConversation(eventId:$eventId)
-    {
-      from{
-        id
-        name{
-          first
-          last
+    getEventConversation(eventId:$eventId) {
+      id
+      group {
+        conversation {
+          from {
+            id
+            name {
+              first
+              last
+            }
+            picture {
+              thumbnail
+            }
+          }
+          content {
+            text
+          }
         }
-        picture{
-          thumbnail
-        }
-      }
-      content{
-        text
       }
     }
   }`;

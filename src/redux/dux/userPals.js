@@ -48,7 +48,7 @@ const reducer = createReducer(
     }),
     [actions.createPalSucceeded]: (state, payload) => ({
       ...state,
-      items: { ...state.items, [payload.pal.id]: payload.pal }
+      items: { ...state.items, ...payload.pal }
     })
   },
   initialState.userPals

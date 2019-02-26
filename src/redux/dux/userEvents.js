@@ -27,18 +27,23 @@ export const actions = {
 };
 
 export const asyncActions = {
-  fetchEvents: userId => async (dispatch, getState) => {
-    dispatch(actions.fetchEventsStarted());
-    try {
-      var gqlEvents = await getEventsForUser(userId);
-      var events = gqlEvents.reduce((events, gqlEvent) => {
-        const event = toEvent(gqlEvent);
-        event.id && (events[event.id] = event);
-        return events;
-      });
-      return dispatch(actions.fetchEventsSucceeded(events));
-    } catch (err) {
-      return dispatch(actions.fetchEventsFailed(err));
+  fetchEvents: () => async (dispatch, getState) => {
+    const currentUser = getState().user;
+    if (currentUser && !currentUser.didInvalidate && currentUser.info) {
+      dispatch(actions.fetchEventsStarted());
+      try {
+        var gqlEvents = await getEventsForUser(currentUser.info.id);
+        var events = gqlEvents.reduce((events, gqlEvent) => {
+          const event = toEvent(gqlEvent);
+          event.id && (events[event.id] = event);
+          return events;
+        }, {});
+        return dispatch(actions.fetchEventsSucceeded(events));
+      } catch (err) {
+        return dispatch(actions.fetchEventsFailed(err));
+      }
+    } else {
+      console.log('no user is signed in');
     }
   }
 };
@@ -51,6 +56,10 @@ const reducer = createReducer(
       isFetching: false,
       didInvalidate: false,
       items: { ...payload.events }
+    }),
+    [actions.createEventsSucceeded]: (state, payload) => ({
+      ...state,
+      items: { ...state.items, ...payload.events }
     })
   },
   initialState.userEvents

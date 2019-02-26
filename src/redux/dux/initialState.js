@@ -9,6 +9,7 @@ const initialState = {
   },
   userEvents: { didInvalidate: true, isFetching: false, items: {} },
   userPals: { didInvalidate: true, isFetching: false, items: {} },
+  userConversations: { didInvalidate: true, isFetching: false, items: {} },
   activity: {
     name: '',
     location: null,

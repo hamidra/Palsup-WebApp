@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
 import userReducer from './user';
-import userEventsReducere, * as userEvents from './userEvents';
-import userPalsReducers, * as userPals from './userPals';
+import userEventsReducer, * as userEvents from './userEvents';
+import userPalsReducer, * as userPals from './userPals';
+import userConversationsReducer from './userConversations';
 import activityReducer, * as activity from './activity';
 import activityEventReducer from './activityEvents';
 import activityPalReducer, * as activityPals from './activityPals';
@@ -32,14 +33,15 @@ export const asyncActions = {
         };
         var gqlPal = await createPal(pal);
         pal = toPal(gqlPal);
-        dispatch(userPals.actions.createPalSucceeded(pal));
-        dispatch(activity.actions.userPalCreated(pal));
+        dispatch(userPals.actions.createPalSucceeded({ [pal.id]: pal }));
+        dispatch(activity.actions.userPalCreated({ [pal.id]: pal }));
       } catch (err) {
         console.log(err);
         dispatch(userPals.actions.createPalFailed(err));
       }
+    } else {
+      console.log('no user is signed in');
     }
-    console.log('no user is signed in');
   },
   createEvent: (userPal, interestedPal) => async (dispatch, getState) => {
     dispatch(userEvents.actions.createEventStarted());
@@ -83,8 +85,9 @@ export const asyncActions = {
 
 export default combineReducers({
   user: userReducer,
-  userEvents: userEventsReducere,
-  userPals: userPalsReducers,
+  userEvents: userEventsReducer,
+  userPals: userPalsReducer,
+  userConversations: userConversationsReducer,
   activity: activityReducer,
   activityEvents: activityEventReducer,
   activityPals: activityPalReducer,

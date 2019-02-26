@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavBar = () => (
   <nav className="navbar sticky-top navbar-expand-sm navbar-light bg-light">
-    <a className="navbar-brand" href="#">
+    <a className="navbar-brand" href="/search">
       Navbar
     </a>
     <button
@@ -20,7 +20,7 @@ const NavBar = () => (
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">
+          <a className="nav-link" href="/messages">
             Message
           </a>
         </li>

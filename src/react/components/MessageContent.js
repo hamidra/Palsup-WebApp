@@ -1,25 +1,26 @@
 import React from 'react';
-const getBorderStyle = position => {
+const getBorderStyle = (direction, order) => {
   var style = '';
-  if (position.side === 'right') {
+  if (direction === 'rtl') {
     style += 'rounded-left ';
-  } else if (position.side === 'left') {
+  } else if (direction === 'ltr') {
     style += 'rounded-right ';
   }
-  if (position.order === 'first') {
+  if (order === 'first') {
     style += 'rounded-top ';
-  } else if (position.order === 'last') {
+  } else if (order === 'last') {
     style += 'rounded-bottom ';
   }
   return style;
 };
-const MessageContent = ({ children, messagePosition }) => (
+const MessageContent = ({ children, direction, order }) => (
   <div
     className={`d-inline-block 
     shadow-sm 
-    bg-secondary text-white 
-    m-2 p-3 
-    ${getBorderStyle(messagePosition)}`}>
+    ${direction === 'rtl' ? 'bg-primary' : 'bg-secondary'}
+    text-white 
+    mx-2 p-3 
+    ${getBorderStyle(direction, order)}`}>
     {children}
   </div>
 );
