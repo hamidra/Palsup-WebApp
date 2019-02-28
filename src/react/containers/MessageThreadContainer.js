@@ -11,21 +11,23 @@ const MessageThread = class extends Component {
 
   render() {
     return (
-      <div>
+      <div className="w-100 h-100">
         {this.props.conversation &&
           this.props.conversation.messages &&
           this.props.conversation.messages.map(message => {
             const direction =
               this.props.user.id === message.from.id ? 'rtl' : 'ltr';
             return (
-              <div
-                className={`d-flex mb-1 ${
-                  direction === 'rtl' ? 'flex-row-reverse' : ''
-                }`}>
-                <Thumbnail src={message.from.picture.thumbnail} />
-                <MessageContent order={'first'} direction={direction}>
-                  {message.content.text}
-                </MessageContent>
+              <div>
+                <div
+                  className={`d-flex mb-1 ${
+                    direction === 'rtl' ? 'flex-row-reverse' : ''
+                  }`}>
+                  <Thumbnail src={message.from.picture.thumbnail} />
+                  <MessageContent order={'first'} direction={direction}>
+                    {message.content.text}
+                  </MessageContent>
+                </div>
               </div>
             );
           })}

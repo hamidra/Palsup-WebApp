@@ -286,6 +286,8 @@ export const getEventConversation = async eventId => {
               thumbnail
             }
           }
+          to
+          type
           content {
             text
           }
@@ -298,4 +300,16 @@ export const getEventConversation = async eventId => {
     variables: { eventId: eventId }
   });
   return data.getEventConversation;
+};
+
+export const sendMessage = async message => {
+  const query = `
+  mutation($message: MessageInput) {
+    sendMessage(message:$message)
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { message }
+  });
+  return data.sendMessage;
 };

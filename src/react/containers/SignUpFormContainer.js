@@ -10,8 +10,7 @@ const mapDispatchToProps = dispatch => ({
       email: values.email,
       cell: values.cell,
       password: values.password,
-      dob: values.dob,
-      registrationDate: Date.now().toString()
+      dob: values.dob
     };
     dispatch(userDux.asyncActions.createUser(user));
   }

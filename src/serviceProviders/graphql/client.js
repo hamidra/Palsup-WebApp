@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-const serverUrl = 'http://192.168.1.221:3000/graphql';
+const serverUrl = 'http://localhost:3000/graphql';
 
 export const graphqlCall = async query => {
   console.log(JSON.stringify(query));

@@ -8,8 +8,9 @@ import { toUser } from '../../serviceProviders/graphql/converters';
 import initialState from './initialState';
 
 const persistUserState = (state, userState) => {
-  localStorage.setItem('user', JSON.stringify(userState));
-  return { ...state, ...userState };
+  const newUserState = { ...state, ...userState };
+  localStorage.setItem('user', JSON.stringify(newUserState));
+  return newUserState;
 };
 
 export const actions = {

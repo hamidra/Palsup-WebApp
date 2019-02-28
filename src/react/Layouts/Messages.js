@@ -4,6 +4,7 @@ import MessageListContainer from '../containers/MessageListContainer';
 import MessageThreadContainer from '../containers/MessageThreadContainer';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import * as userEventDux from '../../redux/dux/userEvents';
+import MessageBoxContainer from '../containers/MessageBoxContainer';
 
 /*const messages = [
   {
@@ -100,9 +101,15 @@ const Messages = class extends Component {
           <Route
             exact
             path="/messages/event/:id"
-            render={({ match }) => (
-              <MessageThreadContainer eventId={match.params.id} />
-            )}
+            render={({ match }) => {
+              const eid = match.params.id;
+              return (
+                <div>
+                  <MessageThreadContainer eventId={eid} />
+                  <MessageBoxContainer eventId={match.params.id} />
+                </div>
+              );
+            }}
           />
         </div>
       </div>

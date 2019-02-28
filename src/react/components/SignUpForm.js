@@ -19,7 +19,14 @@ const SignUpForm = ({ onSubmit }) => (
             password: '',
             dob: ''
           }}
-          onSubmit={onSubmit}>
+          onSubmit={async (
+            values,
+            { setSubmitting, initialValues, resetForm }
+          ) => {
+            await onSubmit(values);
+            setSubmitting(false);
+            resetForm(initialValues);
+          }}>
           <Form>
             <div className="form-row">
               <div className="form-group col-sm-6">

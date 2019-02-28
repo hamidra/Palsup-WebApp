@@ -41,9 +41,10 @@ const UserProfile = class UserProfile extends Component {
                 cell: user.cell,
                 dob: moment(user.dob).format('YYYY-MM-DD')
               }}
-              onSubmit={values => {
+              onSubmit={async (values, { setSubmitting }) => {
                 this.toggleEditMode();
-                handleSubmit(values);
+                await handleSubmit(values);
+                setSubmitting(false);
               }}>
               <Form>
                 <div className="form-row">

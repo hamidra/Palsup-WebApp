@@ -34,7 +34,7 @@ export const asyncActions = {
         var gqlPal = await createPal(pal);
         pal = toPal(gqlPal);
         dispatch(userPals.actions.createPalSucceeded({ [pal.id]: pal }));
-        dispatch(activity.actions.userPalCreated({ [pal.id]: pal }));
+        dispatch(activity.actions.userPalCreated(pal));
       } catch (err) {
         console.log(err);
         dispatch(userPals.actions.createPalFailed(err));

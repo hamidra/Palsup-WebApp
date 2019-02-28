@@ -11,7 +11,14 @@ const SignInForm = ({ onSubmit }) => (
             userId: '',
             password: ''
           }}
-          onSubmit={onSubmit}>
+          onSubmit={async (
+            values,
+            { setSubmitting, resetForm, initialValues }
+          ) => {
+            await onSubmit(values);
+            setSubmitting(false);
+            resetForm(initialValues);
+          }}>
           <Form>
             <div className="form-group">
               <Field
