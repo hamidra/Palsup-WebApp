@@ -7,9 +7,24 @@ const initialState = {
     info: null,
     fetchError: null
   },
-  userEvents: { didInvalidate: true, isFetching: false, items: {} },
-  userPals: { didInvalidate: true, isFetching: false, items: {} },
-  userConversations: { didInvalidate: true, isFetching: false, items: {} },
+  userEvents: {
+    didInvalidate: true,
+    isFetching: false,
+    hasUpdates: false,
+    items: {}
+  },
+  userPals: {
+    didInvalidate: true,
+    isFetching: false,
+    hasUpdates: false,
+    items: {}
+  },
+  userConversations: {
+    didInvalidate: true,
+    isFetching: false,
+    hasUpdates: false,
+    items: {}
+  },
   activity: {
     name: '',
     location: null,
