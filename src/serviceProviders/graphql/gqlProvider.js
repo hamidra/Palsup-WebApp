@@ -302,6 +302,25 @@ export const getEventConversation = async eventId => {
   return data.getEventConversation;
 };
 
+export const getNotificationsForUser = async (userId, type) => {
+  const query = `
+  query ($userId: ID!, $type:NotificationType){
+    getNotificationsForUser(userId:$userId, type:$type) {
+      id
+      user
+      target
+      type
+      creationDate
+      data
+    }
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { userId, type }
+  });
+  return data.getNotificationsForUser;
+};
+
 export const sendMessage = async message => {
   const query = `
   mutation($message: MessageInput) {

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import * as userDux from '../../redux/dux/user';
+import * as dux from '../../redux/dux/index';
 import SignUpForm from '../components/SignUpForm';
 
 const mapDispatchToProps = dispatch => ({
@@ -12,7 +12,7 @@ const mapDispatchToProps = dispatch => ({
       password: values.password,
       dob: values.dob
     };
-    dispatch(userDux.asyncActions.createUser(user));
+    dispatch(dux.asyncActions.createUser(user));
   }
 });
 

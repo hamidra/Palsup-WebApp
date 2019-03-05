@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
+import * as userEventsDux from '../../redux/dux/userEvents';
+import * as userConversationsDux from '../../redux/dux/userConversations';
 import NavBar from '../components/NavBar';
 import SearchActivity from './SearchActivity';
-import MessageThread from '../containers/MessageThreadContainer';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUpFormContainer from '../containers/SignUpFormContainer';
 import SignInFormContainer from '../containers/SignInFormContainer';
@@ -10,37 +11,59 @@ import UserProfileContainer from '../containers/UserProfileContainer';
 import Messages from './Messages';
 import Playground from './Playground';
 
-export default class Root extends Component {
+const Root = class extends Component {
   componentDidMount() {
-    const currentState = this.props.store.getState();
-    if (currentState.user.info && currentState.user.info.id) {
+    if (this.props.user && this.props.user.id) {
       const es = new EventSource(
-        `http://localhost:3000/notifications/${currentState.user.info.id}`
+        `http://localhost:3000/notifications/${this.props.user.id}`
       );
-      es.addEventListener('NEW_EVENT', e => {
-        console.log('sse' + e.data);
-      });
-      es.addEventListener('NEW_MESSAGE', e => {
-        console.log('sse' + e.data);
-      });
+      es.addEventListener('NEW_EVENT', sse =>
+        this.props.handleNewEventSse(sse)
+      );
+      es.addEventListener('NEW_MESSAGE', sse =>
+        this.props.handleNewMessageSse(sse)
+      );
     }
   }
   render() {
     return (
-      <Provider store={this.props.store}>
-        <Router>
-          <div className="container">
-            <NavBar />
-            <Switch>
-              <Route path="/search" component={SearchActivity} />
-              <Route path="/messages" component={Messages} />
-              <Route path="/signup" component={SignUpFormContainer} />
-              <Route path="/signin" component={SignInFormContainer} />
-              <Route path="/profile" component={UserProfileContainer} />
-            </Switch>
-          </div>
-        </Router>
-      </Provider>
+      <Router>
+        <div className="container">
+          <NavBar />
+          <Switch>
+            <Route path="/search" component={SearchActivity} />
+            <Route path="/messages" component={Messages} />
+            <Route path="/signup" component={SignUpFormContainer} />
+            <Route path="/signin" component={SignInFormContainer} />
+            <Route path="/profile" component={UserProfileContainer} />
+          </Switch>
+        </div>
+      </Router>
     );
   }
-}
+};
+
+const mapStateToProps = state => ({
+  user: state && state.user && state.user.info
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleNewEventSse: sse =>
+    dispatch(
+      userEventsDux.actions.newEventNotificationRecieved(
+        JSON.parse(sse.data).event
+      )
+    ),
+  handleNewMessageSse: async sse => {
+    const message = JSON.parse(sse.data).message;
+    dispatch(
+      userConversationsDux.actions.newMessageNotificationRecieved(message)
+    );
+    dispatch(userEventsDux.actions.newMessageNotificationRecieved(message));
+  }
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Root);

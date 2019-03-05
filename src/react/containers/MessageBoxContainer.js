@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
-import * as userConversationsDux from '../../redux/dux/userConversations';
+import * as dux from '../../redux/dux/index';
 
 const MessageBox = class extends Component {
   render() {
@@ -42,10 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       text: values.messageText
     };
     return dispatch(
-      userConversationsDux.asyncActions.sendMessageToEvent(
-        ownProps.eventId,
-        messageContent
-      )
+      dux.asyncActions.sendMessageToEvent(ownProps.eventId, messageContent)
     );
   }
 });

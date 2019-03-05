@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import MessageContent from '../components/MessageContent';
 import Thumbnail from '../components/Thumbnail';
-import * as userConversationsDux from '../../redux/dux/userConversations';
+import * as dux from '../../redux/dux/index';
 
 const MessageThread = class extends Component {
   componentDidMount() {
@@ -15,17 +15,22 @@ const MessageThread = class extends Component {
         {this.props.conversation &&
           this.props.conversation.messages &&
           this.props.conversation.messages.map(message => {
-            const direction =
-              this.props.user.id === message.from.id ? 'rtl' : 'ltr';
+            const userId = message.from && message.from.id;
+            const thumbnail =
+              message.from &&
+              message.from.picture &&
+              message.from.picture.thumbnail;
+            const contentText = message.content && message.content.text;
+            const direction = this.props.user.id === userId ? 'rtl' : 'ltr';
             return (
               <div>
                 <div
                   className={`d-flex mb-1 ${
                     direction === 'rtl' ? 'flex-row-reverse' : ''
                   }`}>
-                  <Thumbnail src={message.from.picture.thumbnail} />
+                  <Thumbnail src={thumbnail} />
                   <MessageContent order={'first'} direction={direction}>
-                    {message.content.text}
+                    {contentText}
                   </MessageContent>
                 </div>
               </div>
@@ -46,9 +51,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleComponentDidMount: () =>
-    dispatch(
-      userConversationsDux.asyncActions.fetchEventConversation(ownProps.eventId)
-    )
+    dispatch(dux.asyncActions.fetchEventConversation(ownProps.eventId))
 });
 
 export default connect(

@@ -47,43 +47,12 @@ export const actions = {
   likedEvent: createAction('LIKED_EVENT')
 };
 
-export const asyncActions = {
-  createUser: user => async (dispatch, getState) => {
-    dispatch(actions.createUserStarted());
-    try {
-      var gqlUser = await createUser(user);
-      dispatch(actions.createUserSucceeded(toUser(gqlUser)));
-    } catch (err) {
-      dispatch(actions.createUserFailed(err));
-    }
-  },
-  updateUser: (id, user) => async (dispatch, getState) => {
-    dispatch(actions.updateUserStarted());
-    try {
-      var gqlUser = await updateUser(id, user);
-      dispatch(actions.updateUserSucceeded(toUser(gqlUser)));
-    } catch (err) {
-      dispatch(actions.updateUserFailed(err));
-    }
-  },
-  fetchUserByAuthInfo: authInfo => async (dispatch, getState) => {
-    dispatch(actions.fetchUserStarted());
-    try {
-      var gqlUser = await getUserByAuthInfo(authInfo);
-      dispatch(actions.fetchUserSucceeded(toUser(gqlUser)));
-    } catch (err) {
-      dispatch(actions.fetchUserFailed(err));
-    }
-  }
-};
-
 const reducer = createReducer(
   {
     [actions.fetchUserStarted]: state => ({ ...state, isFetching: true }),
     [actions.fetchUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
         isFetching: false,
-        didInvalidate: false,
         info: payload.userInfo
       });
     },

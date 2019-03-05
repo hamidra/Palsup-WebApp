@@ -35,64 +35,30 @@ export const actions = {
     error => ({
       error
     })
+  ),
+  newMessageNotificationRecieved: createAction(
+    'USERCONVERSATIONS/NEWMESSAGE_NOTIFICATION_RECIEVED',
+    message => ({
+      message
+    })
   )
 };
 
-export const asyncActions = {
-  fetchEventConversation: eventId => async (dispatch, getState) => {
-    dispatch(actions.fetchConversationStarted());
-    try {
-      const gqlEventConversation = await getEventConversation(eventId);
-      const conversation = toEventConversation(gqlEventConversation);
-      return dispatch(
-        actions.fetchConversationSucceeded({
-          [conversation.id]: conversation
-        })
-      );
-    } catch (err) {
-      return dispatch(actions.fetchConversationFailed(err));
-    }
-  },
-  sendMessageToEvent: (eventId, messageContent) => async (
-    dispatch,
-    getState
-  ) => {
-    const { user } = getState();
-    if (!user.didInvalidate && user.info) {
-      dispatch(actions.sendMessageStarted());
-      try {
-        var message = {
-          from: user.info.id,
-          to: eventId,
-          type: 'EVENT',
-          content: messageContent
-        };
-        const messageId = await sendMessage(message);
-        if (messageId) {
-          var submittedMessage = {
-            id: messageId,
-            from: {
-              id: user.info.id,
-              name: {
-                first: user.info.name.first,
-                last: user.info.name.last
-              },
-              picture: {
-                thumbnail: user.info.picture.thumbnail
-              }
-            },
-            to: eventId,
-            type: 'EVENT',
-            content: messageContent
-          };
-          return dispatch(actions.sendMessageSucceeded(submittedMessage));
-        } else {
-          throw new Error('no messageId was returned by server.');
+const addMessageToState = (state, message) => {
+  const conversationId = message.to;
+  if (state.items[conversationId]) {
+    return {
+      ...state,
+      items: {
+        ...state.items,
+        [conversationId]: {
+          ...state.items[conversationId],
+          messages: [...state.items[conversationId].messages, message]
         }
-      } catch (err) {
-        return dispatch(actions.sendMessageFailed(err));
       }
-    }
+    };
+  } else {
+    return state;
   }
 };
 
@@ -104,30 +70,13 @@ const reducer = createReducer(
     }),
     [actions.fetchConversationSucceeded]: (state, payload) => ({
       ...state,
-      didInvalidate: false,
       isFetching: false,
       items: { ...state.items, ...payload.conversation }
     }),
-    [actions.sendMessageSucceeded]: (state, payload) => {
-      const conversationId = payload.message.to;
-      if (state.items[conversationId]) {
-        return {
-          ...state,
-          items: {
-            ...state.items,
-            [conversationId]: {
-              ...state.items[conversationId],
-              messages: [
-                ...state.items[conversationId].messages,
-                payload.message
-              ]
-            }
-          }
-        };
-      } else {
-        return state;
-      }
-    }
+    [actions.sendMessageSucceeded]: (state, payload) =>
+      addMessageToState(state, payload.message),
+    [actions.newMessageNotificationRecieved]: (state, payload) =>
+      addMessageToState(state, payload.message)
   },
   initialState.userConversations
 );

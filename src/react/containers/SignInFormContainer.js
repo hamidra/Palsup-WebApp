@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SignInForm from '../components/SignInForm';
-import * as userDux from '../../redux/dux/user';
+import * as dux from '../../redux/dux/index';
 
 const mapDispatchToProps = dispatch => ({
   onSubmit: async values => {
@@ -8,7 +8,7 @@ const mapDispatchToProps = dispatch => ({
       userAuthId: values.userId,
       passwordHash: values.password
     };
-    dispatch(userDux.asyncActions.fetchUserByAuthInfo(authInfo));
+    dispatch(dux.asyncActions.fetchUserByAuthInfo(authInfo));
   }
 });
 

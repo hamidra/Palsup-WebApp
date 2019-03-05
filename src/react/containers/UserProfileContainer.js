@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
-import * as userDux from '../../redux/dux/user';
+import * as dux from '../../redux/dux/index';
 import moment from 'moment';
 
 const UserProfile = class UserProfile extends Component {
@@ -123,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
       cell: values.cell,
       dob: values.dob
     };
-    dispatch(userDux.asyncActions.updateUser(userId, user));
+    dispatch(dux.asyncActions.updateUser(userId, user));
   }
 });
 

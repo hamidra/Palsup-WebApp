@@ -2,27 +2,25 @@ import * as types from './../types';
 
 const initialState = {
   user: {
-    didInvalidate: true,
+    timestamp: Date.now(),
     isFetching: false,
     info: null,
     fetchError: null
   },
   userEvents: {
-    didInvalidate: true,
+    timestamp: Date.now(),
     isFetching: false,
-    hasUpdates: false,
+    notificationCount: 0,
     items: {}
   },
   userPals: {
-    didInvalidate: true,
+    timestamp: Date.now(),
     isFetching: false,
-    hasUpdates: false,
     items: {}
   },
   userConversations: {
-    didInvalidate: true,
+    timestamp: Date.now(),
     isFetching: false,
-    hasUpdates: false,
     items: {}
   },
   activity: {
@@ -30,8 +28,8 @@ const initialState = {
     location: null,
     palId: null
   },
-  activityEvents: { didInvalidate: true, isFetching: false, items: {} },
-  activityPals: { didInvalidate: true, isFetching: false, items: {} },
+  activityEvents: { timestamp: Date.now(), isFetching: false, items: {} },
+  activityPals: { timestamp: Date.now(), isFetching: false, items: {} },
   filter: { viewFilter: types.viewFilter.SHOW_EVENTS }
 };
 
