@@ -3,7 +3,7 @@ import React from 'react';
 const NavBar = () => (
   <nav className="navbar sticky-top navbar-expand-sm navbar-light bg-light">
     <a className="navbar-brand" href="/search">
-      Navbar
+      Palz
     </a>
     <button
       className="navbar-toggler"

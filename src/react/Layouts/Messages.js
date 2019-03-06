@@ -25,7 +25,9 @@ const Messages = class extends Component {
               return (
                 <div>
                   <MessageThreadContainer eventId={eid} />
-                  <MessageBoxContainer eventId={match.params.id} />
+                  <div className="sticky-container-bottom pb-2 bg-white">
+                    <MessageBoxContainer eventId={match.params.id} />
+                  </div>
                 </div>
               );
             }}
