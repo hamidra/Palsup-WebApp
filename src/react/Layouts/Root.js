@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import * as userEventsDux from '../../redux/dux/userEvents';
 import * as userConversationsDux from '../../redux/dux/userConversations';
 import NavBar from '../components/NavBar';
-import SearchActivity from './SearchActivity';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUpFormContainer from '../containers/SignUpFormContainer';
 import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
+import Home from './Home';
 import Messages from './Messages';
+//import Search from './Search';
 import Playground from './Playground';
 
 const Root = class extends Component {
@@ -28,16 +29,22 @@ const Root = class extends Component {
   render() {
     return (
       <Router>
-        <div className="container">
-          <NavBar />
-          <Switch>
-            <Route path="/search" component={SearchActivity} />
-            <Route path="/messages" component={Messages} />
-            <Route path="/signup" component={SignUpFormContainer} />
-            <Route path="/signin" component={SignInFormContainer} />
-            <Route path="/profile" component={UserProfileContainer} />
-          </Switch>
-        </div>
+        <Fragment>
+          <div className="header">
+            <NavBar />
+          </div>
+          <div className="container-fluid">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/messages" component={Messages} />
+              {/*<Route path="/search" component={Search} />*/}
+              {/*<Route path="/events" component={Events} />*/}
+              <Route path="/signup" component={SignUpFormContainer} />
+              <Route path="/signin" component={SignInFormContainer} />
+              <Route path="/profile" component={UserProfileContainer} />
+            </Switch>
+          </div>
+        </Fragment>
       </Router>
     );
   }

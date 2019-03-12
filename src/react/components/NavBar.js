@@ -1,8 +1,8 @@
 import React from 'react';
 
 const NavBar = () => (
-  <nav className="navbar sticky-top navbar-expand-sm navbar-light bg-light">
-    <a className="navbar-brand" href="/search">
+  <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-white">
+    <a className="navbar-brand" href="/">
       Palz
     </a>
     <button

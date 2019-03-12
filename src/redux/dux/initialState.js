@@ -26,6 +26,7 @@ const initialState = {
   activity: {
     name: '',
     location: null,
+    date: null,
     palId: null
   },
   activityEvents: { timestamp: Date.now(), isFetching: false, items: {} },
