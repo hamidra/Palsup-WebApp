@@ -24,7 +24,7 @@ const initialState = {
     items: {}
   },
   activity: {
-    name: '',
+    activity: '',
     location: null,
     date: null,
     palId: null

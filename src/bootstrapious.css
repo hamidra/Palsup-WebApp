@@ -26,6 +26,7 @@ code {
   position: absolute;
   right: 25px;
   top: 25px;
+  z-index: 5000;
 }
 
 .thumbnail {
@@ -2047,8 +2048,8 @@ textarea.form-control {
   height: auto;
 }
 
-.form-group {
-  margin-bottom: 1rem;
+margin-bottom: 1rem;
+  .form-group {
 }
 
 .form-text {
@@ -13849,4 +13850,27 @@ img.bg-image {
   bottom: 0;
   right:0;
   z-index:-1;
+}
+
+.date-btn-group > .btn {
+  margin-left: 1rem;
+}
+.date-btn-group > .btn:first-child {
+  margin-left: 0;
+}
+
+.Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+  background-color: #f0f8ff !important;
+  color: #4a90e2;
+}
+.Selectable .DayPicker-Day {
+  border-radius: 0 !important;
+}
+.Selectable .DayPicker-Day--start {
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
+.Selectable .DayPicker-Day--end {
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
 }

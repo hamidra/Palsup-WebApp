@@ -19,7 +19,7 @@ export const asyncActions = {
       try {
         var pal = {
           userId: getState().user.info.id,
-          activity: getState().activity.name,
+          activity: getState().activity.activity,
           location: getState().activity.location || {
             state: 'WA',
             city: 'Seattle'
@@ -55,7 +55,7 @@ export const asyncActions = {
   fetchActivityPals: () => async (dispatch, getState) => {
     dispatch(activityPals.actions.fetchPalsStarted());
     try {
-      const activityFilter = { activity: getState().activity.name };
+      const activityFilter = { activity: getState().activity.activity };
       var gqlPals = await gql.getPalsByActivity(activityFilter);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         const pal = converter.toPal(gqlPal);
@@ -169,7 +169,7 @@ export const asyncActions = {
   fetchActivityEvents: () => async (dispatch, getState) => {
     dispatch(activityEvents.actions.fetchEventsStarted());
     try {
-      const activityFilter = { activity: getState().activity.name };
+      const activityFilter = { activity: getState().activity.activity };
       var gqlEvents = await gql.getEventsByActivity(activityFilter);
       var events = gqlEvents.reduce((events, gqlEvent) => {
         const event = converter.toEvent(gqlEvent);

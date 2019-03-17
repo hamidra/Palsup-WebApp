@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DateRangePickerModal from '../components/modals/DateRangePickerModal';
 
-export default class ActivitySearchBox extends Component {
+export default class ActivitySearchBar extends Component {
   constructor(props) {
     super(props);
     this.handleValueChange = this.handleValueChange.bind(this);
@@ -10,8 +10,7 @@ export default class ActivitySearchBox extends Component {
     let change;
     switch (event.target.name) {
     case 'location':
-      //change = { location: { city: event.target.value } };
-      change = { location: { city: 'Seattle' } };
+      change = { location: { city: event.target.value } };
       break;
     default:
       change = { [event.target.name]: event.target.value };

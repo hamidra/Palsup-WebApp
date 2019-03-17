@@ -16,7 +16,6 @@ const reducer = createReducer(
     }),
     [actions.userPalCreated]: (state, payload) => ({
       ...state,
-      name: payload.pal.activity,
       palId: payload.pal.id
     })
   },

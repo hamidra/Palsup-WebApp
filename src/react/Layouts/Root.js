@@ -9,7 +9,7 @@ import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
 import Home from './Home';
 import Messages from './Messages';
-//import Search from './Search';
+import Search from './Search';
 import Playground from './Playground';
 
 const Root = class extends Component {
@@ -37,7 +37,7 @@ const Root = class extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/messages" component={Messages} />
-              {/*<Route path="/search" component={Search} />*/}
+              <Route path="/search" component={Search} />
               {/*<Route path="/events" component={Events} />*/}
               <Route path="/signup" component={SignUpFormContainer} />
               <Route path="/signin" component={SignInFormContainer} />
