@@ -12,21 +12,15 @@ const Home = withRouter(
   class extends Component {
     constructor(props) {
       super(props);
-      this.handleActivitySearchForDate = this.handleActivitySearchForDate.bind(
+      this.handleActivitySearchSubmit = this.handleActivitySearchSubmit.bind(
         this
       );
     }
-    componentDidMount() {
-      //erase activity
-    }
-    handleActivitySearchForDate(dateRange) {
-      const {
-        handleActivitySearchValueChange,
-        handleActivitySearch,
-        activity
-      } = this.props;
 
-      let date = searchDateToDateRange(dateRange);
+    handleActivitySearchSubmit(activity) {
+      const { handleActivitySearch } = this.props;
+
+      let date = searchDateToDateRange(activity.date);
       let searchActivity = { ...activity, date };
       if (searchActivity.activity) {
         const searchQs = qs.stringify(searchActivity);
@@ -34,7 +28,6 @@ const Home = withRouter(
       }
     }
     render() {
-      const { activity, handleActivitySearchValueChange } = this.props;
       return (
         <div>
           <div className="background" />
@@ -42,9 +35,8 @@ const Home = withRouter(
             <div class="row justify-content-center">
               <div class="col-md-10">
                 <ActivitySearchBox
-                  searchValues={activity}
-                  handleSearchValueChange={handleActivitySearchValueChange}
-                  handleActivitySearchForDate={this.handleActivitySearchForDate}
+                  initialValues={{}}
+                  handleSearchSubmit={this.handleActivitySearchSubmit}
                 />
               </div>
             </div>
@@ -55,15 +47,9 @@ const Home = withRouter(
   }
 );
 
-const mapStateToProps = state => ({
-  activity: state.activity
-});
-
 const mapDispatchToProps = dispatch => ({
-  handleActivitySearchValueChange: change => {
-    dispatch(activityDux.actions.activityChanged(change));
-  },
-  handleActivitySearch: async () => {
+  handleActivitySearch: async activity => {
+    dispatch(activityDux.actions.activityChanged(activity));
     dispatch(dux.asyncActions.createPal());
     dispatch(dux.asyncActions.fetchActivityEvents());
     dispatch(dux.asyncActions.fetchActivityPals());
@@ -71,6 +57,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Home);

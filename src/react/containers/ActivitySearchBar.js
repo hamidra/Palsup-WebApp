@@ -5,37 +5,42 @@ export default class ActivitySearchBar extends Component {
   constructor(props) {
     super(props);
     this.handleValueChange = this.handleValueChange.bind(this);
+    this.state = {
+      ...props.initialValues,
+      location: { city: 'Seattle' }
+    };
   }
   handleValueChange(event) {
-    let change;
+    let update;
     switch (event.target.name) {
     case 'location':
-      change = { location: { city: event.target.value } };
+      //change = { location: { city: event.target.value } };
+      update = { location: { city: 'Seattle' } };
       break;
     default:
-      change = { [event.target.name]: event.target.value };
+      update = { [event.target.name]: event.target.value };
     }
-    change && this.props.handleSearchValueChange(change);
+    this.setState(update);
   }
   render() {
-    const { searchValues, handleActivitySearchForDate } = this.props;
+    const { handleSearchSubmit } = this.props;
     return (
-      <div>
+      <div className="container">
         <form>
-          <div className="search-bar rounded p-2 position-relative z-index-20">
+          <div className="search-bar m-2 p-3 p-lg-1 pl-lg-3">
             <div className="row">
-              <div className="col-lg-7 d-flex align-items-center form-group">
+              <div className="col-lg-5 d-flex align-items-center form-group">
                 <input
                   type="text"
                   name="activity"
                   placeholder="Coffee, Swimming, Hiking, ..."
                   className="form-control border-0 shadow-0"
                   autoComplete="off"
-                  value={(searchValues && searchValues.activity) || ''}
+                  value={this.state.activity || ''}
                   onChange={this.handleValueChange}
                 />
               </div>
-              <div className="col-lg-5 d-flex align-items-center form-group">
+              <div className="col-lg-3 d-flex align-items-center form-group">
                 <div className="input-label-absolute input-label-absolute-right w-100">
                   <label for="location" className="label-absolute mb-0">
                     <i className="fa fa-crosshairs" />
@@ -48,51 +53,76 @@ export default class ActivitySearchBar extends Component {
                     id="location"
                     className="form-control border-0 shadow-0 disabled"
                     value={
-                      (searchValues &&
-                        searchValues.location &&
-                        searchValues.location.city) ||
-                      ''
+                      (this.state.location && this.state.location.city) || ''
                     }
                     onChange={this.handleValueChange}
                   />
                 </div>
               </div>
+              <div class="col-lg-3 d-flex align-items-center form-group no-divider">
+                <select
+                  title="Categories"
+                  data-style="btn-form-control"
+                  class="selectpicker">
+                  <option value="small">Restaurants</option>
+                  <option value="medium">Hotels</option>
+                  <option value="large">Cafes</option>
+                  <option value="x-large">Garages</option>
+                </select>
+              </div>
+              <div class="col-lg-1">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block rounded-xl h-100">
+                  S
+                </button>
+              </div>
             </div>
           </div>
         </form>
-        <div class="row py-1 justify-content-center">
+        {/*<div class="row py-1 justify-content-center">
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('soon')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'soon' })
+              }>
               Soon
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('today')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'today' })
+              }>
               Today
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('week')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'week' })
+              }>
               This Week
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('weekend')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'weekend' })
+              }>
               This Weekend
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('anytime')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'anytime' })
+              }>
               Anytime
             </button>
           </div>
@@ -106,11 +136,11 @@ export default class ActivitySearchBar extends Component {
           </div>
           <DateRangePickerModal
             modalId="activityDateRangePicker"
-            handleSearchClick={dateRange =>
-              handleActivitySearchForDate(dateRange)
+            handleSearchClick={date =>
+              handleSearchSubmit({ ...this.state, date })
             }
           />
-        </div>
+          </div>*/}
       </div>
     );
   }

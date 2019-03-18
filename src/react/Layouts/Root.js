@@ -37,7 +37,12 @@ const Root = class extends Component {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/messages" component={Messages} />
-              <Route path="/search" component={Search} />
+              <Route
+                path="/search"
+                render={props => (
+                  <Search key={props.location.search} {...props} />
+                )}
+              />
               {/*<Route path="/events" component={Events} />*/}
               <Route path="/signup" component={SignUpFormContainer} />
               <Route path="/signin" component={SignInFormContainer} />

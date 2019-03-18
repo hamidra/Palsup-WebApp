@@ -9,46 +9,36 @@ import qs from 'qs';
 const Search = class extends React.Component {
   constructor(props) {
     super(props);
-    this.handleActivitySearchForDate = this.handleActivitySearchForDate.bind(
+    this.handleActivitySearchSubmit = this.handleActivitySearchSubmit.bind(
       this
     );
   }
   componentDidMount() {
-    const {
-      handleActivitySearchValueChange,
-      handleActivitySearch,
-      location
-    } = this.props;
+    const { handleActivitySearch, location } = this.props;
     const query = qs.parse(location.search.slice(1));
     let activity = {
       activity: query && query.activity,
       location: query && query.location,
       date: query && query.date
     };
-    handleActivitySearchValueChange(activity);
-    handleActivitySearch();
+    handleActivitySearch(activity);
   }
-  handleActivitySearchForDate() {
-    const {
-      handleActivitySearchValueChange,
-      handleActivitySearch,
-      activity
-    } = this.props;
+  handleActivitySearchSubmit(activity) {
+    const { handleActivitySearch } = this.props;
     if (activity.activity) {
-      handleActivitySearchValueChange(activity);
       const searchQs = qs.stringify(activity);
       this.props.history.push(`search?${searchQs}`);
-      handleActivitySearch();
+      handleActivitySearch(activity);
     }
   }
   render() {
-    const { activity, handleActivitySearchValueChange } = this.props;
+    const { activity, location } = this.props;
     return (
       <div className="container-fluid">
         <ActivitySearchBar
-          searchValues={activity}
-          handleSearchValueChange={handleActivitySearchValueChange}
-          handleActivitySearchForDate={this.handleActivitySearchForDate}
+          key={location.search}
+          initialValues={activity}
+          handleSearchSubmit={this.handleActivitySearchSubmit}
         />
         <ResultPanelContainer />
       </div>
@@ -56,15 +46,19 @@ const Search = class extends React.Component {
   }
 };
 
-const mapStateToProps = state => ({
-  activity: state.activity
-});
+const mapStateToProps = (state, ownProps) => {
+  const query = qs.parse(ownProps.location.search.slice(1));
+  let activity = {
+    activity: query && query.activity,
+    location: query && query.location,
+    date: query && query.date
+  };
+  return { activity };
+};
 
 const mapDispatchToProps = dispatch => ({
-  handleActivitySearchValueChange: change => {
-    dispatch(activityDux.actions.activityChanged(change));
-  },
-  handleActivitySearch: async () => {
+  handleActivitySearch: async activity => {
+    dispatch(activityDux.actions.activityChanged(activity));
     dispatch(dux.asyncActions.createPal());
     dispatch(dux.asyncActions.fetchActivityEvents());
     dispatch(dux.asyncActions.fetchActivityPals());

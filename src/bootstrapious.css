@@ -13852,12 +13852,20 @@ img.bg-image {
   z-index:-1;
 }
 
+/*
+  date buttons
+*/
+
 .date-btn-group > .btn {
   margin-left: 1rem;
 }
 .date-btn-group > .btn:first-child {
   margin-left: 0;
 }
+
+/*
+date picker
+*/
 
 .Selectable .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
   background-color: #f0f8ff !important;

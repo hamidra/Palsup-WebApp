@@ -9,35 +9,6 @@
     />
     <meta name="theme-color" content="#000000" />
 
-    <!--
-      This app is using bootstrap for creating reponsive UI
-    -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-      crossorigin="anonymous"
-    ></script>
-
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -53,6 +24,7 @@
   <body style="padding-top: 72px;">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -63,5 +35,23 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+  </script>
+  <!-- jQuery-->
+  <script src="%PUBLIC_URL%/theme/vendor/jquery/jquery.min.js"></script>
+  <!-- Bootstrap JS bundle - Bootstrap + PopperJS-->
+  <script src="%PUBLIC_URL%/theme/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Magnific Popup - Lightbox for the gallery-->
+  <script src="%PUBLIC_URL%/theme/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+  <!-- Smooth scroll-->
+  <script src="%PUBLIC_URL%/theme/vendor/smooth-scroll/smooth-scroll.polyfills.min.js"></script>
+  <!-- Bootstrap Select-->
+  <script src="%PUBLIC_URL%/theme/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+  <!-- Object Fit Images - Fallback for browsers that don't support object-fit-->
+  <script src="%PUBLIC_URL%/theme/vendor/object-fit-images/ofi.min.js"></script>
+  <!-- Swiper Carousel                       -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.4.1/js/swiper.min.js"></script>
+  <script>var basePath = ''</script>
+  <!-- Main Theme JS file    -->
+  <script src="%PUBLIC_URL%/theme/js/theme.js"></script>
   </body>
 </html>

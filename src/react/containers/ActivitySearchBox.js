@@ -5,21 +5,25 @@ export default class ActivitySearchBox extends Component {
   constructor(props) {
     super(props);
     this.handleValueChange = this.handleValueChange.bind(this);
+    this.state = {
+      ...props.initialValues,
+      location: { city: 'Seattle' }
+    };
   }
   handleValueChange(event) {
-    let change;
+    let update;
     switch (event.target.name) {
     case 'location':
       //change = { location: { city: event.target.value } };
-      change = { location: { city: 'Seattle' } };
+      update = { location: { city: 'Seattle' } };
       break;
     default:
-      change = { [event.target.name]: event.target.value };
+      update = { [event.target.name]: event.target.value };
     }
-    change && this.props.handleSearchValueChange(change);
+    this.setState(update);
   }
   render() {
-    const { searchValues, handleActivitySearchForDate } = this.props;
+    const { handleSearchSubmit } = this.props;
     return (
       <div>
         <form>
@@ -32,7 +36,7 @@ export default class ActivitySearchBox extends Component {
                   placeholder="Coffee, Swimming, Hiking, ..."
                   className="form-control border-0 shadow-0"
                   autoComplete="off"
-                  value={(searchValues && searchValues.activity) || ''}
+                  value={this.state.activity || ''}
                   onChange={this.handleValueChange}
                 />
               </div>
@@ -49,10 +53,7 @@ export default class ActivitySearchBox extends Component {
                     id="location"
                     className="form-control border-0 shadow-0 disabled"
                     value={
-                      (searchValues &&
-                        searchValues.location &&
-                        searchValues.location.city) ||
-                      ''
+                      (this.state.location && this.state.location.city) || ''
                     }
                     onChange={this.handleValueChange}
                   />
@@ -65,35 +66,45 @@ export default class ActivitySearchBox extends Component {
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('soon')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'soon' })
+              }>
               Soon
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('today')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'today' })
+              }>
               Today
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('week')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'week' })
+              }>
               This Week
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('weekend')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'weekend' })
+              }>
               This Weekend
             </button>
           </div>
           <div className="card-container m-1">
             <button
               class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() => handleActivitySearchForDate('anytime')}>
+              onClick={() =>
+                handleSearchSubmit({ ...this.state, date: 'anytime' })
+              }>
               Anytime
             </button>
           </div>
@@ -107,8 +118,8 @@ export default class ActivitySearchBox extends Component {
           </div>
           <DateRangePickerModal
             modalId="activityDateRangePicker"
-            handleSearchClick={dateRange =>
-              handleActivitySearchForDate(dateRange)
+            handleSearchClick={date =>
+              handleSearchSubmit({ ...this.state, date })
             }
           />
         </div>
