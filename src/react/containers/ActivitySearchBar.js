@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import DateRangePickerModal from '../components/modals/DateRangePickerModal';
+import Select from 'react-select';
+import DateDropdown from '../components/DateDropdown';
 
 export default class ActivitySearchBar extends Component {
   constructor(props) {
@@ -60,15 +62,7 @@ export default class ActivitySearchBar extends Component {
                 </div>
               </div>
               <div class="col-lg-3 d-flex align-items-center form-group no-divider">
-                <select
-                  title="Categories"
-                  data-style="btn-form-control"
-                  class="selectpicker">
-                  <option value="small">Restaurants</option>
-                  <option value="medium">Hotels</option>
-                  <option value="large">Cafes</option>
-                  <option value="x-large">Garages</option>
-                </select>
+                <DateDropdown />
               </div>
               <div class="col-lg-1">
                 <button

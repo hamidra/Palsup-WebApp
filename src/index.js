@@ -1,6 +1,8 @@
+import 'bootstrap/dist/css/bootstrap.css';
+import './bootstrapious.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './bootstrapious.css';
 import Root from './react/Layouts/Root';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './redux/configureStore';
