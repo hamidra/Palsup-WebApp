@@ -26,6 +26,7 @@ export default class ActivitySearchBar extends Component {
   }
   render() {
     const { handleSearchSubmit } = this.props;
+    const { date } = this.state;
     return (
       <div className="container">
         <form>
@@ -42,7 +43,7 @@ export default class ActivitySearchBar extends Component {
                   onChange={this.handleValueChange}
                 />
               </div>
-              <div className="col-lg-3 d-flex align-items-center form-group">
+              <div className="col-lg-4 d-flex align-items-center form-group">
                 <div className="input-label-absolute input-label-absolute-right w-100">
                   <label for="location" className="label-absolute mb-0">
                     <i className="fa fa-crosshairs" />
@@ -62,14 +63,13 @@ export default class ActivitySearchBar extends Component {
                 </div>
               </div>
               <div class="col-lg-3 d-flex align-items-center form-group no-divider">
-                <DateDropdown />
-              </div>
-              <div class="col-lg-1">
-                <button
-                  type="submit"
-                  class="btn btn-primary btn-block rounded-xl h-100">
-                  S
-                </button>
+                <DateDropdown
+                  className="w-100"
+                  date={date}
+                  handleClick={date =>
+                    handleSearchSubmit({ ...this.state, date })
+                  }
+                />
               </div>
             </div>
           </div>

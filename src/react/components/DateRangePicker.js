@@ -26,11 +26,13 @@ export default class DateRabgePicker extends React.Component {
         : DateUtils.addDayToRange(day, this.state);
     this.setState(range);
   }
-  handleResetClick() {
+  handleResetClick(event) {
     this.setState(this.getInitialState());
+    event.preventDefault();
   }
-  handleSearchClick() {
+  handleSearchClick(event) {
     this.props.handleSearchClick(this.state);
+    event.preventDefault();
   }
   render() {
     const { from, to } = this.state;
@@ -69,7 +71,7 @@ export default class DateRabgePicker extends React.Component {
               {to && (
                 <button
                   className="btn btn-outline-primary ml-1"
-                  onClick={this.handleResetClick}>
+                  onClick={this.handleSearchClick}>
                   Search
                 </button>
               )}

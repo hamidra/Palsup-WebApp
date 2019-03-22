@@ -4,6 +4,7 @@ import ResultPanelContainer from '../containers/ResultPanelContainer';
 import * as activityDux from '../../redux/dux/activity';
 import * as dux from '../../redux/dux/index';
 import ActivitySearchBar from '../containers/ActivitySearchBar';
+import { searchDateToDateRange } from '../../utilities';
 import qs from 'qs';
 
 const Search = class extends React.Component {
@@ -57,7 +58,9 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  handleActivitySearch: async activity => {
+  handleActivitySearch: async searchActivity => {
+    let date = searchDateToDateRange(searchActivity.date);
+    let activity = { ...searchActivity, date };
     dispatch(activityDux.actions.activityChanged(activity));
     dispatch(dux.asyncActions.createPal());
     dispatch(dux.asyncActions.fetchActivityEvents());

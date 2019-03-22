@@ -1,118 +1,94 @@
 import React from 'react';
-import Select from 'react-select';
-
-const options = [
-  { value: 'soon', label: 'Soon' },
-  { value: 'tooday', label: 'Today' },
-  { value: 'week', label: 'This week' },
-  { value: 'weekend', label: 'This weekend' },
-  { value: 'anytime', label: 'Anytime' },
-  { value: 'sometime', label: 'Sometime' }
-];
-const customStyles = {
-  container: provided => ({ ...provided, width: '100%' }),
-  control: provided => ({
-    ...provided,
-    border: '0 !important',
-    // This line disable the blue border
-    boxShadow: '0 !important',
-    '&:hover': {
-      border: '0 !important'
-    }
-  }),
-  indicatorSeparator: provided => ({ ...provided, display: 'none' })
-};
+import { Dropdown, Button, ButtonGroup, Card } from 'react-bootstrap';
+import moment from 'moment';
+import DateRangePickerModal from './modals/DateRangePickerModal';
 
 class DateDropdown extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedOption: null
+    this.getLabel = this.getLabel.bind(this);
+    this.items = {
+      soon: 'Soon',
+      today: 'Today',
+      week: 'This Week',
+      weekend: 'This Weekend',
+      anytime: 'Anytime',
+      sometime: 'Sometime'
     };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(selectedOption) {
-    this.setState({ selectedOption });
-    console.log('Option selected:', selectedOption);
+  getLabel(date) {
+    let label = '';
+    if (typeof date === 'string') {
+      label = date;
+    } else if (date && date.from && date.to) {
+      let from = moment(date.from).format('MMM DD');
+      let to = moment(date.to).format('MMM DD');
+      label = `${from}-${to}`;
+    }
+    return label;
   }
 
   render() {
-    const { selectedOption } = this.state;
-
+    const { date, handleClick, ...rest } = this.props;
+    const items = this.items;
     return (
-      <Select
-        styles={customStyles}
-        value={selectedOption}
-        placeholder={'When ...'}
-        onChange={this.handleChange}
-        options={options}
-      />
+      <Dropdown {...rest} as={ButtonGroup}>
+        <Button className="rounded-xl"> {this.getLabel(date)}</Button>
+
+        <Dropdown.Toggle
+          split
+          className="border-left rounded-xl"
+          id="dropdown-split-basic"
+        />
+
+        <Dropdown.Menu alignRight>
+          {Object.keys(items).map(date => {
+            if (date === 'sometime') {
+              return (
+                <Dropdown.Item as={Button}>
+                  <DateRangePickerModal
+                    handleSearchClick={date => handleClick(date)}
+                  />
+                </Dropdown.Item>
+              );
+            } else {
+              return (
+                <Dropdown.Item
+                  onClick={event => {
+                    handleClick(date);
+                    event.preventDefault();
+                  }}
+                  as={Button}>
+                  {items[date]}
+                </Dropdown.Item>
+              );
+            }
+          })}
+          {/*<Dropdown.Item onClick={() => handleClick('soon')} as={Button}>
+            Soon
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleClick('today')} as={Button}>
+            Today
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleClick('week')} as={Button}>
+            This Week
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleClick('weekend')} as={Button}>
+            This Weekend
+          </Dropdown.Item>
+          <Dropdown.Item onClick={() => handleClick('anytime')} as={Button}>
+            Anytime
+          </Dropdown.Item>
+          <Dropdown.Item as={Button}>
+            <DateRangePickerModal
+              handleSearchClick={date => handleClick(date)}
+            />
+          </Dropdown.Item>*/}
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 }
 
 export default DateDropdown;
-{
-  /*<div class="row py-1 justify-content-center">
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'soon' })
-              }>
-              Soon
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'today' })
-              }>
-              Today
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'week' })
-              }>
-              This Week
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'weekend' })
-              }>
-              This Weekend
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'anytime' })
-              }>
-              Anytime
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              data-toggle="modal"
-              data-target="#activityDateRangePicker">
-              Sometime <span className="d-block float-right">></span>
-            </button>
-          </div>
-          <DateRangePickerModal
-            modalId="activityDateRangePicker"
-            handleSearchClick={date =>
-              handleSearchSubmit({ ...this.state, date })
-            }
-          />
-          </div>*/
-}

@@ -109,19 +109,12 @@ export default class ActivitySearchBox extends Component {
             </button>
           </div>
           <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              data-toggle="modal"
-              data-target="#activityDateRangePicker">
-              Sometime <span className="d-block float-right">></span>
-            </button>
+            <DateRangePickerModal
+              handleSearchClick={date =>
+                handleSearchSubmit({ ...this.state, date })
+              }
+            />
           </div>
-          <DateRangePickerModal
-            modalId="activityDateRangePicker"
-            handleSearchClick={date =>
-              handleSearchSubmit({ ...this.state, date })
-            }
-          />
         </div>
       </div>
     );

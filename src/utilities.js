@@ -57,6 +57,6 @@ export const displayDateFromNow = dateRange => {
   } else if (dateRange.endDate && dateRange.endDate > Date.now()) {
     return `anytime in the next ${moment(dateRange.endDate).fromNow(true)}`;
   } else {
-    return 'passed';
+    return 'past';
   }
 };

@@ -6,7 +6,6 @@ import * as activityDux from '../../redux/dux/activity';
 import { connect } from 'react-redux';
 import * as dux from '../../redux/dux/index';
 import qs from 'qs';
-import { searchDateToDateRange } from '../../utilities';
 
 const Home = withRouter(
   class extends Component {
@@ -17,11 +16,8 @@ const Home = withRouter(
       );
     }
 
-    handleActivitySearchSubmit(activity) {
+    handleActivitySearchSubmit(searchActivity) {
       const { handleActivitySearch } = this.props;
-
-      let date = searchDateToDateRange(activity.date);
-      let searchActivity = { ...activity, date };
       if (searchActivity.activity) {
         const searchQs = qs.stringify(searchActivity);
         this.props.history.push(`search?${searchQs}`);
