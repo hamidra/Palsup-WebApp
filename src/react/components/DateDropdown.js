@@ -34,7 +34,14 @@ class DateDropdown extends React.Component {
     const items = this.items;
     return (
       <Dropdown {...rest} as={ButtonGroup}>
-        <Button className="rounded-xl"> {this.getLabel(date)}</Button>
+        <Button
+          className="rounded-xl"
+          onClick={event => {
+            handleClick(date);
+            event.preventDefault();
+          }}>
+          {this.getLabel(date)}
+        </Button>
 
         <Dropdown.Toggle
           split
@@ -65,26 +72,6 @@ class DateDropdown extends React.Component {
               );
             }
           })}
-          {/*<Dropdown.Item onClick={() => handleClick('soon')} as={Button}>
-            Soon
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleClick('today')} as={Button}>
-            Today
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleClick('week')} as={Button}>
-            This Week
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleClick('weekend')} as={Button}>
-            This Weekend
-          </Dropdown.Item>
-          <Dropdown.Item onClick={() => handleClick('anytime')} as={Button}>
-            Anytime
-          </Dropdown.Item>
-          <Dropdown.Item as={Button}>
-            <DateRangePickerModal
-              handleSearchClick={date => handleClick(date)}
-            />
-          </Dropdown.Item>*/}
         </Dropdown.Menu>
       </Dropdown>
     );

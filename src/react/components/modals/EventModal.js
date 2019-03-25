@@ -1,31 +1,55 @@
-import React from 'react';
-import Modal from './Modal';
+import React, { Component, Fragment } from 'react';
+import { Modal, Button } from 'react-bootstrap';
 import { displayDateFromNow } from '../../../utilities';
+import EventCard from '../cards/EventCard';
+import CloseIcon from '../../../icons/close';
 
-const EventModal = ({ event, modalId }) => (
-  <Modal modalId={modalId}>
-    <img class="modal-image" src={event.image} alt="..." />
-    <button type="button" class="close modal-close" data-dismiss="modal">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    <div class="modal-body">
-      <h5 class="modal-title">{event.activity}</h5>
-      <p>{event.description}</p>
-      <p>{displayDateFromNow(event.date)}</p>
-    </div>
-    <div class="modal-footer">
-      <img
-        src={
-          event &&
-          event.group &&
-          event.group.members &&
-          event.group.members[0] &&
-          event.group.members[0].picture &&
-          event.group.members[0].picture.thumbnail
-        }
-      />
-    </div>
-  </Modal>
-);
+const EventModal = class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showModal: false };
+    this.handleShow = this.handleShow.bind(this);
+    this.handleHide = this.handleHide.bind(this);
+  }
+  handleShow() {
+    this.setState({ showModal: true });
+  }
+  handleHide() {
+    this.setState({ showModal: false });
+  }
+  render() {
+    const { event } = this.props;
+    return (
+      <Fragment>
+        <EventCard event={event} handleShowModal={this.handleShow} />
+        <Modal show={this.state.showModal} onHide={this.handleHide}>
+          <a
+            onClick={this.handleHide}
+            className="bg-white action-icon modal-close">
+            <CloseIcon />
+          </a>
+          <img class="modal-image" src={event.image} alt="..." />
+          <Modal.Body>
+            <h5>{event.activity}</h5>
+            <p>{event.description}</p>
+            <p>{displayDateFromNow(event.date)}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <img
+              src={
+                event &&
+                event.group &&
+                event.group.members &&
+                event.group.members[0] &&
+                event.group.members[0].picture &&
+                event.group.members[0].picture.thumbnail
+              }
+            />
+          </Modal.Footer>
+        </Modal>
+      </Fragment>
+    );
+  }
+};
 
 export default EventModal;

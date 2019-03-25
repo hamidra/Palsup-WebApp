@@ -16,12 +16,12 @@ class DateRangePickerModal extends Component {
 
   handleClose(event) {
     this.setState({ show: false });
-    event.preventDefault();
+    event && event.preventDefault();
   }
 
   handleShow(event) {
     this.setState({ show: true });
-    event.preventDefault();
+    event && event.preventDefault();
   }
 
   render() {

@@ -3,16 +3,10 @@ import moment from 'moment';
 import Card from './Card';
 import { displayDateFromNow } from '../../../utilities';
 
-const PalCard = ({ pal, modalId, handleLikeClick }) => (
-  <Card modalId={modalId}>
-    <img
-      src={pal.user.picture.large}
-      className="card-img-top"
-      data-toggle="modal"
-      data-target={`#${modalId}`}
-      alt="..."
-    />
-    <div className="card-body" data-toggle="modal" data-target={`#${modalId}`}>
+const PalCard = ({ pal, handleShowModal, handleLikeClick }) => (
+  <Card onClick={handleShowModal}>
+    <img src={pal.user.picture.large} className="card-img-top" alt="..." />
+    <div className="card-body">
       <p className="card-title">
         {`${pal.user.name.first}'s down for`} <br /> <h5>{pal.activity}</h5>
       </p>
@@ -23,8 +17,9 @@ const PalCard = ({ pal, modalId, handleLikeClick }) => (
         type="button"
         class="btn ml-auto"
         style={{ backgroundColor: pal.liked && 'blue' }}
-        onClick={() => {
+        onClick={event => {
           handleLikeClick(pal.id, !pal.liked);
+          event.stopPropagation();
         }}>
         Like
       </button>

@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import DateRangePickerModal from '../components/modals/DateRangePickerModal';
-import Select from 'react-select';
 import DateDropdown from '../components/DateDropdown';
 
 export default class ActivitySearchBar extends Component {
