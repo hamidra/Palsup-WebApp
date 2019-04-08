@@ -13874,6 +13874,16 @@ code {
   bottom: 0px;
 }
 
+.navbar .fixed-top {
+  height: 10%;
+}
+
+.sticky-container-top {
+  position: sticky;
+  top: 10%;
+  background: white;
+}
+
 /*
   date buttons
 */

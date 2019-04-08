@@ -8,7 +8,7 @@ import SignUpFormContainer from '../containers/SignUpFormContainer';
 import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
 import Home from './Home';
-import Messages from './Messages';
+import Events from './Events';
 import Search from './Search';
 import Playground from './Playground';
 
@@ -34,16 +34,16 @@ const Root = class extends Component {
             <NavBar />
           </div>
           <div className="container-fluid">
+            <Playground className="container-fluid" />
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/messages" component={Messages} />
+              <Route path="/Events" component={Events} />
               <Route
                 path="/search"
                 render={props => (
                   <Search key={props.location.search} {...props} />
                 )}
               />
-              {/*<Route path="/events" component={Events} />*/}
               <Route path="/signup" component={SignUpFormContainer} />
               <Route path="/signin" component={SignInFormContainer} />
               <Route path="/profile" component={UserProfileContainer} />

@@ -72,67 +72,6 @@ export default class ActivitySearchBar extends Component {
             </div>
           </div>
         </form>
-        {/*<div class="row py-1 justify-content-center">
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'soon' })
-              }>
-              Soon
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'today' })
-              }>
-              Today
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'week' })
-              }>
-              This Week
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'weekend' })
-              }>
-              This Weekend
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              onClick={() =>
-                handleSearchSubmit({ ...this.state, date: 'anytime' })
-              }>
-              Anytime
-            </button>
-          </div>
-          <div className="card-container m-1">
-            <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
-              data-toggle="modal"
-              data-target="#activityDateRangePicker">
-              Sometime <span className="d-block float-right">></span>
-            </button>
-          </div>
-          <DateRangePickerModal
-            modalId="activityDateRangePicker"
-            handleSearchClick={date =>
-              handleSearchSubmit({ ...this.state, date })
-            }
-          />
-          </div>*/}
       </div>
     );
   }

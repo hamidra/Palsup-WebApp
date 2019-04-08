@@ -20,13 +20,13 @@ const NavBar = () => (
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="/messages">
-            Message
+          <a className="nav-link" href="/events">
+            Events
           </a>
         </li>
         <li className="nav-item">
           <a className="nav-link" href="#">
-            Notifications
+            Activities
           </a>
         </li>
         <li className="nav-item d-sm-none">

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MessageTab from '../components/MessageTab';
+import EventTab from '../components/EventTab';
 
-const MessageList = ({ events }) => (
-  <div className="list-group list-group-flush">
+const EventList = ({ events }) => (
+  <div className="sticky-container-top list-group list-group-flush">
     {Object.keys(events).map(eventId => {
       if (eventId) {
         return (
           <div>
-            <MessageTab event={events[eventId]} key={events[eventId].id} />
+            <EventTab event={events[eventId]} key={events[eventId].id} />
           </div>
         );
       }
@@ -21,4 +21,4 @@ const mapStateToProps = state => ({
     state.userEvents && state.userEvents.items ? state.userEvents.items : {}
 });
 
-export default connect(mapStateToProps)(MessageList);
+export default connect(mapStateToProps)(EventList);

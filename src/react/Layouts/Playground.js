@@ -1,37 +1,23 @@
 import React, { Component } from 'react';
+import Editor from '../containers/ImageEditorContainer';
+import fetch from 'cross-fetch';
 
-export default class sseForm extends Component {
+export default class AvatarEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: '' };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleImageUpload = this.handleImageUpload.bind(this);
   }
-  handleChange(event) {
-    this.setState({ value: event.target.value });
+  handleImageUpload(imageBlob) {
+    var fd = new FormData();
+    fd.append('eventPic', imageBlob);
+    fetch('http://localhost:3000/uploader/event/5c7386bc92d02d38ad449401', {
+      method: 'POST',
+      body: fd
+    });
   }
-  async handleSubmit(event) {
-    var es = new EventSource(
-      `http://172.17.20.26:3000/notifications/${this.state.value}`
-    );
-    es.onmessage = event => console.log(JSON.stringify(event.data));
-    event.preventDefault();
-  }
-
   render() {
     return (
-      <form>
-        <div>
-          <input
-            value={this.state.value}
-            type="text"
-            onChange={this.handleChange}
-          />
-          <button type="submit" onClick={this.handleSubmit}>
-            Server Sent Event
-          </button>
-        </div>
-      </form>
+      <Editor {...this.props} handleImageUpload={this.handleImageUpload} />
     );
   }
 }
