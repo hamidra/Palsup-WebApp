@@ -34,7 +34,6 @@ const Root = class extends Component {
             <NavBar />
           </div>
           <div className="container-fluid">
-            <Playground className="container-fluid" />
             <Switch>
               <Route exact path="/" component={Home} />
               <Route path="/Events" component={Events} />

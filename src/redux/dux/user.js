@@ -35,6 +35,15 @@ export const actions = {
   updateUserFailed: createAction('USER/UPDATE_USER_FAILED', error => ({
     error
   })),
+  uploadProfilePicStarted: createAction('USER/UPLOAD_PROFILE_PIC_STARTED'),
+  uploadProfilePicFailed: createAction(
+    'USER/UPLOAD_PROFILE_PIC_FAILED',
+    error => ({ error })
+  ),
+  uploadProfilePicSucceeded: createAction(
+    'USER/UPLOAD_PROFILE_PIC_SUCCEEDED',
+    absolutePicture => ({ absolutePicture })
+  ),
   /**
    * Login
    */
@@ -64,6 +73,11 @@ const reducer = createReducer(
     [actions.updateUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
         info: payload.userInfo
+      });
+    },
+    [actions.uploadProfilePicSucceeded]: (state, payload) => {
+      return persistUserState(state, {
+        info: state.info && { ...state.info, ...payload }
       });
     }
   },

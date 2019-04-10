@@ -5,7 +5,11 @@ import { displayDateFromNow } from '../../../utilities';
 
 const PalCard = ({ pal, handleShowModal, handleLikeClick }) => (
   <Card onClick={handleShowModal}>
-    <img src={pal.user.picture.large} className="card-img-top" alt="..." />
+    <img
+      src={pal.user.absolutePicture.large}
+      className="card-img-top"
+      alt="..."
+    />
     <div className="card-body">
       <p className="card-title">
         {`${pal.user.name.first}'s down for`} <br /> <h5>{pal.activity}</h5>

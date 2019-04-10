@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Editor from '../containers/ImageEditorContainer';
+import Editor from '../containers/EventPicEditorContainer';
 import fetch from 'cross-fetch';
 
 export default class AvatarEditor extends Component {
@@ -16,8 +16,6 @@ export default class AvatarEditor extends Component {
     });
   }
   render() {
-    return (
-      <Editor {...this.props} handleImageUpload={this.handleImageUpload} />
-    );
+    return <Editor />;
   }
 }

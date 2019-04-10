@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import Dropzone from 'react-dropzone';
 
-export default class ImageEditorContainer extends Component {
+export default class ImageEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       image: props.image,
-      scale: 1.2
+      scale: props.scale
     };
     this.handleDrop = this.handleDrop.bind(this);
     this.handleScaleChange = this.handleScaleChange.bind(this);
@@ -26,11 +26,9 @@ export default class ImageEditorContainer extends Component {
   handleSaveClick(event) {
     if (this.editor) {
       const canvas = this.editor.getImageScaledToCanvas();
-      console.log(encodeURIComponent(canvas.toDataURL('image/jpeg')));
       canvas.toBlob(
         blob => {
           this.props.handleImageUpload(blob);
-          console.log(blob);
         },
         'image/jpeg',
         1
@@ -40,11 +38,11 @@ export default class ImageEditorContainer extends Component {
   }
 
   render() {
-    const { ...rest } = this.props;
+    const { width, height, border, borderRadius } = this.props;
     return (
       <Dropzone onDrop={this.handleDrop} disableClick>
         {({ getRootProps, getInputProps }) => (
-          <div {...rest}>
+          <div>
             <div className="row no-guter p-1">
               <div
                 className="col-12 border p-3 p-sm-5 text-center"
@@ -57,12 +55,13 @@ export default class ImageEditorContainer extends Component {
                   ref={this.setEditorRefrence}
                   style={{ width: '100%', height: '100%' }}
                   image={this.state.image}
-                  width={500}
-                  height={500}
-                  border={0}
-                  borderRadius="250"
+                  width={width}
+                  height={height}
+                  border={border}
+                  borderRadius={borderRadius}
                   color={[255, 255, 255, 0.75]} // RGBA
                   scale={this.state.scale}
+                  crossOrigin="anonymous"
                   rotate={0}
                 />
               </div>

@@ -28,7 +28,7 @@ const EventModal = class extends Component {
             className="bg-white action-icon modal-close">
             <CloseIcon />
           </a>
-          <img class="modal-image" src={event.image} alt="..." />
+          <img class="modal-image" src={event.absoluteImage} alt="..." />
           <Modal.Body>
             <h5>{event.activity}</h5>
             <p>{event.description}</p>
@@ -41,8 +41,8 @@ const EventModal = class extends Component {
                 event.group &&
                 event.group.members &&
                 event.group.members[0] &&
-                event.group.members[0].picture &&
-                event.group.members[0].picture.thumbnail
+                event.group.members[0].absolutePicture &&
+                event.group.members[0].absolutePicture.thumbnail
               }
             />
           </Modal.Footer>

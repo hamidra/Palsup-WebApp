@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import EventPicEditorContainer from './EventPicEditorContainer';
 
 const EventInfo = ({ event }) => {
   return (
@@ -9,7 +10,7 @@ const EventInfo = ({ event }) => {
         {event && (
           <div className="row">
             <div className="col-sm-4">
-              <img src={event.image} />
+              <img className="w-100" src={event.absoluteImage} />
             </div>
             <Card.Body className="col-sm-8 ">
               <h4>{event.activity}</h4>

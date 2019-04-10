@@ -27,7 +27,11 @@ const PalModal = class extends Component {
           handleLikeClick={handleLikeClick}
         />
         <Modal show={this.state.showModal} onHide={this.handleHide}>
-          <img class="modal-image" src={pal.user.picture.large} alt="..." />
+          <img
+            class="modal-image"
+            src={pal.user.absolutePicture.large}
+            alt="..."
+          />
           <a
             onClick={this.handleHide}
             className="bg-white action-icon modal-close">

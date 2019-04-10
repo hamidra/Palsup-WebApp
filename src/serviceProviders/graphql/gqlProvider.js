@@ -22,7 +22,7 @@ export const createUser = async user => {
               longitude
             }
           }
-          picture{
+          absolutePicture{
             large
             medium
             thumbnail
@@ -55,7 +55,7 @@ export const updateUser = async (id, user) => {
               longitude
             }
           }
-          picture{
+          absolutePicture{
             large
             medium
             thumbnail
@@ -86,7 +86,7 @@ export const getUserByAuthInfo = async authInfo => {
           longitude
         }
       }
-      picture{
+      absolutePicture{
         large
         medium
         thumbnail
@@ -152,7 +152,7 @@ export const getPalsByActivity = async activityFilter => {
             first
             last
           }
-          picture {
+          absolutePicture {
             large
           }
         }
@@ -206,7 +206,7 @@ export const createEvent = async event => {
             startDate
             endDate
         }
-        image
+        absoluteImage
       }
     }`;
   var data = await graphqlCall({ query, variables: { event: event } });
@@ -226,12 +226,12 @@ export const getEventsByActivity = async activityFilter => {
         }
         group {
           members {
-            picture {
+            absolutePicture {
               thumbnail
             }
           }
         }
-        image
+        absoluteImage
       }
     }`;
   var data = await graphqlCall({
@@ -254,12 +254,12 @@ export const getEventsForUser = async userId => {
         }
         group {
           members {
-            picture {
+            absolutePicture {
               thumbnail
             }
           }
         }
-        image
+        absoluteImage
       }
     }`;
   var data = await graphqlCall({
@@ -282,7 +282,7 @@ export const getEventConversation = async eventId => {
               first
               last
             }
-            picture {
+            absolutePicture {
               thumbnail
             }
           }

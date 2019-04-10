@@ -18,8 +18,8 @@ const MessageThread = class extends Component {
             const userId = message.from && message.from.id;
             const thumbnail =
               message.from &&
-              message.from.picture &&
-              message.from.picture.thumbnail;
+              message.from.absolutePicture &&
+              message.from.absolutePicture.thumbnail;
             const contentText = message.content && message.content.text;
             const direction = this.props.user.id === userId ? 'rtl' : 'ltr';
             return (

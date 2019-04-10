@@ -239,8 +239,8 @@ export const asyncActions = {
                 first: user.info.name.first,
                 last: user.info.name.last
               },
-              picture: {
-                thumbnail: user.info.picture.thumbnail
+              absolutePicture: {
+                thumbnail: user.info.absolutePicture.thumbnail
               }
             },
             to: eventId,
@@ -255,6 +255,55 @@ export const asyncActions = {
         }
       } catch (err) {
         return dispatch(userConversations.actions.sendMessageFailed(err));
+      }
+    }
+  },
+  uploadProfilePic: image => async (dispatch, getState) => {
+    const currentUser = getState().user;
+    if (currentUser && currentUser.info && currentUser.info.id) {
+      dispatch(userDux.actions.uploadProfilePicStarted());
+      try {
+        let fd = new FormData();
+        fd.append('profilePic', image);
+        let response = await fetch(
+          `http://localhost:3000/uploader/user/${currentUser.info.id}`,
+          {
+            method: 'POST',
+            body: fd
+          }
+        );
+        if (response.ok) {
+          let absolutePicture = await response.json();
+          dispatch(userDux.actions.uploadProfilePicSucceeded(absolutePicture));
+        } else {
+          throw new Error(`upload failed. http ${response.status}`);
+        }
+      } catch (err) {
+        dispatch(userDux.actions.uploadProfilePicFailed(err));
+      }
+    }
+  },
+  uploadEventPic: (eid, image) => async (dispatch, getState) => {
+    if (eid) {
+      dispatch(userEvents.actions.uploadEventPicStarted());
+      try {
+        let fd = new FormData();
+        fd.append('eventPic', image);
+        let response = await fetch(
+          `http://localhost:3000/uploader/event/${eid}`,
+          {
+            method: 'POST',
+            body: fd
+          }
+        );
+        if (response.ok) {
+          let absoluteImage = await response.json();
+          dispatch(userEvents.actions.uploadEventPicSucceeded(absoluteImage));
+        } else {
+          throw new Error(`upload failed. http ${response.status}`);
+        }
+      } catch (err) {
+        dispatch(userEvents.actions.uploadEventPicFailed(err));
       }
     }
   }

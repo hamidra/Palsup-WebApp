@@ -34,6 +34,15 @@ export const actions = {
     message => ({
       message
     })
+  ),
+  uploadEventPicStarted: createAction('USEREVENTS/UPLOAD_EVENT_PIC_STARTED'),
+  uploadEventPicFailed: createAction(
+    'USEREVENTS/UPLOAD_EVENT_PIC_FAILED',
+    error => ({ error })
+  ),
+  uploadEventPicSucceeded: createAction(
+    'USEREVENTS/UPLOAD_EVENT_PIC_SUCCEEDED',
+    (eventId, absoluteImage) => ({ eventId, absoluteImage })
   )
 };
 
@@ -56,13 +65,16 @@ const reducer = createReducer(
       items: { ...state.items, ...payload.event }
     }),
     [actions.newMessageNotificationRecieved]: (state, payload) => {
-      var targetEvent = state.items[payload.message.to];
-      var newState = {
+      let targetEvent = state.items[payload.message.to];
+      let newState = {
         ...state,
         notificationCount: state.notificationCount + 1
       };
       if (targetEvent) {
-        targetEvent.notificationCount = targetEvent.notificationCount + 1;
+        targetEvent = {
+          ...targetEvent,
+          notificationCount: targetEvent.notificationCount + 1
+        };
         newState.items = {
           ...state.items,
           ...{ [payload.message.to]: targetEvent }
@@ -71,6 +83,14 @@ const reducer = createReducer(
         newState.items = { ...state.items };
       }
       return newState;
+    },
+    [actions.uploadEventPicSucceeded]: (state, payload) => {
+      let targetEvent = state.items[payload.eventId];
+      targetEvent = { ...targetEvent, absoluteImage: payload.absoluteImage };
+      return {
+        ...state,
+        items: { ...state.items, ...{ [payload.eventId]: targetEvent } }
+      };
     }
   },
   initialState.userEvents

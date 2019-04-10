@@ -4,7 +4,7 @@ import { displayDateFromNow } from '../../../utilities';
 
 const EventCard = ({ event, handleShowModal, handleLikeClick }) => (
   <Card onClick={handleShowModal}>
-    <img src={event.image} className="card-img-top" alt="..." />
+    <img src={event.absoluteImage} className="card-img-top" alt="..." />
     <div className="card-body">
       <h5 className="card-title">{event.activity}</h5>
       <h6 className="card-subtitle">{displayDateFromNow(event.date)}</h6>
