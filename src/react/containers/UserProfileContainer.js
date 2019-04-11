@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import * as dux from '../../redux/dux/index';
 import moment from 'moment';
+import ProfilePicEditorContainer from './ProfilePicEditorContainer';
 
 const UserProfile = class UserProfile extends Component {
   constructor(props) {
@@ -18,20 +19,11 @@ const UserProfile = class UserProfile extends Component {
     const { user, handleSubmit } = this.props;
     return (
       <div>
-        <div className=" row justify-content-center">
-          <div className="col-12 col-lg-6 d-flex" style={{ padding: 0 }}>
-            <button
-              className={`btn btn-primary col-3 ml-auto mb-1 ${
-                this.state.isEditable ? 'd-none' : ''
-              }`}
-              onClick={() => {
-                this.toggleEditMode();
-              }}>
-              Edit
-            </button>
+        <div className=" row justify-content-center m-lg-6">
+          <div className="col-12 col-lg-3 position-relative">
+            <ProfilePicEditorContainer />
           </div>
-          <div className="w-100" />
-          <div className="col-12 col-lg-6 border p-5 m-1 rounded">
+          <div className="col-12 col-lg-6 border p-5 rounded">
             <Formik
               initialValues={{
                 id: user.id,
@@ -99,6 +91,16 @@ const UserProfile = class UserProfile extends Component {
                   class={`btn btn-primary col-4 ${!this.state.isEditable &&
                     'd-none'}`}>
                   Save
+                </button>
+                <button
+                  className={`btn btn-primary col-4 float-right ${
+                    this.state.isEditable ? 'd-none' : ''
+                  }`}
+                  onClick={e => {
+                    e.preventDefault();
+                    this.toggleEditMode();
+                  }}>
+                  Edit
                 </button>
               </Form>
             </Formik>

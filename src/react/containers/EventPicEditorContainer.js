@@ -3,7 +3,7 @@ import * as dux from '../../redux/dux/index';
 import ImageEditor from '../components/ImageEditor';
 
 const mapStateToProps = (state, ownProps) => ({
-  image: ownProps.event && ownProps.event.image,
+  image: ownProps.event && ownProps.event.absoluteImage,
   height: 250,
   width: 500,
   scale: 1,

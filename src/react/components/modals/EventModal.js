@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { displayDateFromNow } from '../../../utilities';
 import EventCard from '../cards/EventCard';
 import CloseIcon from '../../../icons/close';

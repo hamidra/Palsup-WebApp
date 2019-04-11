@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import * as dux from '../../redux/dux/index';
-import ImageEditor from '../components/ImageEditor';
+import EditableImageModal from '../components/modals/EditableImageModal';
 
 const mapStateToProps = state => ({
   image:
@@ -10,7 +10,7 @@ const mapStateToProps = state => ({
     state.user.info.absolutePicture.large,
   height: 500,
   width: 500,
-  scale: 1.5,
+  scale: 1,
   borderRadius: 250,
   border: 0
 });
@@ -22,4 +22,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ImageEditor);
+)(EditableImageModal);

@@ -38,11 +38,11 @@ export default class ImageEditor extends Component {
   }
 
   render() {
-    const { width, height, border, borderRadius } = this.props;
+    const { width, height, border, borderRadius, ...rest } = this.props;
     return (
       <Dropzone onDrop={this.handleDrop} disableClick>
         {({ getRootProps, getInputProps }) => (
-          <div>
+          <div {...rest}>
             <div className="row no-guter p-1">
               <div
                 className="col-12 border p-3 p-sm-5 text-center"
