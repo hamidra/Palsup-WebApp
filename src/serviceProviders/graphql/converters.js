@@ -29,7 +29,9 @@ export const toEvent = gqlEvent =>
     group: gqlEvent.group && {
       members: gqlEvent.group.members
     },
-    absoluteImage: gqlEvent.absoluteImage
+    interested: gqlEvent.interested,
+    absoluteImage: gqlEvent.absoluteImage,
+    liked: false // assumption: gql api will not return the items that are already liked by user. so liked is set to false.
   };
 
 export const toEventConversation = gqlEventConv =>

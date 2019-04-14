@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Modal } from 'react-bootstrap';
-import CloseIcon from '../../../icons/close';
+import CloseIcon from '../icons/close';
 import ImageEditor from '../ImageEditor';
 
 const EditableImageModal = class extends Component {

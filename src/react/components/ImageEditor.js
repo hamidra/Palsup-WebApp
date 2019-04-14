@@ -67,7 +67,7 @@ export default class ImageEditor extends Component {
               </div>
             </div>
             <div className="row no-gutter justify-content-center">
-              <div className="col-12 col-sm-10 p-1 py-3">
+              <div className="col-12 col-sm-7 p-1 py-3">
                 <input
                   type="range"
                   class="form-control-range"
@@ -78,7 +78,7 @@ export default class ImageEditor extends Component {
                   step="0.01"
                 />
               </div>
-              <div className="col-12 col-sm-2 p-1">
+              <div className="col-12 col-sm-5 p-1">
                 <button
                   className="btn btn-primary w-100 float-right"
                   onClick={this.handleSaveClick}>

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Modal } from 'react-bootstrap';
 import PalCard from '../cards/PalCard';
 import { displayDateFromNow } from '../../../utilities';
-import CloseIcon from '../../../icons/close';
+import CloseIcon from '../icons/close';
 
 const PalModal = class extends Component {
   constructor(props) {

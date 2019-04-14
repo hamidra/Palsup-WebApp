@@ -16,10 +16,6 @@ const MessageThread = class extends Component {
           this.props.conversation.messages &&
           this.props.conversation.messages.map(message => {
             const userId = message.from && message.from.id;
-            const thumbnail =
-              message.from &&
-              message.from.absolutePicture &&
-              message.from.absolutePicture.thumbnail;
             const contentText = message.content && message.content.text;
             const direction = this.props.user.id === userId ? 'rtl' : 'ltr';
             return (
@@ -28,7 +24,7 @@ const MessageThread = class extends Component {
                   className={`d-flex mb-1 ${
                     direction === 'rtl' ? 'flex-row-reverse' : ''
                   }`}>
-                  <Thumbnail src={thumbnail} />
+                  <Thumbnail user={message.from} />
                   <MessageContent order={'first'} direction={direction}>
                     {contentText}
                   </MessageContent>

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Modal } from 'react-bootstrap';
 import { displayDateFromNow } from '../../../utilities';
 import EventCard from '../cards/EventCard';
-import CloseIcon from '../../../icons/close';
+import CloseIcon from '../icons/close';
 
 const EventModal = class extends Component {
   constructor(props) {
@@ -18,10 +18,14 @@ const EventModal = class extends Component {
     this.setState({ showModal: false });
   }
   render() {
-    const { event } = this.props;
+    const { event, handleLikeClick } = this.props;
     return (
       <Fragment>
-        <EventCard event={event} handleShowModal={this.handleShow} />
+        <EventCard
+          event={event}
+          handleShowModal={this.handleShow}
+          handleLikeClick={handleLikeClick}
+        />
         <Modal show={this.state.showModal} onHide={this.handleHide}>
           <a
             onClick={this.handleHide}

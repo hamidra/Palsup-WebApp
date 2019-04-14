@@ -12,7 +12,7 @@ export const actions = {
   fetchPalsFailed: createAction('ACTIVITYPALS/FETCH_PALS_FAILED', error => ({
     error
   })),
-  palToggleLikeSuceeded: createAction(
+  palToggleLikeSucceeded: createAction(
     'ACTIVITYPALS/PAL_TOGGLE_LIKE_SUCCEEDED',
     (palId, liked) => ({
       palId,
@@ -29,7 +29,7 @@ const reducer = createReducer(
       isFetching: false,
       items: { ...payload.pals }
     }),
-    [actions.palToggleLikeSuceeded]: (state, payload) => {
+    [actions.palToggleLikeSucceeded]: (state, payload) => {
       if (payload.palId) {
         return {
           ...state,

@@ -16,6 +16,13 @@ export const actions = {
     error => ({
       error
     })
+  ),
+  eventToggleLikeSucceeded: createAction(
+    'ACTIVITYEVENTS/EVENT_TOGGLE_LIKE_SUCCEEDED',
+    (eventId, liked) => ({
+      eventId,
+      liked
+    })
   )
 };
 
@@ -26,7 +33,21 @@ const reducer = createReducer(
       ...state,
       isFetching: false,
       items: { ...payload.events }
-    })
+    }),
+    [actions.eventToggleLikeSucceeded]: (state, payload) => {
+      if (payload.eventId) {
+        return {
+          ...state,
+          items: {
+            ...state.items,
+            [payload.eventId]: {
+              ...state.items[payload.eventId],
+              liked: payload.liked
+            }
+          }
+        };
+      }
+    }
   },
   initialState.activityEvents
 );

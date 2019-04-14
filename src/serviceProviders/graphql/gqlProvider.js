@@ -106,6 +106,15 @@ export const createPal = async pal => {
       createPal(pal:$pal ) {
         id,
         activity
+        location {
+          city
+          state
+          coordinates {
+            latitude
+            longitude
+            raidus
+          }
+        }
         date{
           startDate
           endDate
@@ -138,7 +147,31 @@ export const removeFromPalsInterested = async (palId, userId) => {
     query,
     variables: { palId: palId, userId: userId }
   });
-  return data.addToPalsInterested;
+  return data.removeFromPalsInterested;
+};
+
+export const addToEventsInterested = async (eventId, userId) => {
+  const query = `
+  mutation($eventId:ID!, $userId:ID!){
+    addToEventsInterested(eventId:$eventId, userId:$userId)
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { eventId: eventId, userId: userId }
+  });
+  return data.addToEventsInterested;
+};
+
+export const removeFromEventsInterested = async (eventId, userId) => {
+  const query = `
+  mutation($eventId:ID!, $userId:ID!){
+    removeFromEventsInterested(eventId:$eventId, userId:$userId)
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { eventId: eventId, userId: userId }
+  });
+  return data.removeFromEventsInterested;
 };
 
 export const getPalsByActivity = async activityFilter => {
@@ -226,11 +259,18 @@ export const getEventsByActivity = async activityFilter => {
         }
         group {
           members {
+            id
             absolutePicture {
               thumbnail
             }
           }
         }
+        interested {
+          id
+          absolutePicture {
+            thumbnail
+          }
+        } 
         absoluteImage
       }
     }`;
@@ -254,9 +294,16 @@ export const getEventsForUser = async userId => {
         }
         group {
           members {
+            id
             absolutePicture {
               thumbnail
             }
+          }
+        }
+        interested {
+          id
+          absolutePicture {
+            thumbnail
           }
         }
         absoluteImage

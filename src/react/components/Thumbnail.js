@@ -1,7 +1,14 @@
 import React from 'react';
 
-const Thumbnail = ({ ...prop }) => (
-  <img class="thumbnail d-inline-block rounded-circle" {...prop} />
+const Thumbnail = ({ user, ...props }) => (
+  <div {...props}>
+    {user && user.absolutePicture && user.absolutePicture.thumbnail && (
+      <img
+        className="avatar avatar-border-white d-inline-block rounded-circle"
+        src={user.absolutePicture.thumbnail}
+      />
+    )}
+  </div>
 );
 
 export default Thumbnail;

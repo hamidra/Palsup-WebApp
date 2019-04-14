@@ -73,7 +73,7 @@ export const asyncActions = {
       var event = {
         description: `Let's do ${userPal.activity}`,
         activity: userPal.activity,
-        location: userPal.location || { state: 'WA', city: 'Seattle' },
+        location: userPal.location,
         date: userPal.date,
         group: { members: [getState().user.info.id, interestedPal.userId] }
       };
@@ -195,10 +195,29 @@ export const asyncActions = {
         } else {
           await gql.removeFromPalsInterested(palId, getState().user.info.id);
         }
-        dispatch(activityPals.actions.palToggleLikeSuceeded(palId, liked));
+        dispatch(activityPals.actions.palToggleLikeSucceeded(palId, liked));
       }
     } catch (err) {
       console.log(`toggling pal like failed with error: ${err}`);
+    }
+  },
+  toggleLikeEvent: (eventId, liked) => async (dispatch, getState) => {
+    try {
+      if (getState().user.info) {
+        if (liked) {
+          await gql.addToEventsInterested(eventId, getState().user.info.id);
+        } else {
+          await gql.removeFromEventsInterested(
+            eventId,
+            getState().user.info.id
+          );
+        }
+        dispatch(
+          activityEvents.actions.eventToggleLikeSucceeded(eventId, liked)
+        );
+      }
+    } catch (err) {
+      console.log(`toggling event like failed with error: ${err}`);
     }
   },
   fetchEventConversation: eventId => async (dispatch, getState) => {
@@ -298,7 +317,11 @@ export const asyncActions = {
         );
         if (response.ok) {
           let absoluteImage = await response.json();
-          dispatch(userEvents.actions.uploadEventPicSucceeded(absoluteImage));
+          if (absoluteImage) {
+            dispatch(
+              userEvents.actions.uploadEventPicSucceeded(eid, absoluteImage)
+            );
+          }
         } else {
           throw new Error(`upload failed. http ${response.status}`);
         }

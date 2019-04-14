@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import Card from './Card';
+import HeartIcon from '../icons/heart';
+import CloseIcon from '../icons/close';
 import { displayDateFromNow } from '../../../utilities';
 
 const PalCard = ({ pal, handleShowModal, handleLikeClick }) => (
@@ -17,16 +19,14 @@ const PalCard = ({ pal, handleShowModal, handleLikeClick }) => (
       <h6 className="card-subtitle">{displayDateFromNow(pal.date)}</h6>
     </div>
     <div className="card-footer d-flex">
-      <button
-        type="button"
-        class="btn ml-auto"
-        style={{ backgroundColor: pal.liked && 'blue' }}
+      <a
+        class="bg-white action-icon ml-auto"
         onClick={event => {
           handleLikeClick(pal.id, !pal.liked);
           event.stopPropagation();
         }}>
-        Like
-      </button>
+        <HeartIcon fill={pal.liked ? 'blue' : 'white'} />
+      </a>
     </div>
   </Card>
 );

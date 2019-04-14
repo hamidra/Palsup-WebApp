@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const searchDateToDateRange = search => {
+export const convertSearchDateToDateRange = search => {
   let date = undefined;
   switch (search) {
   case 'soon':
@@ -59,4 +59,29 @@ export const displayDateFromNow = dateRange => {
   } else {
     return 'past';
   }
+};
+
+export const displayEventDate = dateRange => {
+  let displayDate;
+  if (!dateRange) {
+    displayDate = 'Anytime';
+  } else if (dateRange.startDate === dateRange.endDate) {
+    displayDate = moment(dateRange.startDate).calendar();
+  } else {
+    displayDate = `${moment(dateRange.startDate).format('lll')} - ${moment(
+      dateRange.endDate
+    ).format('lll')}`;
+  }
+  return displayDate;
+};
+
+export const getTopN = (users, n) => {
+  let topUsers = [];
+  if (users) {
+    let len = Math.min(users.length, n);
+    for (let i = 0; i < len; i++) {
+      topUsers.push(users[i]);
+    }
+  }
+  return topUsers;
 };

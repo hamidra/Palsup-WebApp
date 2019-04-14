@@ -24,7 +24,7 @@ const Events = class extends Component {
             render={({ match }) => {
               const eid = match.params.id;
               return (
-                <div>
+                <div className="mt-1">
                   <EventInfoContainer eventId={eid} />
                   <MessageThreadContainer eventId={eid} />
                   <div className="sticky-container-bottom pb-2 bg-white">
