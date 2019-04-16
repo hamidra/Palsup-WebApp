@@ -2,16 +2,19 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import EventPicEditorContainer from './EventPicEditorContainer';
-import ThumbnailStack from '../components/ThumbnailStack';
-import { getTopN, displayEventDate } from '../../utilities';
+import { displayEventDate } from '../../utilities';
+import EventMemberContainer from '../containers/EventMemberContainer';
+import EventWaitlistContainer from '../containers/EventWaitlistContainer';
 
 const EventInfo = ({ event }) => {
-  let topAttendees =
-    event &&
-    event.group &&
-    event.group.members &&
-    getTopN(event.group.members, 5);
-  let topWaitlist = event && event.interested && getTopN(event.interested, 5);
+  let attendeesCount =
+    (event &&
+      event.group &&
+      event.group.members &&
+      event.group.members.length) ||
+    0;
+  let waitlistCount =
+    (event && event.interested && event.interested.length) || 0;
   return (
     <div className="mb-2">
       {event && (
@@ -31,22 +34,22 @@ const EventInfo = ({ event }) => {
           </Card.Body>
           <Card.Footer>
             <div className="row m-n2">
-              {topAttendees && topAttendees.length > 0 && (
+              {attendeesCount > 0 && (
                 <div className="col-sm-6">
                   Attendees
-                  <ThumbnailStack users={topAttendees} />
+                  <EventMemberContainer event={event} />
                 </div>
               )}
-              {topWaitlist && topWaitlist.length > 0 && (
+              {waitlistCount > 0 && (
                 <div className="col-sm-6 border-left pl-4 d-none d-sm-block">
                   Waitlist
-                  <ThumbnailStack users={topWaitlist} />
+                  <EventWaitlistContainer event={event} />
                 </div>
               )}
-              {topWaitlist && topWaitlist.length > 0 && (
+              {waitlistCount > 0 && (
                 <div className="col pt-1 border-top d-block d-sm-none">
                   Waitlist
-                  <ThumbnailStack users={topWaitlist} />
+                  <EventWaitlistContainer event={event} />
                 </div>
               )}
             </div>

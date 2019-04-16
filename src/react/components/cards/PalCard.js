@@ -5,8 +5,8 @@ import HeartIcon from '../icons/heart';
 import CloseIcon from '../icons/close';
 import { displayDateFromNow } from '../../../utilities';
 
-const PalCard = ({ pal, handleShowModal, handleLikeClick }) => (
-  <Card onClick={handleShowModal}>
+const PalCard = ({ pal, handleLikeClick }) => (
+  <Card>
     <img
       src={pal.user.absolutePicture.large}
       className="card-img-top"

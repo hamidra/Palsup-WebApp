@@ -318,7 +318,7 @@ export const getEventsForUser = async userId => {
 
 export const getEventConversation = async eventId => {
   const query = `
-  query ($eventId: ID!){
+  query ($eventId: ID!) {
     getEventConversation(eventId:$eventId) {
       id
       group {
@@ -347,6 +347,64 @@ export const getEventConversation = async eventId => {
     variables: { eventId: eventId }
   });
   return data.getEventConversation;
+};
+
+export const getEventMembers = async eventId => {
+  const query = `
+  query ($eventId: ID!){
+    getEventMembers(eventId:$eventId) {
+      id
+      name {
+        first
+        last
+      }
+      absolutePicture {
+        large
+        medium
+        thumbnail
+      }
+      gender,
+      dob,
+      location {
+        city
+        state
+      }
+    }
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { eventId: eventId }
+  });
+  return data.getEventMembers;
+};
+
+export const getEventWaitlist = async eventId => {
+  const query = `
+  query ($eventId: ID!){
+    getEventWaitlist(eventId:$eventId) {
+      id
+      name {
+        first
+        last
+      }
+      absolutePicture {
+        large
+        medium
+        thumbnail
+      }
+      gender,
+      dob,
+      location {
+        city
+        state
+      }
+    }
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { eventId: eventId }
+  });
+  return data.getEventWaitlist;
 };
 
 export const getNotificationsForUser = async (userId, type) => {

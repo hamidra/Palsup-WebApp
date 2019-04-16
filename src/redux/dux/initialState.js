@@ -23,6 +23,16 @@ const initialState = {
     isFetching: false,
     items: {}
   },
+  eventMembers: {
+    timestamp: Date.now(),
+    isFetching: false,
+    items: {}
+  },
+  eventWaitlist: {
+    timestamp: Date.now(),
+    isFetching: false,
+    items: {}
+  },
   activity: {
     activity: '',
     location: null,

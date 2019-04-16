@@ -4,9 +4,9 @@ import HeartIcon from '../icons/heart';
 import { displayDateFromNow, getTopN } from '../../../utilities';
 import ThumbnailStack from '../ThumbnailStack';
 
-const EventCard = ({ event, handleShowModal, handleLikeClick }) => {
+const EventCard = ({ event, handleLikeClick }) => {
   return (
-    <Card onClick={handleShowModal}>
+    <Card>
       <img src={event.absoluteImage} className="card-img-top" alt="..." />
       <div className="card-body">
         <h5 className="card-title">{event.activity}</h5>

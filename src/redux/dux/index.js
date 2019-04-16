@@ -6,6 +6,8 @@ import userConversationsReducer, * as userConversations from './userConversation
 import activityReducer, * as activity from './activity';
 import activityEventReducer, * as activityEvents from './activityEvents';
 import activityPalReducer, * as activityPals from './activityPals';
+import eventMemberReducer, * as eventMembers from './eventMembers';
+import eventWaitlistReducer, * as eventWaitlist from './eventWaitlist';
 import filterReducer from './filter';
 import * as gql from '../../serviceProviders/graphql/gqlProvider';
 import * as converter from '../../serviceProviders/graphql/converters';
@@ -234,6 +236,28 @@ export const asyncActions = {
       return dispatch(userConversations.actions.fetchConversationFailed(err));
     }
   },
+  fetchEventMembers: eventId => async (dispatch, getState) => {
+    dispatch(eventMembers.actions.fetchEventMembersStarted());
+    try {
+      let members = await gql.getEventMembers(eventId);
+      dispatch(
+        eventMembers.actions.fetchEventMembersSucceeded(eventId, members)
+      );
+    } catch (err) {
+      dispatch(eventMembers.actions.fetchEventMembersFailed(err));
+    }
+  },
+  fetchEventWaitlist: eventId => async (dispatch, getState) => {
+    dispatch(eventWaitlist.actions.fetchEventWaitlistStarted());
+    try {
+      let waitlist = await gql.getEventWaitlist(eventId);
+      dispatch(
+        eventWaitlist.actions.fetchEventWaitlistSucceeded(eventId, waitlist)
+      );
+    } catch (err) {
+      dispatch(eventWaitlist.actions.fetchEventWaitlistFailed(err));
+    }
+  },
   sendMessageToEvent: (eventId, messageContent) => async (
     dispatch,
     getState
@@ -340,5 +364,7 @@ export default combineReducers({
   activity: activityReducer,
   activityEvents: activityEventReducer,
   activityPals: activityPalReducer,
+  eventMembers: eventMemberReducer,
+  eventWaitlist: eventWaitlistReducer,
   filter: filterReducer
 });

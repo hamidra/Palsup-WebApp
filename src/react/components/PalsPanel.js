@@ -6,13 +6,11 @@ const PalsPanel = ({ pals, handleLikeClick }) => (
     {Object.keys(pals).map(palId => {
       if (palId && pals[palId]) {
         return (
-          <div>
-            <PalModal
-              key={pals[palId].id}
-              pal={pals[palId]}
-              handleLikeClick={handleLikeClick}
-            />
-          </div>
+          <PalModal
+            key={pals[palId].id}
+            pal={pals[palId]}
+            handleLikeClick={handleLikeClick}
+          />
         );
       }
     })}

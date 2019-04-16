@@ -21,11 +21,13 @@ const PalModal = class extends Component {
     const { pal, handleLikeClick } = this.props;
     return (
       <Fragment>
-        <PalCard
-          pal={pal}
-          handleShowModal={this.handleShow}
-          handleLikeClick={handleLikeClick}
-        />
+        <div className="card-container col-3 py-1" onClick={this.handleShow}>
+          <PalCard
+            pal={pal}
+            handleShowModal={this.handleShow}
+            handleLikeClick={handleLikeClick}
+          />
+        </div>
         <Modal show={this.state.showModal} onHide={this.handleHide}>
           <img
             class="modal-image"

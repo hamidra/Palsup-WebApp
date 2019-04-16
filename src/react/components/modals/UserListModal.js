@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { Modal } from 'react-bootstrap';
-import { displayDateFromNow } from '../../../utilities';
-import EventCard from '../cards/EventCard';
+import UserInfoCollapsable from '../UserInfoCollapsable';
 import CloseIcon from '../icons/close';
+import ThumbnailStack from '../ThumbnailStack';
+import { getTopN } from '../../../utilities';
 
-const EventModal = class extends Component {
+export default class UserListModal extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal: false };
@@ -12,34 +13,36 @@ const EventModal = class extends Component {
     this.handleHide = this.handleHide.bind(this);
   }
   handleShow() {
+    this.props.handleShow && this.props.handleShow();
     this.setState({ showModal: true });
   }
   handleHide() {
+    this.props.handleHide && this.props.handleHide();
     this.setState({ showModal: false });
   }
   render() {
-    const { event, handleLikeClick } = this.props;
+    let { topUsers, users } = this.props;
     return (
       <Fragment>
-        <div className="card-container col-3 py-1" onClick={this.handleShow}>
-          <EventCard event={event} handleLikeClick={handleLikeClick} />
-        </div>
+        <ThumbnailStack users={topUsers} onClick={this.handleShow} />
         <Modal show={this.state.showModal} onHide={this.handleHide}>
           <a
             onClick={this.handleHide}
             className="bg-white action-icon modal-close">
             <CloseIcon />
           </a>
-          <img class="modal-image" src={event.absoluteImage} alt="..." />
           <Modal.Body>
-            <h5>{event.activity}</h5>
-            <p>{event.description}</p>
-            <p>{displayDateFromNow(event.date)}</p>
+            <div className="mt-5">
+              {users &&
+                users.map(user => (
+                  <div className="m-1">
+                    <UserInfoCollapsable user={user} />
+                  </div>
+                ))}
+            </div>
           </Modal.Body>
         </Modal>
       </Fragment>
     );
   }
-};
-
-export default EventModal;
+}

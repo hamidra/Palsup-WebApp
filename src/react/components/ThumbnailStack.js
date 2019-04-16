@@ -1,9 +1,9 @@
 import React from 'react';
 import Thumbnail from './Thumbnail';
 
-const ThumbnailStack = ({ users }) => {
+const ThumbnailStack = ({ users, onClick }) => {
   return (
-    <div className="row">
+    <div className="row" onClick={onClick}>
       <div className="col-12 w-100">
         {users &&
           users.map((user, index) => (

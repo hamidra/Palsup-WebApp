@@ -1,11 +1,5 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import {
-  getEventConversation,
-  sendMessage
-} from '../../serviceProviders/graphql/gqlProvider';
-import { toEventConversation } from '../../serviceProviders/graphql/converters';
-import { graphqlCall } from '../../serviceProviders/graphql/client';
 
 export const actions = {
   fetchConversationStarted: createAction(
