@@ -26,6 +26,7 @@ export const toEvent = gqlEvent =>
       startDate: new Date(Number(gqlEvent.date.startDate)),
       endDate: new Date(Number(gqlEvent.date.endDate))
     },
+    location: gqlEvent.location,
     group: gqlEvent.group && {
       members: gqlEvent.group.members
     },
@@ -53,13 +54,6 @@ export const toUser = gqlUser =>
     dob: new Date(Number(gqlUser.dob)),
     email: gqlUser.email,
     cell: gqlUser.cell,
-    location: gqlUser.location && {
-      city: gqlUser.city,
-      state: gqlUser.state,
-      coordinates: gqlUser.coordinates && {
-        latitude: gqlUser.coordinates.latitude,
-        longitude: gqlUser.coordinates.longitude
-      }
-    },
+    location: gqlUser.location,
     absolutePicture: gqlUser.absolutePicture
   };

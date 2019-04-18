@@ -5,6 +5,7 @@ import EventPicEditorContainer from './EventPicEditorContainer';
 import { displayEventDate } from '../../utilities';
 import EventMemberContainer from '../containers/EventMemberContainer';
 import EventWaitlistContainer from '../containers/EventWaitlistContainer';
+import EditableEventInfoModalContainer from '../containers/EditableEventInfoModalContainer';
 
 const EventInfo = ({ event }) => {
   let attendeesCount =
@@ -24,11 +25,8 @@ const EventInfo = ({ event }) => {
               <div className="col-sm-4">
                 <EventPicEditorContainer event={event} />
               </div>
-
               <div className="col-sm-8 ">
-                <h4>{event.activity}</h4>
-                <p>{displayEventDate(event.date)}</p>
-                <p>{event.description}</p>
+                <EditableEventInfoModalContainer event={event} />
               </div>
             </div>
           </Card.Body>

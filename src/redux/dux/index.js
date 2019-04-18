@@ -87,6 +87,17 @@ export const asyncActions = {
       dispatch(userEvents.actions.createEventFailed(err));
     }
   },
+  updateEvent: (eventId, eventPatch) => async (dispatch, getState) => {
+    dispatch(userEvents.actions.updateEventStarted());
+    try {
+      var gqlEvent = await gql.updateEvent(eventId, eventPatch);
+      var event = converter.toEvent(gqlEvent);
+      dispatch(userEvents.actions.updateEventSucceeded(event));
+    } catch (err) {
+      console.log(err);
+      dispatch(userEvents.actions.updateEventFailed(err));
+    }
+  },
   createUser: user => async (dispatch, getState) => {
     dispatch(userDux.actions.createUserStarted());
     try {

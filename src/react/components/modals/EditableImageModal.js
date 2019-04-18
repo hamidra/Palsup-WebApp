@@ -60,7 +60,10 @@ const EditableImageModal = class extends Component {
             scale={scale}
             borderRadius={borderRadius}
             border={border}
-            handleImageUpload={handleImageUpload}
+            handleImageUpload={image => {
+              handleImageUpload(image);
+              this.handleHide();
+            }}
           />
           <Modal.Body />
         </Modal>

@@ -61,6 +61,20 @@ export const displayDateFromNow = dateRange => {
   }
 };
 
+export const displayAddress = location => {
+  if (location) {
+    if (location.address) {
+      return location.address;
+    } else if (location.city || location.state) {
+      let address =
+        location.city && location.state
+          ? `${location.city},${location.state}`
+          : `${location.city || ''} ${location.state || ''}`;
+      return address;
+    }
+  }
+};
+
 export const displayEventDate = dateRange => {
   let displayDate;
   if (!dateRange) {

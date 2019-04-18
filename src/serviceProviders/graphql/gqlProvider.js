@@ -1,13 +1,39 @@
 import { graphqlCall } from './client';
 
+const locationFragment = `
+  address
+  city
+  state
+  coordinates {
+    latitude
+    longitude
+    raidus
+  }
+`;
+
+const dateRangeFragment = `
+  startDate
+  endDate
+`;
+
+const nameFragment = `
+  first
+  last
+`;
+
+const pictureFragment = `
+  large
+  medium
+  thumbnail
+`;
+
 export const createUser = async user => {
   const query = `
     mutation($user:UserInput){
       createUser(user:$user ) {
           id
           name{
-            first
-            last
+            ${nameFragment}
           }
           gender
           registrationDate
@@ -15,17 +41,10 @@ export const createUser = async user => {
           email
           cell
           location{
-            city
-            state
-            coordinates{
-              latitude
-              longitude
-            }
+           ${locationFragment}
           }
           absolutePicture{
-            large
-            medium
-            thumbnail
+            ${pictureFragment}
           }
       }
     }`;
@@ -39,8 +58,7 @@ export const updateUser = async (id, user) => {
       updateUser(id:$id, user:$user ) {
           id
           name{
-            first
-            last
+            ${nameFragment}
           }
           gender
           registrationDate
@@ -48,17 +66,10 @@ export const updateUser = async (id, user) => {
           email
           cell
           location{
-            city
-            state
-            coordinates{
-              latitude
-              longitude
-            }
+            ${locationFragment}
           }
           absolutePicture{
-            large
-            medium
-            thumbnail
+            ${pictureFragment}
           }
       }
     }`;
@@ -72,8 +83,7 @@ export const getUserByAuthInfo = async authInfo => {
     getUserByAuthInfo(authInfo:$authInfo) {
       id
       name{
-        first
-        last
+        ${nameFragment}
       }
       gender
       registrationDate
@@ -81,15 +91,10 @@ export const getUserByAuthInfo = async authInfo => {
       email
       cell
       location{
-        coordinates{
-          latitude
-          longitude
-        }
+        ${locationFragment}
       }
       absolutePicture{
-        large
-        medium
-        thumbnail
+        ${pictureFragment}
       }
     }
   }`;
@@ -107,17 +112,10 @@ export const createPal = async pal => {
         id,
         activity
         location {
-          city
-          state
-          coordinates {
-            latitude
-            longitude
-            raidus
-          }
+         ${locationFragment}
         }
         date{
-          startDate
-          endDate
+         ${dateRangeFragment}
         }
         interested
       }
@@ -182,21 +180,18 @@ export const getPalsByActivity = async activityFilter => {
         user {
           id
           name {
-            first
-            last
+            ${nameFragment}
           }
           absolutePicture {
-            large
+            ${pictureFragment}
           }
         }
         activity
         date {
-          startDate
-          endDate
+         ${dateRangeFragment}
         }
         location {
-          state
-          city
+          ${locationFragment}
         }
         interested
       }
@@ -215,8 +210,7 @@ export const getPalsForUser = async userId => {
         id,
         activity
         date{
-          startDate
-          endDate
+          ${dateRangeFragment}
         }
         interested
       }
@@ -235,15 +229,37 @@ export const createEvent = async event => {
         id
         description
         activity
-        date{
-            startDate
-            endDate
+        date {
+            ${dateRangeFragment}
+        }
+        location {
+          ${locationFragment}
         }
         absoluteImage
       }
     }`;
   var data = await graphqlCall({ query, variables: { event: event } });
   return data.createEvent;
+};
+
+export const updateEvent = async (id, patch) => {
+  const query = `
+    mutation($id:ID!, $patch: EventInput){
+      updateEvent(id:$id, patch:$patch ) {
+        id
+        description
+        activity
+        date {
+           ${dateRangeFragment}
+        }
+        location {
+          ${locationFragment}
+        }
+        absoluteImage
+      }
+    }`;
+  var data = await graphqlCall({ query, variables: { id, patch } });
+  return data.updateEvent;
 };
 
 export const getEventsByActivity = async activityFilter => {
@@ -253,22 +269,24 @@ export const getEventsByActivity = async activityFilter => {
         id
         description
         activity
-        date{
-            startDate
-            endDate
+        date {
+          ${dateRangeFragment}
+        }
+        location {
+          ${locationFragment}
         }
         group {
           members {
             id
             absolutePicture {
-              thumbnail
+              ${pictureFragment}
             }
           }
         }
         interested {
           id
           absolutePicture {
-            thumbnail
+            ${pictureFragment}
           }
         } 
         absoluteImage
@@ -289,21 +307,23 @@ export const getEventsForUser = async userId => {
         description
         activity
         date {
-            startDate
-            endDate
+          ${dateRangeFragment}
+        }
+        location {
+          ${locationFragment}
         }
         group {
           members {
             id
             absolutePicture {
-              thumbnail
+              ${pictureFragment}
             }
           }
         }
         interested {
           id
           absolutePicture {
-            thumbnail
+            ${pictureFragment}
           }
         }
         absoluteImage
@@ -326,11 +346,10 @@ export const getEventConversation = async eventId => {
           from {
             id
             name {
-              first
-              last
+              ${nameFragment}
             }
             absolutePicture {
-              thumbnail
+              ${pictureFragment}
             }
           }
           to
@@ -355,19 +374,15 @@ export const getEventMembers = async eventId => {
     getEventMembers(eventId:$eventId) {
       id
       name {
-        first
-        last
+        ${nameFragment}
       }
       absolutePicture {
-        large
-        medium
-        thumbnail
+        ${pictureFragment}
       }
       gender,
       dob,
       location {
-        city
-        state
+        ${locationFragment}
       }
     }
   }`;
@@ -384,19 +399,15 @@ export const getEventWaitlist = async eventId => {
     getEventWaitlist(eventId:$eventId) {
       id
       name {
-        first
-        last
+        ${nameFragment}
       }
       absolutePicture {
-        large
-        medium
-        thumbnail
+        ${pictureFragment}
       }
       gender,
       dob,
       location {
-        city
-        state
+        ${locationFragment}
       }
     }
   }`;

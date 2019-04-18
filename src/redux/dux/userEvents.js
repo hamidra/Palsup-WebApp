@@ -23,6 +23,16 @@ export const actions = {
   createEventFailed: createAction('USEREVENTS/CREATE_EVENT_FAILED', error => ({
     error
   })),
+  updateEventStarted: createAction('USEREVENTS/UPDATE_EVENT_STARTED'),
+  updateEventSucceeded: createAction(
+    'USEREVENTS/UPDATE_EVENT_SUCCEEDED',
+    event => ({
+      event: { [event.id]: event }
+    })
+  ),
+  updateEventFailed: createAction('USEREVENTS/UPDATE_EVENT_FAILED', error => ({
+    error
+  })),
   newEventNotificationRecieved: createAction(
     'USEREVENTS/NEW_EVENT_NOTIFICATION_RECIEVED',
     event => ({
@@ -59,6 +69,18 @@ const reducer = createReducer(
       ...state,
       items: { ...state.items, ...payload.event }
     }),
+    [actions.updateEventSucceeded]: (state, payload) =>
+      (payload.event && {
+        ...state,
+        items: {
+          ...state.items,
+          [payload.event.id]: {
+            ...state.items[payload.event.id],
+            ...payload.event
+          }
+        }
+      }) ||
+      state,
     [actions.newEventNotificationRecieved]: (state, payload) => ({
       ...state,
       notificationCount: state.notificationCount + 1,
