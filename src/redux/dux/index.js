@@ -40,18 +40,23 @@ export const asyncActions = {
       console.log('no user is signed in');
     }
   },
-  fetchUserPals: userId => async (dispatch, getState) => {
-    dispatch(userPals.actions.fetchPalsStarted());
-    try {
-      var gqlPals = await gql.getPalsForUser(userId);
-      var pals = gqlPals.reduce((pals, gqlPal) => {
-        var pal = converter.toPal(gqlPal);
-        pal.id && (pals[pal.id] = pal);
-        return pals;
-      });
-      return dispatch(userPals.actions.fetchPalsSucceeded(pals));
-    } catch (err) {
-      return dispatch(userPals.actions.fetchPalsFailed(err));
+  fetchUserPals: () => async (dispatch, getState) => {
+    const currentUser = getState().user;
+    if (currentUser && currentUser.info) {
+      dispatch(userPals.actions.fetchPalsStarted());
+      try {
+        var gqlPals = await gql.getPalsForUser(currentUser.info.id);
+        var pals = gqlPals.reduce((pals, gqlPal) => {
+          var pal = converter.toPal(gqlPal);
+          pal.id && (pals[pal.id] = pal);
+          return pals;
+        }, {});
+        return dispatch(userPals.actions.fetchPalsSucceeded(pals));
+      } catch (err) {
+        return dispatch(userPals.actions.fetchPalsFailed(err));
+      }
+    } else {
+      console.log('no user is signed in');
     }
   },
   fetchActivityPals: () => async (dispatch, getState) => {

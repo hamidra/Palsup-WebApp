@@ -207,7 +207,7 @@ export const getPalsForUser = async userId => {
   const query = `
     query ($userId: ID!){
       getPalsForUser(userId:$userId) {
-        id,
+        id
         activity
         date{
           ${dateRangeFragment}
@@ -255,6 +255,20 @@ export const updateEvent = async (id, patch) => {
         location {
           ${locationFragment}
         }
+        group {
+          members {
+            id
+            absolutePicture {
+              ${pictureFragment}
+            }
+          }
+        }
+        interested {
+          id
+          absolutePicture {
+            ${pictureFragment}
+          }
+        } 
         absoluteImage
       }
     }`;

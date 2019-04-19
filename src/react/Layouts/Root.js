@@ -9,6 +9,8 @@ import SignInFormContainer from '../containers/SignInFormContainer';
 import UserProfileContainer from '../containers/UserProfileContainer';
 import Home from './Home';
 import Events from './Events';
+import EventsConversations from './EventsConversations';
+import Pals from './Pals';
 import Search from './Search';
 import Playground from './Playground';
 
@@ -36,7 +38,9 @@ const Root = class extends Component {
           <div className="container-fluid">
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route path="/Events" component={Events} />
+              <Route exact path="/events" component={Events} />
+              <Route exact path="/events/:id" component={EventsConversations} />
+              <Route path="/pals" component={Pals} />
               <Route
                 path="/search"
                 render={props => (

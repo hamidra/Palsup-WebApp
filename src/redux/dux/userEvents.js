@@ -26,9 +26,7 @@ export const actions = {
   updateEventStarted: createAction('USEREVENTS/UPDATE_EVENT_STARTED'),
   updateEventSucceeded: createAction(
     'USEREVENTS/UPDATE_EVENT_SUCCEEDED',
-    event => ({
-      event: { [event.id]: event }
-    })
+    event => ({ event })
   ),
   updateEventFailed: createAction('USEREVENTS/UPDATE_EVENT_FAILED', error => ({
     error
