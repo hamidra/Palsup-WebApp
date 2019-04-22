@@ -19,7 +19,7 @@ const EventInfo = ({ event }) => {
   return (
     <div className="mb-2">
       {event && (
-        <Card>
+        <Card className="shadow">
           <Card.Body>
             <div className="row">
               <div className="col-sm-4">

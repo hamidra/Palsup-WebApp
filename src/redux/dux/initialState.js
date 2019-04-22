@@ -41,7 +41,7 @@ const initialState = {
   },
   activityEvents: { timestamp: Date.now(), isFetching: false, items: {} },
   activityPals: { timestamp: Date.now(), isFetching: false, items: {} },
-  filter: { viewFilter: types.viewFilter.SHOW_EVENTS }
+  filter: { viewFilter: types.viewFilter.SHOW_PALS }
 };
 
 export default initialState;

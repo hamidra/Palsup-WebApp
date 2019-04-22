@@ -1,5 +1,7 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import * as dux from '../../redux/dux/index';
 import { Formik, Field, Form } from 'formik';
-import React, { Component } from 'react';
 
 const SignUpForm = ({ onSubmit }) => (
   <div>
@@ -66,9 +68,12 @@ const SignUpForm = ({ onSubmit }) => (
               </label>
               <Field name="dob" className="form-control" type="date" />
             </div>
-            <button type="submit" class="btn btn-primary col-4">
+            <button type="submit" className="btn btn-primary col-sm-4 mb-1">
               SignUp
             </button>
+            <p>
+              Already a member? <a href="/signin">Login</a>
+            </p>
           </Form>
         </Formik>
       </div>
@@ -76,4 +81,21 @@ const SignUpForm = ({ onSubmit }) => (
   </div>
 );
 
-export default SignUpForm;
+const mapDispatchToProps = dispatch => ({
+  onSubmit: async values => {
+    var user = {
+      gender: values.gender,
+      name: values.name,
+      email: values.email,
+      cell: values.cell,
+      password: values.password,
+      dob: values.dob
+    };
+    dispatch(dux.asyncActions.createUser(user));
+  }
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUpForm);

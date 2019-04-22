@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Formik, Field, Form } from 'formik';
 import * as dux from '../../redux/dux/index';
 import moment from 'moment';
-import ProfilePicEditorContainer from './ProfilePicEditorContainer';
+import ProfilePicEditorContainer from '../containers/ProfilePicEditorContainer';
 
 const UserProfile = class UserProfile extends Component {
   constructor(props) {
@@ -112,7 +112,7 @@ const UserProfile = class UserProfile extends Component {
 };
 
 const mapStateToProps = state => ({
-  user: state.user.info
+  user: state.user && state.user.info
 });
 
 const mapDispatchToProps = dispatch => ({

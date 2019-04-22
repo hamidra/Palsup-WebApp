@@ -12,7 +12,8 @@ export default class UserListModal extends Component {
     this.handleShow = this.handleShow.bind(this);
     this.handleHide = this.handleHide.bind(this);
   }
-  handleShow() {
+  handleShow(e) {
+    e && e.stopPropagation();
     this.props.handleShow && this.props.handleShow();
     this.setState({ showModal: true });
   }
@@ -25,7 +26,10 @@ export default class UserListModal extends Component {
     return (
       <Fragment>
         <ThumbnailStack users={topUsers} onClick={this.handleShow} />
-        <Modal show={this.state.showModal} onHide={this.handleHide}>
+        <Modal
+          show={this.state.showModal}
+          onHide={this.handleHide}
+          onClick={e => e && e.stopPropagation()}>
           <a
             onClick={this.handleHide}
             className="bg-white action-icon modal-close">

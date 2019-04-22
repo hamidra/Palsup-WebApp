@@ -21,8 +21,12 @@ const EventModal = class extends Component {
     const { event, handleLikeClick } = this.props;
     return (
       <Fragment>
-        <div className="card-container col-3 py-1" onClick={this.handleShow}>
-          <EventCard event={event} handleLikeClick={handleLikeClick} />
+        <div className="card-container col-3 my-1">
+          <EventCard
+            event={event}
+            handleLikeClick={handleLikeClick}
+            handleModalShow={this.handleShow}
+          />
         </div>
         <Modal show={this.state.showModal} onHide={this.handleHide}>
           <a

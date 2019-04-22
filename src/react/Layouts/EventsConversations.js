@@ -17,9 +17,9 @@ const Events = class extends Component {
     return (
       <div className="row">
         <div className="col-lg-4 d-none d-lg-block h-100 shadow-sm">
-          <EventListContainer />
+          <EventListContainer activeEventId={eid} />
         </div>
-        <div className="col-lg-4 d-block d-lg-none h-100 shadow-sm">
+        <div className="col-12 d-block d-lg-none h-100">
           <Link to="/events">{'<Back'}</Link>
         </div>
         <div className="col-12 col-lg-8">

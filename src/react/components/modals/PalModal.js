@@ -21,10 +21,10 @@ const PalModal = class extends Component {
     const { pal, handleLikeClick } = this.props;
     return (
       <Fragment>
-        <div className="card-container col-3 py-1" onClick={this.handleShow}>
+        <div className="card-container col-3 my-1">
           <PalCard
             pal={pal}
-            handleShowModal={this.handleShow}
+            handleModalShow={this.handleShow}
             handleLikeClick={handleLikeClick}
           />
         </div>

@@ -2,35 +2,35 @@ import React from 'react';
 import Card from './Card';
 import HeartIcon from '../icons/heart';
 import { displayDateFromNow, getTopN } from '../../../utilities';
-import ThumbnailStack from '../ThumbnailStack';
+import EventMemberContainer from '../../containers/EventMemberContainer';
 
-const EventCard = ({ event, handleLikeClick }) => {
+const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
   return (
-    <Card>
-      <img src={event.absoluteImage} className="card-img-top" alt="..." />
-      <div className="card-body">
-        <h5 className="card-title">{event.activity}</h5>
-        <h6 className="card-subtitle">{displayDateFromNow(event.date)}</h6>
-      </div>
-      <div className="card-footer d-flex">
-        <ThumbnailStack
-          users={
-            event &&
-            event.group &&
-            event.group.members &&
-            getTopN(event.group.members, 4)
-          }
+    event && (
+      <Card>
+        <img
+          src={event.absoluteImage}
+          className="card-img-top"
+          onClick={handleModalShow}
+          alt="..."
         />
-        <a
-          class="bg-white action-icon ml-auto"
-          onClick={e => {
-            handleLikeClick(event.id, !event.liked);
-            e.stopPropagation();
-          }}>
-          <HeartIcon fill={event.liked ? 'blue' : 'white'} />
-        </a>
-      </div>
-    </Card>
+        <div className="card-body" onClick={handleModalShow}>
+          <h5 className="card-title">{event.activity}</h5>
+          <h6 className="card-subtitle">{displayDateFromNow(event.date)}</h6>
+        </div>
+        <div className="card-footer d-flex">
+          <EventMemberContainer event={event} />
+          <a
+            class="bg-white action-icon ml-auto"
+            onClick={e => {
+              handleLikeClick(event.id, !event.liked);
+              e.stopPropagation();
+            }}>
+            <HeartIcon fill={event.liked ? 'blue' : 'white'} />
+          </a>
+        </div>
+      </Card>
+    )
   );
 };
 

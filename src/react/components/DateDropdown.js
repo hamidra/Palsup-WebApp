@@ -20,11 +20,16 @@ class DateDropdown extends React.Component {
   getLabel(date) {
     let label = '';
     if (typeof date === 'string') {
-      label = date;
+      label = this.items[date.toLowerCase()];
+      if (!label) {
+        label = 'Anytime';
+      }
     } else if (date && date.from && date.to) {
       let from = moment(date.from).format('MMM DD');
       let to = moment(date.to).format('MMM DD');
       label = `${from}-${to}`;
+    } else {
+      label = 'Anytime';
     }
     return label;
   }
