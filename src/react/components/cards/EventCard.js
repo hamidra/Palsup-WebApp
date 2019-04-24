@@ -21,12 +21,15 @@ const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
         <div className="card-footer d-flex">
           <EventMemberContainer event={event} />
           <a
-            class="bg-white action-icon ml-auto"
+            className="ml-auto"
             onClick={e => {
               handleLikeClick(event.id, !event.liked);
               e.stopPropagation();
             }}>
-            <HeartIcon fill={event.liked ? 'blue' : 'white'} />
+            <HeartIcon
+              className="action-icon heart-icon"
+              fill={event.liked ? 'blue' : 'white'}
+            />
           </a>
         </div>
       </Card>

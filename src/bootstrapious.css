@@ -13816,26 +13816,49 @@ code {
     monospace;
 }
 
+.notification-circle{
+  fill: #0fd983;
+  height: 6px !important;
+  position: absolute !important;
+  top: 50% !important;
+  transform: translate3d(4px, -8px, 0px) !important;
+  -webkit-transform-origin-x: 7px !important;
+  -webkit-transform-origin-y: -5px !important;
+  width: 6px !important;
+  animation-name: keyframe_p1skye !important;
+  animation-duration: 0.5s !important;
+  animation-timing-function: ease !important;
+  animation-fill-mode: both !important;
+  opacity: 1 !important;
+}
+
 .action-icon {
   display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
   text-align: center;
   opacity: 0.5;
   color: #fff;
-  border-radius: 50%;
-  background: #343a40;
-  line-height: 2.5rem;
 }
 
 .action-icon:hover {
-  opacity: .7;
+  opacity: 1;
 }
 
 .acton-icon svg {
   vertical-align: middle;
   opacity: 1;
   stroke-width: 5;
+}
+
+.heart-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.thumbs-icon {
+  width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
 }
 
 .card-container {
@@ -13851,6 +13874,11 @@ code {
   position: absolute;
   right: 15px;
   top: 15px;
+  width: 2.5rem;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-radius: 50%;
+  background: #343a40;
   z-index: 5000;
 }
 

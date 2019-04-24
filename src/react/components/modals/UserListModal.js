@@ -22,7 +22,7 @@ export default class UserListModal extends Component {
     this.setState({ showModal: false });
   }
   render() {
-    let { topUsers, users } = this.props;
+    let { topUsers, users, handleRecruit } = this.props;
     return (
       <Fragment>
         <ThumbnailStack users={topUsers} onClick={this.handleShow} />
@@ -40,7 +40,10 @@ export default class UserListModal extends Component {
               {users &&
                 users.map(user => (
                   <div className="m-1">
-                    <UserInfoCollapsable user={user} />
+                    <UserInfoCollapsable
+                      user={user}
+                      handleRecruit={handleRecruit}
+                    />
                   </div>
                 ))}
             </div>

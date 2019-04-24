@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { connect } from 'react-redux';
 import * as userEventsDux from '../../redux/dux/userEvents';
 import * as userConversationsDux from '../../redux/dux/userConversations';
+import * as userPalsDux from '../../redux/dux/userPals';
 import NavBar from './NavBar';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import SignUp from './SignUp';
@@ -26,6 +27,9 @@ const Root = class extends Component {
       es.addEventListener('NEW_MESSAGE', sse =>
         this.props.handleNewMessageSse(sse)
       );
+      es.addEventListener('NEW_PAL_INTEREST', sse =>
+        this.props.handlePalInterestSse(sse)
+      );
     }
   }
   render() {
@@ -36,7 +40,7 @@ const Root = class extends Component {
           <div className="header">
             <NavBar />
           </div>
-          <div className="container-fluid mt-5">
+          <div className="container-fluid mt-3">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/events" component={user ? Events : SignIn} />
@@ -80,6 +84,18 @@ const mapDispatchToProps = dispatch => ({
       userConversationsDux.actions.newMessageNotificationRecieved(message)
     );
     dispatch(userEventsDux.actions.newMessageNotificationRecieved(message));
+  },
+  handlePalInterestSse: async sse => {
+    const data = JSON.parse(sse.data);
+    console.log(sse.data);
+    data.palId &&
+      data.interestedUserId &&
+      dispatch(
+        userPalsDux.actions.palInterestNotificationRecieved(
+          data.palId,
+          data.interestedUserId
+        )
+      );
   }
 });
 

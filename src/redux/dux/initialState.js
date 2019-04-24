@@ -16,6 +16,7 @@ const initialState = {
   userPals: {
     timestamp: Date.now(),
     isFetching: false,
+    notificationCount: 0,
     items: {}
   },
   userConversations: {

@@ -16,7 +16,7 @@ const isInterested = (pal, userId) => pal.interested.includes(userId);
 
 export const asyncActions = {
   createPal: () => async (dispatch, getState) => {
-    if (getState().user.info) {
+    if (getState().user && getState().user.info) {
       dispatch(userPals.actions.createPalStarted());
       try {
         var pal = {
@@ -200,8 +200,8 @@ export const asyncActions = {
     }
   },
   toggleLikePal: (palId, liked) => async (dispatch, getState) => {
-    try {
-      if (getState().user.info) {
+    if (getState().user && getState().user.info) {
+      try {
         const state = getState();
         if (liked) {
           const userPal = state.userPals.items[state.activity.palId];
@@ -214,14 +214,16 @@ export const asyncActions = {
           await gql.removeFromPalsInterested(palId, getState().user.info.id);
         }
         dispatch(activityPals.actions.palToggleLikeSucceeded(palId, liked));
+      } catch (err) {
+        console.log(`toggling pal like failed with error: ${err}`);
       }
-    } catch (err) {
-      console.log(`toggling pal like failed with error: ${err}`);
+    } else {
+      console.log('no user is signed in');
     }
   },
   toggleLikeEvent: (eventId, liked) => async (dispatch, getState) => {
-    try {
-      if (getState().user.info) {
+    if (getState().user && getState().user.info) {
+      try {
         if (liked) {
           await gql.addToEventsInterested(eventId, getState().user.info.id);
         } else {
@@ -233,9 +235,11 @@ export const asyncActions = {
         dispatch(
           activityEvents.actions.eventToggleLikeSucceeded(eventId, liked)
         );
+      } catch (err) {
+        console.log(`toggling event like failed with error: ${err}`);
       }
-    } catch (err) {
-      console.log(`toggling event like failed with error: ${err}`);
+    } else {
+      console.log('no user is signed in');
     }
   },
   fetchEventConversation: eventId => async (dispatch, getState) => {
@@ -279,7 +283,7 @@ export const asyncActions = {
     getState
   ) => {
     const { user } = getState();
-    if (user.info) {
+    if (user && user.info) {
       dispatch(userConversations.actions.sendMessageStarted());
       try {
         var message = {
@@ -315,6 +319,8 @@ export const asyncActions = {
       } catch (err) {
         return dispatch(userConversations.actions.sendMessageFailed(err));
       }
+    } else {
+      console.log('no user is signed in');
     }
   },
   uploadProfilePic: image => async (dispatch, getState) => {

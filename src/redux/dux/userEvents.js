@@ -93,7 +93,9 @@ const reducer = createReducer(
       if (targetEvent) {
         targetEvent = {
           ...targetEvent,
-          notificationCount: targetEvent.notificationCount + 1
+          notificationCount: targetEvent.notificationCount
+            ? targetEvent.notificationCount + 1
+            : 1
         };
         newState.items = {
           ...state.items,

@@ -17,7 +17,11 @@ export const actions = {
   })),
   createPalFailed: createAction('USERPALS/CREATE_PAL_FAILED', error => ({
     error
-  }))
+  })),
+  palInterestNotificationRecieved: createAction(
+    'USERPAL/PAL_INTEREST_NOTIFICATION_RECIEVED',
+    (palId, interestedUserId) => ({ palId, interestedUserId })
+  )
 };
 
 const reducer = createReducer(
@@ -31,7 +35,29 @@ const reducer = createReducer(
     [actions.createPalSucceeded]: (state, payload) => ({
       ...state,
       items: { ...state.items, ...payload.pal }
-    })
+    }),
+    [actions.palInterestNotificationRecieved]: (state, payload) => {
+      let targetPal = state.items[payload.palId];
+      let newState = {
+        ...state,
+        notificationCount: state.notificationCount + 1
+      };
+      if (targetPal) {
+        targetPal = {
+          ...targetPal,
+          notificationCount: targetPal.notificationCount
+            ? targetPal.notificationCount + 1
+            : 1
+        };
+        newState.items = {
+          ...state.items,
+          ...{ [payload.palId]: targetPal }
+        };
+      } else {
+        newState.items = { ...state.items };
+      }
+      return newState;
+    }
   },
   initialState.userPals
 );

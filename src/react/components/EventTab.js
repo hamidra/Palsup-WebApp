@@ -12,7 +12,11 @@ const EventTab = ({ event, active }) =>
           <h5>{event.activity}</h5>
           <p>{event.description}</p>
         </div>
-        <div className="col-2">{event.notificationCount > 0 && <Circle />}</div>
+        <div className="col-2 align-start">
+          {event.notificationCount > 0 && (
+            <Circle className="notification-circle" />
+          )}
+        </div>
       </div>
     </a>
   );

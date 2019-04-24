@@ -22,12 +22,15 @@ const PalCard = ({ pal, handleLikeClick, handleModalShow }) =>
       </div>
       <div className="card-footer d-flex">
         <a
-          class="bg-white action-icon ml-auto"
+          class="ml-auto"
           onClick={event => {
             handleLikeClick(pal.id, !pal.liked);
             event.stopPropagation();
           }}>
-          <HeartIcon fill={pal.liked ? 'blue' : 'white'} />
+          <HeartIcon
+            className="action-icon heart-icon"
+            fill={pal.liked ? 'blue' : 'white'}
+          />
         </a>
       </div>
     </Card>

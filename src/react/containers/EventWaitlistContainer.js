@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleShow: () =>
     ownProps.event &&
-    dispatch(dux.asyncActions.fetchEventWaitlist(ownProps.event.id))
+    dispatch(dux.asyncActions.fetchEventWaitlist(ownProps.event.id)),
+  handleRecruit: () => {}
 });
 
 export default connect(

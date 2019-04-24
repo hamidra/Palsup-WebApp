@@ -4,8 +4,9 @@ import { Navbar, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Thumbnail from '../components/Thumbnail';
 import anonymousAvatar from '../../images/anonymousAvatar.png';
+import Circle from '../components/icons/circle';
 
-const NavBar = ({ user }) =>
+const NavBar = ({ user, eventNotifications, palNotifications }) =>
   user ? (
     <Navbar collapseOnSelect fixed="top" expand="lg" bg="light" variant="light">
       <Navbar.Brand href="/">Palz</Navbar.Brand>
@@ -17,9 +18,19 @@ const NavBar = ({ user }) =>
           </NavLink>
           <NavLink className="nav-link" to="/events">
             Events
+            {eventNotifications > 0 && (
+              <span>
+                <Circle className="notification-circle" />
+              </span>
+            )}
           </NavLink>
           <NavLink className="nav-link" to="/pals">
             Activities
+            {palNotifications > 0 && (
+              <span>
+                <Circle className="notification-circle" />
+              </span>
+            )}
           </NavLink>
           <NavLink className="nav-link d-lg-none" to="/signin">
             Log out
@@ -63,7 +74,9 @@ const NavBar = ({ user }) =>
   );
 
 const mapStateToProps = state => ({
-  user: state.user && state.user.info
+  user: state.user && state.user.info,
+  eventNotifications: state.userEvents && state.userEvents.notificationCount,
+  palNotifications: state.userPals && state.userPals.notificationCount
 });
 export default connect(
   mapStateToProps,
