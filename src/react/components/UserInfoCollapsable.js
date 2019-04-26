@@ -17,7 +17,7 @@ export default class UserInfoCollapsable extends Component {
     this.setState(state => ({ collapse: !state.collapse }));
   }
   render() {
-    let { user, handleRecruit } = this.props;
+    let { user, handleVoteOnWaitlist } = this.props;
     return (
       user && (
         <Card>
@@ -40,13 +40,23 @@ export default class UserInfoCollapsable extends Component {
                   {user.location &&
                     `${user.location.city}, ${user.location.state}`}
                 </div>
-                {handleRecruit && (
+                {handleVoteOnWaitlist && (
                   <div className="row border-top mt-1 pt-3 w-100">
-                    <a className="col">
+                    <a
+                      className="col"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleVoteOnWaitlist(user.id, false);
+                      }}>
                       <ThumbsDown className="action-icon thumbs-icon" />
                       <span>No</span>
                     </a>
-                    <a className="col">
+                    <a
+                      className="col"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleVoteOnWaitlist(user.id, true);
+                      }}>
                       <ThumbsUp className="action-icon thumbs-icon" />
                       <span>Yes</span>
                     </a>

@@ -148,28 +148,44 @@ export const removeFromPalsInterested = async (palId, userId) => {
   return data.removeFromPalsInterested;
 };
 
-export const addToEventsInterested = async (eventId, userId) => {
+export const addToEventsWaitlist = async (eventId, userId) => {
   const query = `
   mutation($eventId:ID!, $userId:ID!){
-    addToEventsInterested(eventId:$eventId, userId:$userId)
+    addToEventsWaitlist(eventId:$eventId, userId:$userId)
   }`;
   var data = await graphqlCall({
     query,
     variables: { eventId: eventId, userId: userId }
   });
-  return data.addToEventsInterested;
+  return data.addToEventsWaitlist;
 };
 
-export const removeFromEventsInterested = async (eventId, userId) => {
+export const removeFromEventsWaitlist = async (eventId, userId) => {
   const query = `
   mutation($eventId:ID!, $userId:ID!){
-    removeFromEventsInterested(eventId:$eventId, userId:$userId)
+    removeFromEventsWaitlist(eventId:$eventId, userId:$userId)
   }`;
   var data = await graphqlCall({
     query,
     variables: { eventId: eventId, userId: userId }
   });
-  return data.removeFromEventsInterested;
+  return data.removeFromEventsWaitlist;
+};
+
+export const submitVoteOnEventsWaitlist = async (
+  eventId,
+  waitlistUserId,
+  vote
+) => {
+  const query = `
+  mutation($eventId:ID!, $waitlistUserId:ID!, $vote:Boolean){
+    submitVoteOnEventsWaitlist(eventId:$eventId, waitlistUserId:$waitlistUserId, vote:$vote)
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { eventId, waitlistUserId, vote }
+  });
+  return data.addToEventsMembers;
 };
 
 export const getPalsByActivity = async activityFilter => {
@@ -262,13 +278,13 @@ export const updateEvent = async (id, patch) => {
               ${pictureFragment}
             }
           }
+          waitlist {
+            id
+            absolutePicture {
+              ${pictureFragment}
+            }
+          } 
         }
-        interested {
-          id
-          absolutePicture {
-            ${pictureFragment}
-          }
-        } 
         absoluteImage
       }
     }`;
@@ -296,13 +312,13 @@ export const getEventsByActivity = async activityFilter => {
               ${pictureFragment}
             }
           }
+          waitlist {
+            id
+            absolutePicture {
+              ${pictureFragment}
+            }
+          } 
         }
-        interested {
-          id
-          absolutePicture {
-            ${pictureFragment}
-          }
-        } 
         absoluteImage
       }
     }`;
@@ -333,11 +349,11 @@ export const getEventsForUser = async userId => {
               ${pictureFragment}
             }
           }
-        }
-        interested {
-          id
-          absolutePicture {
-            ${pictureFragment}
+          waitlist {
+            id
+            absolutePicture {
+              ${pictureFragment}
+            }
           }
         }
         absoluteImage

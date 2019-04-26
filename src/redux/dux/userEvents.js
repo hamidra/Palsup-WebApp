@@ -51,6 +51,10 @@ export const actions = {
   uploadEventPicSucceeded: createAction(
     'USEREVENTS/UPLOAD_EVENT_PIC_SUCCEEDED',
     (eventId, absoluteImage) => ({ eventId, absoluteImage })
+  ),
+  removeFromEventWaitlist: createAction(
+    'USEREVENTS/REMOVE_FROM_EVENT_WAITLIST',
+    (eventId, userId) => ({ eventId, userId })
   )
 };
 
@@ -113,6 +117,29 @@ const reducer = createReducer(
         ...state,
         items: { ...state.items, ...{ [payload.eventId]: targetEvent } }
       };
+    },
+    [actions.removeFromEventWaitlist]: (state, payload) => {
+      let event = state.items && state.items[payload.eventId];
+      let newState = state;
+      if (event) {
+        let eventWaitlist =
+          event.group &&
+          event.group.waitlist &&
+          event.group.waitlist.filter(user => user.id != payload.userId);
+        if (eventWaitlist) {
+          newState = {
+            ...state,
+            items: {
+              ...state.items,
+              [payload.eventId]: {
+                ...event,
+                group: { ...event.group, waitlist: [...eventWaitlist] }
+              }
+            }
+          };
+        }
+      }
+      return newState;
     }
   },
   initialState.userEvents

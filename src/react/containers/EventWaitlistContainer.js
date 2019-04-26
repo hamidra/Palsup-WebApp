@@ -5,7 +5,10 @@ import { getTopN } from '../../utilities';
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    topUsers: ownProps.event && getTopN(ownProps.event.interested, 4),
+    topUsers:
+      ownProps.event &&
+      ownProps.event.group &&
+      getTopN(ownProps.event.group.waitlist, 4),
     users: ownProps.event && state.eventWaitlist.items[ownProps.event.id]
   };
 };
@@ -13,7 +16,15 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   handleShow: () =>
     ownProps.event &&
     dispatch(dux.asyncActions.fetchEventWaitlist(ownProps.event.id)),
-  handleRecruit: () => {}
+  handleVoteOnWaitlist: (waitlistUserId, vote) =>
+    ownProps.event &&
+    dispatch(
+      dux.asyncActions.submitVoteOnEventWaitlist(
+        ownProps.event.id,
+        waitlistUserId,
+        vote
+      )
+    )
 });
 
 export default connect(

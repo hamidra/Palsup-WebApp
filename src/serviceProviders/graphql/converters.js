@@ -1,5 +1,3 @@
-import { getImageAbsolutePath } from '../../utilities';
-
 export const toPal = gqlPal =>
   gqlPal && {
     id: gqlPal.id, // the Id of the pal
@@ -27,10 +25,7 @@ export const toEvent = gqlEvent =>
       endDate: new Date(Number(gqlEvent.date.endDate))
     },
     location: gqlEvent.location,
-    group: gqlEvent.group && {
-      members: gqlEvent.group.members
-    },
-    interested: gqlEvent.interested,
+    group: gqlEvent.group,
     absoluteImage: gqlEvent.absoluteImage,
     liked: false // assumption: gql api will not return the items that are already liked by user. so liked is set to false.
   };
@@ -45,10 +40,7 @@ export const toEventConversation = gqlEventConv =>
 export const toUser = gqlUser =>
   gqlUser && {
     id: gqlUser.id,
-    name: gqlUser.name && {
-      first: gqlUser.name.first,
-      last: gqlUser.name.last
-    },
+    name: gqlUser.name,
     gender: gqlUser.gender,
     registrationDate: new Date(Number(gqlUser.registrationDate)),
     dob: new Date(Number(gqlUser.dob)),

@@ -15,7 +15,11 @@ const EventInfo = ({ event }) => {
       event.group.members.length) ||
     0;
   let waitlistCount =
-    (event && event.interested && event.interested.length) || 0;
+    (event &&
+      event.group &&
+      event.group.waitlist &&
+      event.group.waitlist.length) ||
+    0;
   return (
     <div className="mb-2">
       {event && (

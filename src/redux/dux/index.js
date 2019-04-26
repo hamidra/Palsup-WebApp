@@ -125,9 +125,11 @@ export const asyncActions = {
     dispatch(userDux.actions.fetchUserStarted());
     try {
       var gqlUser = await gql.getUserByAuthInfo(authInfo);
-      dispatch(userDux.actions.fetchUserSucceeded(converter.toUser(gqlUser)));
+      return dispatch(
+        userDux.actions.fetchUserSucceeded(converter.toUser(gqlUser))
+      );
     } catch (err) {
-      dispatch(userDux.actions.fetchUserFailed(err));
+      return dispatch(userDux.actions.fetchUserFailed(err));
     }
   },
   fetchUserEvents: (markNotifications = true) => async (dispatch, getState) => {
@@ -225,18 +227,35 @@ export const asyncActions = {
     if (getState().user && getState().user.info) {
       try {
         if (liked) {
-          await gql.addToEventsInterested(eventId, getState().user.info.id);
+          await gql.addToEventsWaitlist(eventId, getState().user.info.id);
         } else {
-          await gql.removeFromEventsInterested(
-            eventId,
-            getState().user.info.id
-          );
+          await gql.removeFromEventsWaitlist(eventId, getState().user.info.id);
         }
         dispatch(
           activityEvents.actions.eventToggleLikeSucceeded(eventId, liked)
         );
       } catch (err) {
         console.log(`toggling event like failed with error: ${err}`);
+      }
+    } else {
+      console.log('no user is signed in');
+    }
+  },
+  submitVoteOnEventWaitlist: (eventId, waitlistUserId, vote) => async (
+    dispatch,
+    getState
+  ) => {
+    if (getState().user && getState().user.info) {
+      try {
+        dispatch(
+          eventWaitlist.actions.removeFromEventWaitlist(eventId, waitlistUserId)
+        );
+        await gql.submitVoteOnEventsWaitlist(eventId, waitlistUserId, vote);
+        dispatch(
+          userEvents.actions.removeFromEventWaitlist(eventId, waitlistUserId)
+        );
+      } catch (err) {
+        console.log(`submitVoteOnEventWaitlist failed with error: ${err}`);
       }
     } else {
       console.log('no user is signed in');

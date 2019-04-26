@@ -22,7 +22,7 @@ export default class UserListModal extends Component {
     this.setState({ showModal: false });
   }
   render() {
-    let { topUsers, users, handleRecruit } = this.props;
+    let { topUsers, users, handleVoteOnWaitlist } = this.props;
     return (
       <Fragment>
         <ThumbnailStack users={topUsers} onClick={this.handleShow} />
@@ -42,7 +42,7 @@ export default class UserListModal extends Component {
                   <div className="m-1">
                     <UserInfoCollapsable
                       user={user}
-                      handleRecruit={handleRecruit}
+                      handleVoteOnWaitlist={handleVoteOnWaitlist}
                     />
                   </div>
                 ))}

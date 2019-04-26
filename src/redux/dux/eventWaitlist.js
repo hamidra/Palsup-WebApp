@@ -3,20 +3,24 @@ import initialState from './initialState';
 
 export const actions = {
   fetchEventWaitlistStarted: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_WAITLIST_STARTED'
+    'EVENTWAITLIST/FETCH_EVENT_WAITLIST_STARTED'
   ),
   fetchEventWaitlistSucceeded: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_WAITLIST_SUCCEEDED',
+    'EVENTWAITLIST/FETCH_EVENT_WAITLIST_SUCCEEDED',
     (eventId, waitlist) => ({
       eventId,
       waitlist
     })
   ),
   fetchEventWaitlistFailed: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_WAITLIST_FAILED',
+    'EVENTWAITLIST/FETCH_EVENT_WAITLIST_FAILED',
     error => ({
       error
     })
+  ),
+  removeFromEventWaitlist: createAction(
+    'EVENTWAITLIST/REMOVE_FROM_WAITLIST',
+    (eventId, userId) => ({ eventId, userId })
   )
 };
 
@@ -30,7 +34,19 @@ const reducer = createReducer(
       ...state,
       isFetching: false,
       items: { ...state.items, [payload.eventId]: [...payload.waitlist] }
-    })
+    }),
+    [actions.removeFromEventWaitlist]: (state, payload) => {
+      let waitlist = state.items && state.items[payload.eventId];
+      let newState = state;
+      if (waitlist) {
+        waitlist = waitlist.filter(user => user.id != payload.userId);
+        newState = {
+          ...state,
+          items: { ...state.items, [payload.eventId]: [...waitlist] }
+        };
+      }
+      return newState;
+    }
   },
   initialState.eventWaitlist
 );
