@@ -29,7 +29,7 @@ class DateRangePickerModal extends Component {
     return (
       <Fragment>
         <button
-          class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+          className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
           onClick={this.handleShow}>
           Sometime <span className="d-block float-right">></span>
         </button>

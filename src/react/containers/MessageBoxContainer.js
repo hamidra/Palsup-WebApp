@@ -27,7 +27,9 @@ const MessageBox = class extends Component {
                 placeholder="Type a message"
                 rows="2"
               />
-              <button type="submit" class="btn btn-primary input-group-append">
+              <button
+                type="submit"
+                className="btn btn-primary input-group-append">
                 <span>s</span>
               </button>
             </div>

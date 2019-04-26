@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const convertSearchDateToDateRange = search => {
-  let date = undefined;
+  let date;
   switch (search) {
   case 'soon':
     date = {
@@ -42,6 +42,8 @@ export const convertSearchDateToDateRange = search => {
         .toDate()
     };
     break;
+  default:
+    date = undefined;
   }
   if (!date && search && search.from && search.to) {
     date = { startDate: search.from, endDate: search.to };

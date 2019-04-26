@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card } from 'react-bootstrap';
 import moment from 'moment';
-import HeartIcon from './icons/heart';
 import ThumbsUp from './icons/Thumbsup';
 import ThumbsDown from './icons/ThumbsDown';
 
@@ -27,6 +26,7 @@ export default class UserInfoCollapsable extends Component {
                 <img
                   className="avatar avatar-lg"
                   src={user.absolutePicture && user.absolutePicture.medium}
+                  alt="..."
                 />
               </div>
               <div className="col-7">
@@ -42,24 +42,24 @@ export default class UserInfoCollapsable extends Component {
                 </div>
                 {handleVoteOnWaitlist && (
                   <div className="row border-top mt-1 pt-3 w-100">
-                    <a
-                      className="col"
+                    <button
+                      className="col icon"
                       onClick={e => {
                         e.preventDefault();
                         handleVoteOnWaitlist(user.id, false);
                       }}>
                       <ThumbsDown className="action-icon thumbs-icon" />
                       <span>No</span>
-                    </a>
-                    <a
-                      className="col"
+                    </button>
+                    <button
+                      className="col icon"
                       onClick={e => {
                         e.preventDefault();
                         handleVoteOnWaitlist(user.id, true);
                       }}>
                       <ThumbsUp className="action-icon thumbs-icon" />
                       <span>Yes</span>
-                    </a>
+                    </button>
                   </div>
                 )}
               </div>

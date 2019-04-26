@@ -151,7 +151,7 @@ export const asyncActions = {
           event.id && (events[event.id] = event);
           return events;
         }, {});
-        gqlNotifications.map(notification => {
+        gqlNotifications.forEach(notification => {
           if (events[notification.target]) {
             notificationCount++;
             events[notification.target].notificationCount++;

@@ -60,7 +60,7 @@ export default class ActivitySearchBar extends Component {
                   />
                 </div>
               </div>
-              <div class="col-lg-3 d-flex align-items-center form-group no-divider">
+              <div className="col-lg-3 d-flex align-items-center form-group no-divider">
                 <DateDropdown
                   className="w-100"
                   date={date}

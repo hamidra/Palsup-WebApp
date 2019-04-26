@@ -7,6 +7,7 @@ const Thumbnail = ({ user, ...props }) =>
         <img
           className="avatar avatar-border-white d-inline-block rounded-circle"
           src={user.absolutePicture.thumbnail}
+          alt="..."
         />
       )}
     </div>

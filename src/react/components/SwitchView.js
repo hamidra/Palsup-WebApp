@@ -4,24 +4,22 @@ import * as types from '../../redux/types';
 const SwitchPanel = ({ activeView, handleViewSwitch }) => (
   <ul className="nav nav-tabs justify-content-center">
     <li className="nav-item">
-      <a
-        className={`nav-link ${
+      <button
+        className={`plain nav-link ${
           activeView === types.viewFilter.SHOW_PALS ? 'active' : ''
         }`}
-        onClick={() => handleViewSwitch(types.viewFilter.SHOW_PALS)}
-        href="#">
+        onClick={() => handleViewSwitch(types.viewFilter.SHOW_PALS)}>
         Pals
-      </a>
+      </button>
     </li>
     <li className="nav-item">
-      <a
-        className={`nav-link ${
+      <button
+        className={`plain nav-link ${
           activeView === types.viewFilter.SHOW_EVENTS ? 'active' : ''
         }`}
-        onClick={() => handleViewSwitch(types.viewFilter.SHOW_EVENTS)}
-        href="#">
+        onClick={() => handleViewSwitch(types.viewFilter.SHOW_EVENTS)}>
         Events
-      </a>
+      </button>
     </li>
   </ul>
 );

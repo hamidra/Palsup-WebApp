@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import HeartIcon from '../icons/heart';
-import { displayDateFromNow, getTopN } from '../../../utilities';
+import { displayDateFromNow } from '../../../utilities';
 import EventMemberContainer from '../../containers/EventMemberContainer';
 
 const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
@@ -20,8 +20,8 @@ const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
         </div>
         <div className="card-footer d-flex">
           <EventMemberContainer event={event} />
-          <a
-            className="ml-auto"
+          <button
+            className="icon ml-auto"
             onClick={e => {
               handleLikeClick(event.id, !event.liked);
               e.stopPropagation();
@@ -30,7 +30,7 @@ const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
               className="action-icon heart-icon"
               fill={event.liked ? 'blue' : 'white'}
             />
-          </a>
+          </button>
         </div>
       </Card>
     )

@@ -76,7 +76,7 @@ const UserProfile = class UserProfile extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label class="form-check-label" for="dob">
+                  <label className="form-check-label" for="dob">
                     Birthday
                   </label>
                   <Field
@@ -88,7 +88,7 @@ const UserProfile = class UserProfile extends Component {
                 </div>
                 <button
                   type="submit"
-                  class={`btn btn-primary col-4 ${!this.state.isEditable &&
+                  className={`btn btn-primary col-4 ${!this.state.isEditable &&
                     'd-none'}`}>
                   Save
                 </button>

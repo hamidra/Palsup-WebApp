@@ -62,10 +62,10 @@ export default class ActivitySearchBox extends Component {
             </div>
           </div>
         </form>
-        <div class="row py-1 justify-content-center">
+        <div className="row py-1 justify-content-center">
           <div className="card-container m-1">
             <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+              className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
               onClick={() =>
                 handleSearchSubmit({ ...this.state, date: 'soon' })
               }>
@@ -74,7 +74,7 @@ export default class ActivitySearchBox extends Component {
           </div>
           <div className="card-container m-1">
             <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+              className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
               onClick={() =>
                 handleSearchSubmit({ ...this.state, date: 'today' })
               }>
@@ -83,7 +83,7 @@ export default class ActivitySearchBox extends Component {
           </div>
           <div className="card-container m-1">
             <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+              className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
               onClick={() =>
                 handleSearchSubmit({ ...this.state, date: 'week' })
               }>
@@ -92,7 +92,7 @@ export default class ActivitySearchBox extends Component {
           </div>
           <div className="card-container m-1">
             <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+              className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
               onClick={() =>
                 handleSearchSubmit({ ...this.state, date: 'weekend' })
               }>
@@ -101,7 +101,7 @@ export default class ActivitySearchBox extends Component {
           </div>
           <div className="card-container m-1">
             <button
-              class="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
+              className="btn btn-outline-primary rounded w-100 h-100 py-sm-3"
               onClick={() =>
                 handleSearchSubmit({ ...this.state, date: 'anytime' })
               }>

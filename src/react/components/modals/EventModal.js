@@ -29,12 +29,12 @@ const EventModal = class extends Component {
           />
         </div>
         <Modal show={this.state.showModal} onHide={this.handleHide}>
-          <a
+          <button
             onClick={this.handleHide}
-            className="bg-white action-icon modal-close">
+            className="bg-white icon action-icon modal-close">
             <CloseIcon />
-          </a>
-          <img class="modal-image" src={event.absoluteImage} alt="..." />
+          </button>
+          <img className="modal-image" src={event.absoluteImage} alt="..." />
           <Modal.Body>
             <h5>{event.activity}</h5>
             <p>{event.description}</p>

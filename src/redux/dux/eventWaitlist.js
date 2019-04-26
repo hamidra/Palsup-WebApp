@@ -39,7 +39,7 @@ const reducer = createReducer(
       let waitlist = state.items && state.items[payload.eventId];
       let newState = state;
       if (waitlist) {
-        waitlist = waitlist.filter(user => user.id != payload.userId);
+        waitlist = waitlist.filter(user => user.id !== payload.userId);
         newState = {
           ...state,
           items: { ...state.items, [payload.eventId]: [...waitlist] }

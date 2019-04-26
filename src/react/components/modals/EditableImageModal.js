@@ -29,7 +29,12 @@ const EditableImageModal = class extends Component {
     return (
       <Fragment>
         <div className="position-relative">
-          <img className="w-100" src={image} onClick={this.handleShow} />
+          <img
+            className="w-100"
+            src={image}
+            alt="..."
+            onClick={this.handleShow}
+          />
           <button
             className="btn btn-primary border"
             onClick={this.handleShow}
@@ -46,12 +51,12 @@ const EditableImageModal = class extends Component {
           dialogClassName="p-4"
           show={this.state.showModal}
           onHide={this.handleHide}>
-          <a
+          <button
             onClick={this.handleHide}
             style={{ background: 'grey' }}
-            className="action-icon modal-close ml-auto">
+            className="icon bg-white action-icon modal-close ml-auto">
             <CloseIcon />
-          </a>
+          </button>
           <ImageEditor
             className="mx-3"
             image={image}

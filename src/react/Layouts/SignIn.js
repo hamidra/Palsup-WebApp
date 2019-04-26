@@ -40,7 +40,7 @@ const SignInForm = ({ onSubmit }) => (
                 placeholder="password"
               />
             </div>
-            <button type="submit" class="btn btn-primary col-12 col-lg-4">
+            <button type="submit" className="btn btn-primary col-12 col-lg-4">
               Log in
             </button>
           </Form>

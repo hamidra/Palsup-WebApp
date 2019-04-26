@@ -4,9 +4,9 @@ import PalTab from '../components/PalTab';
 
 const PalList = ({ pals, handlePalClick }) => (
   <div className="sticky-container-top list-group list-group-flush">
-    {Object.keys(pals).map(palId => {
-      if (palId) {
-        return (
+    {Object.keys(pals).map(
+      palId =>
+        palId && (
           <div>
             <PalTab
               pal={pals[palId]}
@@ -14,9 +14,8 @@ const PalList = ({ pals, handlePalClick }) => (
               handlePalClick={handlePalClick}
             />
           </div>
-        );
-      }
-    })}
+        )
+    )}
   </div>
 );
 

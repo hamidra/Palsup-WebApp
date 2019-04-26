@@ -63,7 +63,7 @@ const SignUpForm = ({ onSubmit }) => (
               />
             </div>
             <div className="form-group">
-              <label class="form-check-label" for="dob">
+              <label className="form-check-label" for="dob">
                 Birthday
               </label>
               <Field name="dob" className="form-control" type="date" />

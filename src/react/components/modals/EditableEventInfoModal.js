@@ -46,14 +46,14 @@ export default class EditableEventInfoModal extends Component {
       event && (
         <Fragment>
           <u className="float-right">
-            <a
-              href="#"
+            <button
+              className="icon btn-link"
               onClick={e => {
                 this.handleShow();
                 e.preventDefault();
               }}>
               Edit
-            </a>
+            </button>
           </u>
           <div>
             <h4>{event.activity}</h4>
@@ -62,11 +62,11 @@ export default class EditableEventInfoModal extends Component {
             <p>{event.description}</p>
           </div>
           <Modal show={this.state.showModal} onHide={this.handleHide}>
-            <a
+            <button
               onClick={this.handleHide}
-              className="bg-white action-icon modal-close">
+              className="bg-white icon action-icon modal-close">
               <CloseIcon />
-            </a>
+            </button>
             <Modal.Body>
               <Formik
                 initialValues={{
@@ -82,12 +82,12 @@ export default class EditableEventInfoModal extends Component {
                 onSubmit={this.handleSubmit}>
                 <Form className="py-5">
                   <div className="form-group">
-                    <label class="form-check-label" for="description">
+                    <label className="form-check-label" for="description">
                       Title
                     </label>
                     <Field name="activity" className="form-control w-50" />
                   </div>
-                  <label class="form-check-label" for="time">
+                  <label className="form-check-label" for="time">
                     Time
                   </label>
                   <div className="form-row">
@@ -98,19 +98,19 @@ export default class EditableEventInfoModal extends Component {
                       <Field name="time" className="form-control" type="time" />
                     </div>
                     <div className="form-group col-1">
-                      <label class="form-check-label" for="time">
+                      <label className="form-check-label" for="time">
                         PDT
                       </label>
                     </div>
                   </div>
                   <div className="form-group">
-                    <label class="form-check-label" for="time">
+                    <label className="form-check-label" for="time">
                       Location
                     </label>
                     <Field name="location" className="form-control" />
                   </div>
                   <div className="form-group">
-                    <label class="form-check-label" for="description">
+                    <label className="form-check-label" for="description">
                       Description
                     </label>
                     <Field
@@ -120,7 +120,7 @@ export default class EditableEventInfoModal extends Component {
                       rows="4"
                     />
                   </div>
-                  <button type="submit" class="btn btn-primary col-4">
+                  <button type="submit" className="btn btn-primary col-4">
                     Save
                   </button>
                 </Form>

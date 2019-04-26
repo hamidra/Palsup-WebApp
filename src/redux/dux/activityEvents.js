@@ -1,7 +1,5 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import { getEventsByActivity } from '../../serviceProviders/graphql/gqlProvider';
-import { toEvent } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
   fetchEventsStarted: createAction('ACTIVITYEVENTS/FETCH_EVENTS_STARTED'),

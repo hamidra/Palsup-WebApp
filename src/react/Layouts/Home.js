@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ActivitySearchBox from '../containers/ActivitySearchBox';
 import * as activityDux from '../../redux/dux/activity';
 import { connect } from 'react-redux';
@@ -17,7 +16,6 @@ const Home = withRouter(
     }
 
     handleActivitySearchSubmit(searchActivity) {
-      const { handleActivitySearch } = this.props;
       if (searchActivity.activity) {
         const searchQs = qs.stringify(searchActivity);
         this.props.history.push(`search?${searchQs}`);
@@ -27,9 +25,9 @@ const Home = withRouter(
       return (
         <div>
           <div className="background" />
-          <div class="container py-3 py-md-5  z-index-20">
-            <div class="row justify-content-center">
-              <div class="col-md-10">
+          <div className="container py-3 py-md-5  z-index-20">
+            <div className="row justify-content-center">
+              <div className="col-md-10">
                 <ActivitySearchBox
                   initialValues={{}}
                   handleSearchSubmit={this.handleActivitySearchSubmit}

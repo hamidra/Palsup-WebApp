@@ -1,7 +1,5 @@
 import { createReducer, createAction } from 'redux-act';
 import initialState from './initialState';
-import { getPalsByActivity } from '../../serviceProviders/graphql/gqlProvider';
-import { toPal } from '../../serviceProviders/graphql/converters';
 
 export const actions = {
   fetchPalsStarted: createAction('ACTIVITYPALS/FETCH_PALS_STARTED'),

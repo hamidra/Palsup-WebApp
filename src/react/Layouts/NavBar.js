@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Navbar, Nav } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
@@ -67,6 +67,7 @@ const NavBar = ({ user, eventNotifications, palNotifications }) =>
           <img
             src={anonymousAvatar}
             className="avatar avatar-border-white d-inline-block rounded-circle"
+            alt="..."
           />
         </NavLink>
       </Nav>

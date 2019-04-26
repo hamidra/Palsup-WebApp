@@ -70,7 +70,7 @@ export default class ImageEditor extends Component {
               <div className="col-12 col-sm-7 p-1 py-3">
                 <input
                   type="range"
-                  class="form-control-range"
+                  className="form-control-range"
                   value={this.state.scale}
                   onInput={this.handleScaleChange}
                   min="1"

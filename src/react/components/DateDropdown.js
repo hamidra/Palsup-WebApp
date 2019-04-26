@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Button, ButtonGroup, Card } from 'react-bootstrap';
+import { Dropdown, Button, ButtonGroup } from 'react-bootstrap';
 import moment from 'moment';
 import DateRangePickerModal from './modals/DateRangePickerModal';
 

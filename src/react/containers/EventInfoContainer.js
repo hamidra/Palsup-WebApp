@@ -2,7 +2,6 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import EventPicEditorContainer from './EventPicEditorContainer';
-import { displayEventDate } from '../../utilities';
 import EventMemberContainer from '../containers/EventMemberContainer';
 import EventWaitlistContainer from '../containers/EventWaitlistContainer';
 import EditableEventInfoModalContainer from '../containers/EditableEventInfoModalContainer';

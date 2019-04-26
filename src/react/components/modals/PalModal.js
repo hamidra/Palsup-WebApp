@@ -30,17 +30,17 @@ const PalModal = class extends Component {
         </div>
         <Modal show={this.state.showModal} onHide={this.handleHide}>
           <img
-            class="modal-image"
+            className="modal-image"
             src={pal.user.absolutePicture.large}
             alt="..."
           />
-          <a
+          <button
             onClick={this.handleHide}
-            className="bg-white action-icon modal-close">
+            className="bg-white icon action-icon modal-close">
             <CloseIcon />
-          </a>
-          <Modal.Body class="modal-body">
-            <h5 class="modal-title">
+          </button>
+          <Modal.Body className="modal-body">
+            <h5 className="modal-title">
               {`${pal.user.name.first} ${pal.user.name.last}`}
             </h5>
             <p>{`${pal.location.city}, ${pal.location.state}`}</p>

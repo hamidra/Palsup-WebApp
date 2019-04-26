@@ -4,7 +4,7 @@ import * as userEventsDux from '../../redux/dux/userEvents';
 import * as userConversationsDux from '../../redux/dux/userConversations';
 import * as userPalsDux from '../../redux/dux/userPals';
 import NavBar from './NavBar';
-import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
 import UserProfile from './UserProfile';
@@ -13,7 +13,6 @@ import Events from './Events';
 import EventsConversations from './EventsConversations';
 import Pals from './Pals';
 import Search from './Search';
-import Playground from './Playground';
 
 const Root = class extends Component {
   componentDidMount() {

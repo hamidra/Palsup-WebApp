@@ -5,9 +5,9 @@ import EventTab from '../components/EventTab';
 const EventList = ({ events, activeEventId }) =>
   events && (
     <div className="sticky-container-top list-group list-group-flush">
-      {Object.keys(events).map(eventId => {
-        if (eventId) {
-          return (
+      {Object.keys(events).map(
+        eventId =>
+          eventId && (
             <div>
               <EventTab
                 event={events[eventId]}
@@ -15,9 +15,8 @@ const EventList = ({ events, activeEventId }) =>
                 active={eventId === activeEventId}
               />
             </div>
-          );
-        }
-      })}
+          )
+      )}
     </div>
   );
 

@@ -13832,6 +13832,23 @@ code {
   opacity: 1 !important;
 }
 
+button.plain {
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+button.icon {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 .action-icon {
   display: inline-block;
   text-align: center;

@@ -3,7 +3,6 @@ import { Modal } from 'react-bootstrap';
 import UserInfoCollapsable from '../UserInfoCollapsable';
 import CloseIcon from '../icons/close';
 import ThumbnailStack from '../ThumbnailStack';
-import { getTopN } from '../../../utilities';
 
 export default class UserListModal extends Component {
   constructor(props) {
@@ -30,11 +29,11 @@ export default class UserListModal extends Component {
           show={this.state.showModal}
           onHide={this.handleHide}
           onClick={e => e && e.stopPropagation()}>
-          <a
+          <button
             onClick={this.handleHide}
-            className="bg-white action-icon modal-close">
+            className="bg-white icon action-icon modal-close">
             <CloseIcon />
-          </a>
+          </button>
           <Modal.Body>
             <div className="mt-5">
               {users &&

@@ -125,7 +125,7 @@ const reducer = createReducer(
         let eventWaitlist =
           event.group &&
           event.group.waitlist &&
-          event.group.waitlist.filter(user => user.id != payload.userId);
+          event.group.waitlist.filter(user => user.id !== payload.userId);
         if (eventWaitlist) {
           newState = {
             ...state,

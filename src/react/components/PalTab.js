@@ -2,7 +2,7 @@ import React from 'react';
 
 const PalTab = ({ pal, handlePalClick }) =>
   pal && (
-    <a
+    <button
       className="list-group-item list-group-item-action border-top"
       onClick={e => {
         if (pal) {
@@ -16,7 +16,7 @@ const PalTab = ({ pal, handlePalClick }) =>
         e.preventDefault();
       }}>
       <h5>{pal.activity}</h5>
-    </a>
+    </button>
   );
 
 export default PalTab;
