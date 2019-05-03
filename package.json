@@ -1,6 +1,8 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "palsup-frontend",
+  "version": "0.0.0",
+  "description": "frontend of palsup app",
+  "author": "Deepnosis AI  <deepnosis.ai@gmail.com>",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -16,7 +18,7 @@
     "react-dropzone": "^10.1.0",
     "react-redux": "^6.0.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "3.0.0",
     "redux": "^4.0.1",
     "redux-act": "^1.7.4",
     "redux-logger": "^3.0.6",
@@ -24,10 +26,11 @@
     "serve": "^11.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve -s build -l 80",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"

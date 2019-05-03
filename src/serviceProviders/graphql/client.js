@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
+import { backend_endpoint } from '../../settings';
 
-const serverUrl = 'http://localhost:3000/graphql';
+const serverUrl = `${backend_endpoint}/graphql`;
 
 export const graphqlCall = async query => {
   console.log(JSON.stringify(query));

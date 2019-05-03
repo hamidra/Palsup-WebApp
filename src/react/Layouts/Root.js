@@ -13,12 +13,13 @@ import Events from './Events';
 import EventsConversations from './EventsConversations';
 import Pals from './Pals';
 import Search from './Search';
+import { backend_endpoint } from '../../settings';
 
 const Root = class extends Component {
   componentDidMount() {
     if (this.props.user && this.props.user.id) {
       const es = new EventSource(
-        `http://localhost:3000/notifications/${this.props.user.id}`
+        `${backend_endpoint}/notifications/${this.props.user.id}`
       );
       es.addEventListener('NEW_EVENT', sse =>
         this.props.handleNewEventSse(sse)

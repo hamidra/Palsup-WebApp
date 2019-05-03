@@ -11,6 +11,7 @@ import eventWaitlistReducer, * as eventWaitlist from './eventWaitlist';
 import filterReducer from './filter';
 import * as gql from '../../serviceProviders/graphql/gqlProvider';
 import * as converter from '../../serviceProviders/graphql/converters';
+import { backend_endpoint } from '../../settings';
 
 const isInterested = (pal, userId) => pal.interested.includes(userId);
 
@@ -350,7 +351,7 @@ export const asyncActions = {
         let fd = new FormData();
         fd.append('profilePic', image);
         let response = await fetch(
-          `http://localhost:3000/uploader/user/${currentUser.info.id}`,
+          `${backend_endpoint}/uploader/user/${currentUser.info.id}`,
           {
             method: 'POST',
             body: fd
@@ -374,7 +375,7 @@ export const asyncActions = {
         let fd = new FormData();
         fd.append('eventPic', image);
         let response = await fetch(
-          `http://localhost:3000/uploader/event/${eid}`,
+          `${backend_endpoint}/uploader/event/${eid}`,
           {
             method: 'POST',
             body: fd
