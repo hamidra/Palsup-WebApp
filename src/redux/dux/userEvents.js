@@ -43,6 +43,10 @@ export const actions = {
       message
     })
   ),
+  fetchEventNotificationCountSucceeded: createAction(
+    'USEREVENTS/FETCH_EVENT_NOTIFICATION_COUNT_SUCCEEDED',
+    notificationCount => ({ notificationCount })
+  ),
   uploadEventPicStarted: createAction('USEREVENTS/UPLOAD_EVENT_PIC_STARTED'),
   uploadEventPicFailed: createAction(
     'USEREVENTS/UPLOAD_EVENT_PIC_FAILED',
@@ -55,6 +59,10 @@ export const actions = {
   removeFromEventWaitlist: createAction(
     'USEREVENTS/REMOVE_FROM_EVENT_WAITLIST',
     (eventId, userId) => ({ eventId, userId })
+  ),
+  markNotificationAsSeen: createAction(
+    'USEREVENTS/MARK_NOTIFICATION_AS_SEEN',
+    (target, type, seenCount) => ({ target, type, seenCount })
   )
 };
 
@@ -89,7 +97,7 @@ const reducer = createReducer(
       items: { ...state.items, ...payload.event }
     }),
     [actions.newMessageNotificationRecieved]: (state, payload) => {
-      let targetEvent = state.items[payload.message.to];
+      let targetEvent = state.items && state.items[payload.message.to];
       let newState = {
         ...state,
         notificationCount: state.notificationCount + 1
@@ -111,7 +119,7 @@ const reducer = createReducer(
       return newState;
     },
     [actions.uploadEventPicSucceeded]: (state, payload) => {
-      let targetEvent = state.items[payload.eventId];
+      let targetEvent = state.items && state.items[payload.eventId];
       targetEvent = { ...targetEvent, absoluteImage: payload.absoluteImage };
       return {
         ...state,
@@ -138,6 +146,25 @@ const reducer = createReducer(
             }
           };
         }
+      }
+      return newState;
+    },
+    [actions.fetchEventNotificationCountSucceeded]: (state, payload) => ({
+      ...state,
+      notificationCount: payload.notificationCount
+    }),
+    [actions.markNotificationAsSeen]: (state, payload) => {
+      let newState = state;
+      let event = state.items && state.items[payload.target];
+      if (event) {
+        newState = {
+          ...state,
+          notificationCount: state.notificationCount - payload.seenCount,
+          items: {
+            ...state.items,
+            [event.id]: { ...event, notificationCount: 0 }
+          }
+        };
       }
       return newState;
     }

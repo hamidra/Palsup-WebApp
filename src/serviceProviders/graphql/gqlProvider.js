@@ -188,10 +188,10 @@ export const submitVoteOnEventsWaitlist = async (
   return data.addToEventsMembers;
 };
 
-export const getPalsByActivity = async activityFilter => {
+export const getPalsByActivity = async (userId, activityFilter) => {
   const query = `
-    query ($activityFilter: ActivityFilterInput){
-      getPalsByActivity(activityFilter:$activityFilter) {
+    query ($userId: ID, $activityFilter: ActivityFilterInput){
+      getPalsByActivity(userId:$userId, activityFilter:$activityFilter) {
         id,
         user {
           id
@@ -214,7 +214,7 @@ export const getPalsByActivity = async activityFilter => {
     }`;
   var data = await graphqlCall({
     query,
-    variables: { activityFilter: activityFilter }
+    variables: { userId: userId, activityFilter: activityFilter }
   });
   return data.getPalsByActivity;
 };
@@ -292,10 +292,10 @@ export const updateEvent = async (id, patch) => {
   return data.updateEvent;
 };
 
-export const getEventsByActivity = async activityFilter => {
+export const getEventsByActivity = async (userId, activityFilter) => {
   const query = `
-    query ($activityFilter: ActivityFilterInput){
-      getEventsByActivity(activityFilter:$activityFilter) {
+    query ($userId:ID, $activityFilter: ActivityFilterInput){
+      getEventsByActivity(userId:$userId, activityFilter:$activityFilter) {
         id
         description
         activity
@@ -324,7 +324,7 @@ export const getEventsByActivity = async activityFilter => {
     }`;
   var data = await graphqlCall({
     query,
-    variables: { activityFilter: activityFilter }
+    variables: { userId: userId, activityFilter: activityFilter }
   });
   return data.getEventsByActivity;
 };
@@ -465,6 +465,33 @@ export const getNotificationsForUser = async (userId, type) => {
     variables: { userId, type }
   });
   return data.getNotificationsForUser;
+};
+
+export const getNotificationReportForUser = async userId => {
+  const query = `
+  query ($userId: ID!){
+    getNotificationReportForUser(userId:$userId) {
+      type
+      count
+    }
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { userId }
+  });
+  return data.getNotificationReportForUser;
+};
+
+export const markNotificationAsSeen = async (userId, target) => {
+  const query = `
+  mutation($userId:ID, $target:ID){
+    markNotificationAsSeen(userId:$userId, target:$target)
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { userId, target }
+  });
+  return data.markNotificationAsSeen;
 };
 
 export const sendMessage = async message => {

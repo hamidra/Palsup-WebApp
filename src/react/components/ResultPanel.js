@@ -2,7 +2,7 @@ import React from 'react';
 import SwitchViewContainer from '../containers/SwitchViewContainer';
 import EventsPanelContainer from '../containers/EventsPanelContainer';
 import PalsPanelContainer from '../containers/PalsPanelContainer';
-import * as types from '../../redux/types';
+import * as types from '../../redux/enums';
 
 const ResultPanel = ({ activeView }) => (
   <div className="justify-content-center">

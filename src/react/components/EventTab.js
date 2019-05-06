@@ -1,12 +1,12 @@
 import React from 'react';
 import Circle from '../components/icons/circle';
 
-const EventTab = ({ event, active }) =>
+const EventTab = ({ event, active, handleEventClick }) =>
   event && (
-    <a
+    <button
       className={`list-group-item list-group-item-action border-top ${active &&
         'active'}`}
-      href={`/events/${event.id}`}>
+      onClick={() => handleEventClick(event.id)}>
       <div className="row">
         <div className="col-10">
           <h5>{event.activity}</h5>
@@ -18,7 +18,7 @@ const EventTab = ({ event, active }) =>
           )}
         </div>
       </div>
-    </a>
+    </button>
   );
 
 export default EventTab;

@@ -8,15 +8,26 @@ import EventInfoContainer from '../containers/EventInfoContainer';
 import { Link } from 'react-router-dom';
 
 const Events = class extends Component {
+  constructor(props) {
+    super(props);
+    this.handleEventClick = this.handleEventClick.bind(this);
+  }
   componentDidMount() {
     this.props.handleComponentDidMount();
+  }
+  handleEventClick(eventId) {
+    this.props.markNotificationsAsSeen(eventId);
+    this.props.history.push(`/events/${eventId}`);
   }
   render() {
     const eid = this.props.match.params.id;
     return (
       <div className="row">
         <div className="col-lg-4 d-none d-lg-block h-100 shadow-sm">
-          <EventListContainer activeEventId={eid} />
+          <EventListContainer
+            activeEventId={eid}
+            handleEventClick={this.handleEventClick}
+          />
         </div>
         <div className="col-12 d-block d-lg-none h-100">
           <Link to="/events">{'<Back'}</Link>
@@ -37,7 +48,12 @@ const Events = class extends Component {
 
 const mapDispatchToProps = dispatch => ({
   handleComponentDidMount: () => {
-    dispatch(dux.asyncActions.fetchUserEvents());
+    dispatch(dux.asyncActions.fetchUserEvents(true));
+  },
+  markNotificationsAsSeen: eventId => {
+    dispatch(
+      dux.asyncActions.markNotificationAsSeen({ id: eventId, type: 'EVENT' })
+    );
   }
 });
 

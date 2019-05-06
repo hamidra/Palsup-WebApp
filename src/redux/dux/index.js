@@ -12,16 +12,18 @@ import filterReducer from './filter';
 import * as gql from '../../serviceProviders/graphql/gqlProvider';
 import * as converter from '../../serviceProviders/graphql/converters';
 import { backend_endpoint } from '../../settings';
+import * as enums from '../enums';
 
 const isInterested = (pal, userId) => pal.interested.includes(userId);
 
 export const asyncActions = {
   createPal: () => async (dispatch, getState) => {
-    if (getState().user && getState().user.info) {
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
       dispatch(userPals.actions.createPalStarted());
       try {
         var pal = {
-          userId: getState().user.info.id,
+          userId: user.info.id,
           activity: getState().activity.activity,
           location: getState().activity.location || {
             state: 'WA',
@@ -42,11 +44,11 @@ export const asyncActions = {
     }
   },
   fetchUserPals: () => async (dispatch, getState) => {
-    const currentUser = getState().user;
-    if (currentUser && currentUser.info) {
+    const user = getState().user;
+    if ((user && user.isAuthenticated, user.info)) {
       dispatch(userPals.actions.fetchPalsStarted());
       try {
-        var gqlPals = await gql.getPalsForUser(currentUser.info.id);
+        var gqlPals = await gql.getPalsForUser(user.info.id);
         var pals = gqlPals.reduce((pals, gqlPal) => {
           var pal = converter.toPal(gqlPal);
           pal.id && (pals[pal.id] = pal);
@@ -62,9 +64,13 @@ export const asyncActions = {
   },
   fetchActivityPals: () => async (dispatch, getState) => {
     dispatch(activityPals.actions.fetchPalsStarted());
+    const userId =
+      getState().user && getState().user.info && getState().user.isAuthenticated
+        ? getState().user.info.id
+        : null;
     try {
       const activityFilter = { activity: getState().activity.activity };
-      var gqlPals = await gql.getPalsByActivity(activityFilter);
+      var gqlPals = await gql.getPalsByActivity(userId, activityFilter);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         const pal = converter.toPal(gqlPal);
         pal.id && (pals[pal.id] = pal);
@@ -133,31 +139,33 @@ export const asyncActions = {
       return dispatch(userDux.actions.fetchUserFailed(err));
     }
   },
-  fetchUserEvents: (markNotifications = true) => async (dispatch, getState) => {
-    const currentUser = getState().user;
-    if (currentUser && currentUser.info) {
+  fetchUserEvents: (getNotifications = false) => async (dispatch, getState) => {
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
       dispatch(userEvents.actions.fetchEventsStarted());
       try {
         var gqlNotifications = [];
         var notificationCount = 0;
-        if (markNotifications) {
-          gqlNotifications = await gql.getNotificationsForUser(
-            currentUser.info.id
-          );
-        }
-        var gqlEvents = await gql.getEventsForUser(currentUser.info.id);
+        var gqlEvents = await gql.getEventsForUser(user.info.id);
         var events = gqlEvents.reduce((events, gqlEvent) => {
           const event = converter.toEvent(gqlEvent);
           event.notificationCount = 0;
           event.id && (events[event.id] = event);
           return events;
         }, {});
-        gqlNotifications.forEach(notification => {
-          if (events[notification.target]) {
-            notificationCount++;
-            events[notification.target].notificationCount++;
-          }
-        });
+        if (getNotifications) {
+          gqlNotifications = await gql.getNotificationsForUser(user.info.id);
+          gqlNotifications.forEach(notification => {
+            if (
+              notification.target &&
+              notification.target.type === 'EVENT' &&
+              events[notification.target.id]
+            ) {
+              notificationCount++;
+              events[notification.target].notificationCount++;
+            }
+          });
+        }
         await dispatch(
           userEvents.actions.fetchEventsSucceeded(events, notificationCount)
         );
@@ -169,19 +177,60 @@ export const asyncActions = {
     }
   },
   fetchUserNotifications: () => async (dispatch, getState) => {
-    const currentUser = getState().user;
-    if (currentUser && currentUser.info) {
-      dispatch(userEvents.actions.fetchEventsStarted());
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
+      var eventNotificationCount = 0;
+      var palNotificationCount = 0;
       try {
-        var gqlEvents = await gql.getEventsForUser(currentUser.info.id);
-        var events = gqlEvents.reduce((events, gqlEvent) => {
-          const event = converter.toEvent(gqlEvent);
-          event.id && (events[event.id] = event);
-          return events;
-        }, {});
-        await dispatch(userEvents.actions.fetchEventsSucceeded(events));
+        var gqlNotificationReport = await gql.getNotificationReportForUser(
+          user.info.id
+        );
+        gqlNotificationReport.forEach(summary => {
+          switch (summary.type) {
+          case enums.notificationType.NEW_EVENT:
+          case enums.notificationType.NEW_MESSAGE:
+          case enums.notificationType.NEW_EVENT_INTEREST:
+            eventNotificationCount += summary.count;
+            break;
+          case enums.notificationType.NEW_PAL_INTEREST:
+            palNotificationCount += summary.count;
+            break;
+          default:
+          }
+        });
+        dispatch(
+          userEvents.actions.fetchEventNotificationCountSucceeded(
+            eventNotificationCount
+          )
+        );
+        dispatch(
+          userPals.actions.fetchPalNotificationCountSucceeded(
+            palNotificationCount
+          )
+        );
       } catch (err) {
-        return dispatch(userEvents.actions.fetchEventsFailed(err));
+        console.log('fetching notifications for user failed');
+      }
+    } else {
+      console.log('no user is signed in');
+    }
+  },
+  markNotificationAsSeen: target => async (dispatch, getState) => {
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
+      try {
+        let seenCount = await gql.markNotificationAsSeen(user.info.id, target);
+        if (target.type === 'PAL') {
+          dispatch(
+            userPals.actions.markNotificationAsSeen(target, seenCount || 0)
+          );
+        } else if (target.type === 'EVENT') {
+          dispatch(
+            userEvents.actions.markNotificationAsSeen(target, seenCount || 0)
+          );
+        }
+      } catch (err) {
+        console.log(`marking notifications failed with ${err}`);
       }
     } else {
       console.log('no user is signed in');
@@ -189,9 +238,13 @@ export const asyncActions = {
   },
   fetchActivityEvents: () => async (dispatch, getState) => {
     dispatch(activityEvents.actions.fetchEventsStarted());
+    const userId =
+      getState().user && getState().user.info && getState().user.isAuthenticated
+        ? getState().user.info.id
+        : null;
     try {
       const activityFilter = { activity: getState().activity.activity };
-      var gqlEvents = await gql.getEventsByActivity(activityFilter);
+      var gqlEvents = await gql.getEventsByActivity(userId, activityFilter);
       var events = gqlEvents.reduce((events, gqlEvent) => {
         const event = converter.toEvent(gqlEvent);
         event.id && (events[event.id] = event);
@@ -203,13 +256,18 @@ export const asyncActions = {
     }
   },
   toggleLikePal: (palId, liked) => async (dispatch, getState) => {
-    if (getState().user && getState().user.info) {
+    const state = getState();
+    if (state.user && state.user.isAuthenticated && state.user.info) {
       try {
-        const state = getState();
         if (liked) {
           const userPal = state.userPals.items[state.activity.palId];
           const likedPal = state.activityPals.items[palId];
-          if (userPal && likedPal && isInterested(userPal, likedPal.userId)) {
+          if (
+            state.user.info.id !== likedPal.userId &&
+            userPal &&
+            likedPal &&
+            isInterested(userPal, likedPal.userId)
+          ) {
             dispatch(asyncActions.createEvent(userPal, likedPal));
           }
           await gql.addToPalsInterested(palId, getState().user.info.id);
@@ -225,12 +283,13 @@ export const asyncActions = {
     }
   },
   toggleLikeEvent: (eventId, liked) => async (dispatch, getState) => {
-    if (getState().user && getState().user.info) {
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
       try {
         if (liked) {
-          await gql.addToEventsWaitlist(eventId, getState().user.info.id);
+          await gql.addToEventsWaitlist(eventId, user.info.id);
         } else {
-          await gql.removeFromEventsWaitlist(eventId, getState().user.info.id);
+          await gql.removeFromEventsWaitlist(eventId, user.info.id);
         }
         dispatch(
           activityEvents.actions.eventToggleLikeSucceeded(eventId, liked)
@@ -344,14 +403,14 @@ export const asyncActions = {
     }
   },
   uploadProfilePic: image => async (dispatch, getState) => {
-    const currentUser = getState().user;
-    if (currentUser && currentUser.info && currentUser.info.id) {
+    const user = getState().user;
+    if (user && user.info && user.info.id) {
       dispatch(userDux.actions.uploadProfilePicStarted());
       try {
         let fd = new FormData();
         fd.append('profilePic', image);
         let response = await fetch(
-          `${backend_endpoint}/uploader/user/${currentUser.info.id}`,
+          `${backend_endpoint}/uploader/user/${user.info.id}`,
           {
             method: 'POST',
             body: fd

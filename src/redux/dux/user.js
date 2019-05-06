@@ -41,13 +41,7 @@ export const actions = {
   /**
    * Login
    */
-  loggedIn: createAction('LOGGED_IN'),
-  loggedOut: createAction('LOGGED_OUT'),
-
-  /**
-   * Like
-   */
-  likedEvent: createAction('LIKED_EVENT')
+  loggedOut: createAction('LOGGED_OUT')
 };
 
 const reducer = createReducer(
@@ -56,22 +50,33 @@ const reducer = createReducer(
     [actions.fetchUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
         isFetching: false,
+        isAuthenticated: true,
         info: payload.userInfo
       });
     },
     [actions.createUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
+        isFetching: false,
+        isAuthenticated: true,
         info: payload.userInfo
       });
     },
     [actions.updateUserSucceeded]: (state, payload) => {
       return persistUserState(state, {
+        isFetching: false,
+        isAuthenticated: true,
         info: payload.userInfo
       });
     },
     [actions.uploadProfilePicSucceeded]: (state, payload) => {
       return persistUserState(state, {
         info: state.info && { ...state.info, ...payload }
+      });
+    },
+    [actions.loggedOut]: state => {
+      return persistUserState(state, {
+        isAuthenticated: false,
+        info: {}
       });
     }
   },

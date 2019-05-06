@@ -17,8 +17,16 @@ export const actions = {
     error
   })),
   palInterestNotificationRecieved: createAction(
-    'USERPAL/PAL_INTEREST_NOTIFICATION_RECIEVED',
+    'USERPALS/PAL_INTEREST_NOTIFICATION_RECIEVED',
     (palId, interestedUserId) => ({ palId, interestedUserId })
+  ),
+  fetchPalNotificationCountSucceeded: createAction(
+    'USERPALS/FETCH_PAL_NOTIFICATION_COUNT_SUCCEEDED',
+    notificationCount => ({ notificationCount })
+  ),
+  markNotificationAsSeen: createAction(
+    'USERPALS/MARK_NOTIFICATION_AS_SEEN',
+    (target, type, seenCount) => ({ target, type, seenCount })
   )
 };
 
@@ -53,6 +61,25 @@ const reducer = createReducer(
         };
       } else {
         newState.items = { ...state.items };
+      }
+      return newState;
+    },
+    [actions.fetchPalNotificationCountSucceeded]: (state, payload) => ({
+      ...state,
+      notificationCount: payload.notificationCount
+    }),
+    [actions.markNotificationAsSeen]: (state, payload) => {
+      let newState = state;
+      let pal = state.items && state.items[payload.target];
+      if (pal) {
+        newState = {
+          ...state,
+          notificationCount: state.notificationCount - payload.seenCount,
+          items: {
+            ...state.items,
+            [pal.id]: { ...pal, notificationCount: 0 }
+          }
+        };
       }
       return newState;
     }

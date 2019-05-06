@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as userEventsDux from '../../redux/dux/userEvents';
 import * as userConversationsDux from '../../redux/dux/userConversations';
 import * as userPalsDux from '../../redux/dux/userPals';
+import * as dux from '../../redux/dux/index';
 import NavBar from './NavBar';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SignUp from './SignUp';
@@ -31,6 +32,7 @@ const Root = class extends Component {
         this.props.handlePalInterestSse(sse)
       );
     }
+    this.props.handleComponentDidMount();
   }
   render() {
     const { user } = this.props;
@@ -68,11 +70,11 @@ const Root = class extends Component {
 };
 
 const mapStateToProps = state => ({
-  user: state && state.user && state.user.info
+  user: state && state.user && state.user.isAuthenticated && state.user.info
 });
 
 const mapDispatchToProps = dispatch => ({
-  handleNewEventSse: sse =>
+  handleNewEventSse: async sse =>
     dispatch(
       userEventsDux.actions.newEventNotificationRecieved(
         JSON.parse(sse.data).event
@@ -96,6 +98,9 @@ const mapDispatchToProps = dispatch => ({
           data.interestedUserId
         )
       );
+  },
+  handleComponentDidMount: async () => {
+    dispatch(dux.asyncActions.fetchUserNotifications());
   }
 });
 

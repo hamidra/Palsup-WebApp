@@ -18,7 +18,7 @@ const Home = withRouter(
     handleActivitySearchSubmit(searchActivity) {
       if (searchActivity.activity) {
         const searchQs = qs.stringify(searchActivity);
-        this.props.history.push(`search?${searchQs}`);
+        this.props.history.push(`/search?${searchQs}`);
       }
     }
     render() {

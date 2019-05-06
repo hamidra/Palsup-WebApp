@@ -11,7 +11,7 @@ const PalTab = ({ pal, handlePalClick }) =>
             location: pal.location,
             date: pal.date && { from: pal.date.startDate, to: pal.date.endDate }
           };
-          handlePalClick(searchActivity);
+          handlePalClick(pal.id, searchActivity);
         }
         e.preventDefault();
       }}>

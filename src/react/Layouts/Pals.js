@@ -12,7 +12,8 @@ const Pals = class extends Component {
   componentDidMount() {
     this.props.handleComponentDidMount();
   }
-  handlePalClick(searchActivity) {
+  handlePalClick(palId, searchActivity) {
+    this.props.markNotificationsAsSeen(palId);
     if (searchActivity.activity) {
       const searchQs = qs.stringify(searchActivity);
       this.props.history.push(`search?${searchQs}`);
@@ -32,6 +33,11 @@ const Pals = class extends Component {
 const mapDispatchToProps = dispatch => ({
   handleComponentDidMount: () => {
     dispatch(dux.asyncActions.fetchUserPals());
+  },
+  markNotificationsAsSeen: palId => {
+    dispatch(
+      dux.asyncActions.markNotificationAsSeen({ id: palId, type: 'PAL' })
+    );
   }
 });
 

@@ -1,9 +1,10 @@
-import * as types from './../types';
+import * as types from '../enums';
 
 const initialState = {
   user: {
     timestamp: Date.now(),
     isFetching: false,
+    isAuthenticated: false,
     info: null,
     fetchError: null
   },

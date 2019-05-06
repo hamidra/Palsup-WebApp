@@ -1,5 +1,5 @@
 import React from 'react';
-import * as types from '../../redux/types';
+import * as types from '../../redux/enums';
 
 const SwitchPanel = ({ activeView, handleViewSwitch }) => (
   <ul className="nav nav-tabs justify-content-center">

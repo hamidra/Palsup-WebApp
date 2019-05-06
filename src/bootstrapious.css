@@ -14270,8 +14270,6 @@ code {
 .notification-circle {
   fill: #0fd983;
   height: 6px !important;
-  position: absolute !important;
-  top: 50% !important;
   transform: translate3d(4px, -8px, 0px) !important;
   -webkit-transform-origin-x: 7px !important;
   -webkit-transform-origin-y: -5px !important;

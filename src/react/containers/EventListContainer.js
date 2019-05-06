@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import EventTab from '../components/EventTab';
 
-const EventList = ({ events, activeEventId }) =>
+const EventList = ({ events, activeEventId, handleEventClick }) =>
   events && (
     <div className="sticky-container-top list-group list-group-flush">
       {Object.keys(events).map(
@@ -13,6 +13,7 @@ const EventList = ({ events, activeEventId }) =>
                 event={events[eventId]}
                 key={eventId}
                 active={eventId === activeEventId}
+                handleEventClick={handleEventClick}
               />
             </div>
           )
