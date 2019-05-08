@@ -8,7 +8,11 @@ const MessageThread = class extends Component {
   componentDidMount() {
     this.props.handleComponentDidMount();
   }
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.eventId != this.props.eventId) {
+      this.props.handleComponentDidUpdate();
+    }
+  }
   render() {
     return (
       <div className="w-100 h-100">
@@ -47,6 +51,8 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   handleComponentDidMount: () =>
+    dispatch(dux.asyncActions.fetchEventConversation(ownProps.eventId)),
+  handleComponentDidUpdate: () =>
     dispatch(dux.asyncActions.fetchEventConversation(ownProps.eventId))
 });
 

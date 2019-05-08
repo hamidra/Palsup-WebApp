@@ -60,9 +60,9 @@ export const actions = {
     'USEREVENTS/REMOVE_FROM_EVENT_WAITLIST',
     (eventId, userId) => ({ eventId, userId })
   ),
-  markNotificationAsSeen: createAction(
+  markNotificationsAsSeen: createAction(
     'USEREVENTS/MARK_NOTIFICATION_AS_SEEN',
-    (target, type, seenCount) => ({ target, type, seenCount })
+    (eventId, seenCount) => ({ eventId, seenCount })
   )
 };
 
@@ -153,16 +153,16 @@ const reducer = createReducer(
       ...state,
       notificationCount: payload.notificationCount
     }),
-    [actions.markNotificationAsSeen]: (state, payload) => {
+    [actions.markNotificationsAsSeen]: (state, payload) => {
       let newState = state;
-      let event = state.items && state.items[payload.target];
+      let event = state.items && state.items[payload.eventId];
       if (event) {
         newState = {
           ...state,
           notificationCount: state.notificationCount - payload.seenCount,
           items: {
             ...state.items,
-            [event.id]: { ...event, notificationCount: 0 }
+            [event.id]: { ...event, notification: undefined }
           }
         };
       }

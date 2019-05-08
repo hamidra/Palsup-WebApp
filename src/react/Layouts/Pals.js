@@ -32,7 +32,7 @@ const Pals = class extends Component {
 
 const mapDispatchToProps = dispatch => ({
   handleComponentDidMount: () => {
-    dispatch(dux.asyncActions.fetchUserPals());
+    dispatch(dux.asyncActions.fetchUserPalsNotificationsOnTop());
   },
   markNotificationsAsSeen: palId => {
     dispatch(

@@ -3,9 +3,13 @@ import initialState from './initialState';
 
 export const actions = {
   fetchPalsStarted: createAction('USERPALS/FETCH_PALS_STARTED'),
-  fetchPalsSucceeded: createAction('USERPALS/FETCH_PALS_SUCCEEDED', pals => ({
-    pals
-  })),
+  fetchPalsSucceeded: createAction(
+    'USERPALS/FETCH_PALS_SUCCEEDED',
+    (pals, notificationCount) => ({
+      pals,
+      notificationCount
+    })
+  ),
   fetchPalsFailed: createAction('USERPALS/FETCH_PALS_FAILED', error => ({
     error
   })),
@@ -26,7 +30,7 @@ export const actions = {
   ),
   markNotificationAsSeen: createAction(
     'USERPALS/MARK_NOTIFICATION_AS_SEEN',
-    (target, type, seenCount) => ({ target, type, seenCount })
+    (palId, seenCount) => ({ palId, seenCount })
   )
 };
 
@@ -36,6 +40,7 @@ const reducer = createReducer(
     [actions.fetchPalsSucceeded]: (state, payload) => ({
       ...state,
       isFetching: false,
+      notificationCount: payload.notificationCount,
       items: { ...payload.pals }
     }),
     [actions.createPalSucceeded]: (state, payload) => ({
@@ -70,14 +75,14 @@ const reducer = createReducer(
     }),
     [actions.markNotificationAsSeen]: (state, payload) => {
       let newState = state;
-      let pal = state.items && state.items[payload.target];
+      let pal = state.items && state.items[payload.palId];
       if (pal) {
         newState = {
           ...state,
           notificationCount: state.notificationCount - payload.seenCount,
           items: {
             ...state.items,
-            [pal.id]: { ...pal, notificationCount: 0 }
+            [pal.id]: { ...pal, notification: undefined }
           }
         };
       }

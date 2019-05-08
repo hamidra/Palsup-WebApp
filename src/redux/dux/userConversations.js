@@ -40,20 +40,22 @@ export const actions = {
 
 const addMessageToState = (state, message) => {
   const conversationId = message.to;
+  var messages;
   if (state.items[conversationId]) {
-    return {
-      ...state,
-      items: {
-        ...state.items,
-        [conversationId]: {
-          ...state.items[conversationId],
-          messages: [...state.items[conversationId].messages, message]
-        }
-      }
-    };
+    messages = [...state.items[conversationId].messages, message];
   } else {
-    return state;
+    messages = [message];
   }
+  return {
+    ...state,
+    items: {
+      ...state.items,
+      [conversationId]: {
+        ...state.items[conversationId],
+        messages: messages
+      }
+    }
+  };
 };
 
 const reducer = createReducer(

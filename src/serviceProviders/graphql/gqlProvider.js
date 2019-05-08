@@ -219,10 +219,10 @@ export const getPalsByActivity = async (userId, activityFilter) => {
   return data.getPalsByActivity;
 };
 
-export const getPalsForUser = async userId => {
+export const getPalsForUser = async (userId, excludeIds) => {
   const query = `
-    query ($userId: ID!){
-      getPalsForUser(userId:$userId) {
+    query ($userId: ID!, $excludeIds:[ID]){
+      getPalsForUserSortedByDate(userId:$userId, excludeIds:$excludeIds) {
         id
         activity
         date{
@@ -233,9 +233,34 @@ export const getPalsForUser = async userId => {
     }`;
   var data = await graphqlCall({
     query,
+    variables: { userId, excludeIds }
+  });
+  return data.getPalsForUserSortedByDate;
+};
+export const getPalNotificationsForUser = async userId => {
+  const query = `
+    query ($userId: ID!){
+      getPalNotificationsForUser(userId:$userId) {
+        pal {
+          id
+          activity
+          date{
+            ${dateRangeFragment}
+          }
+          interested
+        }
+        info {
+          totalCount
+          newInterestCount
+          date
+        }
+      }
+    }`;
+  var data = await graphqlCall({
+    query,
     variables: { userId: userId }
   });
-  return data.getPalsForUser;
+  return data.getPalNotificationsForUser;
 };
 
 export const createEvent = async event => {
@@ -329,10 +354,10 @@ export const getEventsByActivity = async (userId, activityFilter) => {
   return data.getEventsByActivity;
 };
 
-export const getEventsForUser = async userId => {
+export const getEventsForUser = async (userId, excludeIds) => {
   const query = `
-    query ($userId: ID!){
-      getEventsForUser(userId:$userId) {
+    query ($userId: ID!, $excludeIds:[ID]){
+      getEventsForUserSortedByDate(userId:$userId, excludeIds:$excludeIds) {
         id
         description
         activity
@@ -361,9 +386,55 @@ export const getEventsForUser = async userId => {
     }`;
   var data = await graphqlCall({
     query,
+    variables: { userId, excludeIds }
+  });
+  return data.getEventsForUserSortedByDate;
+};
+
+export const getEventNotificationsForUser = async userId => {
+  const query = `
+    query ($userId: ID!){
+      getEventNotificationsForUser(userId:$userId) {
+        event {
+          id
+          description
+          activity
+          date {
+            ${dateRangeFragment}
+          }
+          location {
+            ${locationFragment}
+          }
+          group {
+            members {
+              id
+              absolutePicture {
+                ${pictureFragment}
+              }
+            }
+            waitlist {
+              id
+              absolutePicture {
+                ${pictureFragment}
+              }
+            }
+          }
+          absoluteImage
+        }
+        info {
+          totalCount
+          new
+          newMessageCount
+          newInterestCount
+          date
+        }
+      }
+    }`;
+  var data = await graphqlCall({
+    query,
     variables: { userId: userId }
   });
-  return data.getEventsForUser;
+  return data.getEventNotificationsForUser;
 };
 
 export const getEventConversation = async eventId => {
@@ -482,16 +553,28 @@ export const getNotificationReportForUser = async userId => {
   return data.getNotificationReportForUser;
 };
 
-export const markNotificationAsSeen = async (userId, target) => {
+export const markEventNotificationsAsSeen = async (userId, eventId) => {
   const query = `
-  mutation($userId:ID, $target:ID){
-    markNotificationAsSeen(userId:$userId, target:$target)
+  mutation($userId:ID, $eventId:ID){
+    markNotificationAsSeen(userId:$userId, eventId:$eventId)
   }`;
   const data = await graphqlCall({
     query,
-    variables: { userId, target }
+    variables: { userId, eventId }
   });
-  return data.markNotificationAsSeen;
+  return data.markEventNotificationsAsSeen;
+};
+
+export const markPalNotificationsAsSeen = async (userId, palId) => {
+  const query = `
+  mutation($userId:ID, $palId:ID){
+    markPalNotificationsAsSeen(userId:$userId, palId:$palId)
+  }`;
+  const data = await graphqlCall({
+    query,
+    variables: { userId, palId }
+  });
+  return data.markPalNotificationsAsSeen;
 };
 
 export const sendMessage = async message => {

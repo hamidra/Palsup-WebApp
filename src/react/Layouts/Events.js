@@ -28,12 +28,10 @@ const Events = class extends Component {
 
 const mapDispatchToProps = dispatch => ({
   handleComponentDidMount: () => {
-    dispatch(dux.asyncActions.fetchUserEvents(true));
+    dispatch(dux.asyncActions.fetchUserEventsNotificationsOnTop());
   },
   markNotificationsAsSeen: eventId => {
-    dispatch(
-      dux.asyncActions.markNotificationAsSeen({ id: eventId, type: 'EVENT' })
-    );
+    dispatch(dux.asyncActions.markEventNotificationsAsSeen(eventId));
   }
 });
 

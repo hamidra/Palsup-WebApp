@@ -43,18 +43,51 @@ export const asyncActions = {
       console.log('no user is signed in');
     }
   },
-  fetchUserPals: () => async (dispatch, getState) => {
+  fetchUserPalsNotificationsOnTop: () => async (dispatch, getState) => {
     const user = getState().user;
     if ((user && user.isAuthenticated, user.info)) {
       dispatch(userPals.actions.fetchPalsStarted());
       try {
-        var gqlPals = await gql.getPalsForUser(user.info.id);
+        var notificationCount = 0;
+        var palsWithNotificationsIds = [];
+        var gqlPalNotifications = await gql.getPalNotificationsForUser(
+          user.info.id
+        );
+        if (gqlPalNotifications) {
+          var palsWithNotification = gqlPalNotifications.reduce(
+            (pals, gqlNotification) => {
+              const pal = converter.toPal(gqlNotification.event);
+              if (pal) {
+                notificationCount +=
+                  (gqlNotification.info && gqlNotification.info.totalCount) ||
+                  0;
+                pal.notification = gqlNotification.info;
+                pal.id && (pals[pal.id] = pal);
+                palsWithNotificationsIds.push(pal.id);
+                return pals;
+              }
+            },
+            {}
+          );
+          dispatch(
+            userPals.actions.fetchPalsSucceeded(
+              palsWithNotification,
+              notificationCount
+            )
+          );
+        }
+        var gqlPals = await gql.getPalsForUser(
+          user.info.id,
+          palsWithNotificationsIds
+        );
         var pals = gqlPals.reduce((pals, gqlPal) => {
           var pal = converter.toPal(gqlPal);
           pal.id && (pals[pal.id] = pal);
           return pals;
         }, {});
-        return dispatch(userPals.actions.fetchPalsSucceeded(pals));
+        return dispatch(
+          userPals.actions.fetchPalsSucceeded(pals, notificationCount)
+        );
       } catch (err) {
         return dispatch(userPals.actions.fetchPalsFailed(err));
       }
@@ -139,34 +172,49 @@ export const asyncActions = {
       return dispatch(userDux.actions.fetchUserFailed(err));
     }
   },
-  fetchUserEvents: (getNotifications = false) => async (dispatch, getState) => {
+  fetchUserEventsNotificationsOnTop: () => async (dispatch, getState) => {
     const user = getState().user;
     if (user && user.isAuthenticated && user.info) {
       dispatch(userEvents.actions.fetchEventsStarted());
       try {
-        var gqlNotifications = [];
         var notificationCount = 0;
-        var gqlEvents = await gql.getEventsForUser(user.info.id);
+        var eventsWithNotificationsIds = [];
+        var gqlEventNotifications = await gql.getEventNotificationsForUser(
+          user.info.id
+        );
+        if (gqlEventNotifications) {
+          var eventsWithNotification = gqlEventNotifications.reduce(
+            (events, gqlNotification) => {
+              const event = converter.toEvent(gqlNotification.event);
+              if (event) {
+                notificationCount +=
+                  (gqlNotification.info && gqlNotification.info.totalCount) ||
+                  0;
+                event.notification = gqlNotification.info;
+                event.id && (events[event.id] = event);
+                eventsWithNotificationsIds.push(event.id);
+                return events;
+              }
+            },
+            {}
+          );
+          dispatch(
+            userEvents.actions.fetchEventsSucceeded(
+              eventsWithNotification,
+              notificationCount
+            )
+          );
+        }
+        var gqlEvents = await gql.getEventsForUser(
+          user.info.id,
+          eventsWithNotificationsIds
+        );
         var events = gqlEvents.reduce((events, gqlEvent) => {
           const event = converter.toEvent(gqlEvent);
-          event.notificationCount = 0;
           event.id && (events[event.id] = event);
           return events;
         }, {});
-        if (getNotifications) {
-          gqlNotifications = await gql.getNotificationsForUser(user.info.id);
-          gqlNotifications.forEach(notification => {
-            if (
-              notification.target &&
-              notification.target.type === 'EVENT' &&
-              events[notification.target.id]
-            ) {
-              notificationCount++;
-              events[notification.target].notificationCount++;
-            }
-          });
-        }
-        await dispatch(
+        return await dispatch(
           userEvents.actions.fetchEventsSucceeded(events, notificationCount)
         );
       } catch (err) {
@@ -215,20 +263,35 @@ export const asyncActions = {
       console.log('no user is signed in');
     }
   },
-  markNotificationAsSeen: target => async (dispatch, getState) => {
+  markEventNotificationsAsSeen: eventId => async (dispatch, getState) => {
     const user = getState().user;
     if (user && user.isAuthenticated && user.info) {
       try {
-        let seenCount = await gql.markNotificationAsSeen(user.info.id, target);
-        if (target.type === 'PAL') {
-          dispatch(
-            userPals.actions.markNotificationAsSeen(target, seenCount || 0)
-          );
-        } else if (target.type === 'EVENT') {
-          dispatch(
-            userEvents.actions.markNotificationAsSeen(target, seenCount || 0)
-          );
-        }
+        let seenCount = await gql.markEventNotificationsAsSeen(
+          user.info.id,
+          eventId
+        );
+        dispatch(
+          userEvents.actions.markNotificationsAsSeen(eventId, seenCount || 0)
+        );
+      } catch (err) {
+        console.log(`marking notifications failed with ${err}`);
+      }
+    } else {
+      console.log('no user is signed in');
+    }
+  },
+  markPalNotificationsAsSeen: palId => async (dispatch, getState) => {
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info) {
+      try {
+        let seenCount = await gql.markPalNotificationsAsSeen(
+          user.info.id,
+          palId
+        );
+        dispatch(
+          userPals.actions.markNotificationsAsSeen(palId, seenCount || 0)
+        );
       } catch (err) {
         console.log(`marking notifications failed with ${err}`);
       }
