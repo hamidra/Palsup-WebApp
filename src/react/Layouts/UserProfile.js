@@ -15,6 +15,12 @@ const UserProfile = class UserProfile extends Component {
       isEditable: !state.isEditable
     }));
   }
+  validatePasswordChange(currentPass, newPass, newPassRetype) {
+    if (newPass !== newPassRetype) {
+      return false;
+    }
+    return true;
+  }
   render() {
     const { user, handleSubmit } = this.props;
     return (
@@ -30,80 +36,128 @@ const UserProfile = class UserProfile extends Component {
                 gender: user.gender,
                 name: user.name,
                 email: user.email,
+                currentPassword: '',
+                newPassword: '',
+                newPasswordRetype: '',
                 cell: user.cell,
-                dob: moment(user.dob).format('YYYY-MM-DD')
+                dob: moment.utc(user.dob).format('YYYY-MM-DD')
               }}
               onSubmit={async (values, { setSubmitting }) => {
-                this.toggleEditMode();
-                await handleSubmit(values);
-                setSubmitting(false);
-              }}>
-              <Form>
-                <div className="form-row">
-                  <div className="form-group col-sm-6">
+                if (
+                  this.validatePasswordChange(
+                    values.currentPassword,
+                    values.newPassword,
+                    values.newPasswordRetype
+                  )
+                ) {
+                  this.toggleEditMode();
+                  await handleSubmit(values);
+                  setSubmitting(false);
+                } else {
+                  alert('password and ');
+                }
+              }}
+              render={props => (
+                <Form>
+                  <div className="form-row">
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="name.first"
+                        className="form-control mr-2"
+                        placeholder="First name"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="name.last"
+                        className="form-control col"
+                        placeholder="Last name"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                  </div>
+                  <div className="form-group">
                     <Field
-                      name="name.first"
-                      className="form-control mr-2"
-                      placeholder="First name"
+                      name="email"
+                      className="form-control"
+                      type="email"
+                      placeholder="Email"
                       disabled={!this.state.isEditable}
                     />
                   </div>
-                  <div className="form-group col-sm-6">
+                  <div className="form-group">
                     <Field
-                      name="name.last"
-                      className="form-control col"
-                      placeholder="Last name"
+                      name="currentPassword"
+                      className="form-control"
+                      type="password"
+                      placeholder={
+                        this.state.isEditable
+                          ? 'Current password'
+                          : 'Change password'
+                      }
                       disabled={!this.state.isEditable}
                     />
                   </div>
-                </div>
-                <div className="form-group">
-                  <Field
-                    name="email"
-                    className="form-control"
-                    type="email"
-                    placeholder="Email"
-                    disabled={!this.state.isEditable}
-                  />
-                </div>
-                <div className="form-group">
-                  <Field
-                    name="password"
-                    className="form-control"
-                    type="password"
-                    placeholder="New password"
-                    disabled={!this.state.isEditable}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="form-check-label" for="dob">
-                    Birthday
-                  </label>
-                  <Field
-                    name="dob"
-                    className="form-control"
-                    type="date"
-                    disabled={!this.state.isEditable}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className={`btn btn-primary col-4 ${!this.state.isEditable &&
-                    'd-none'}`}>
-                  Save
-                </button>
-                <button
-                  className={`btn btn-primary col-4 float-right ${
-                    this.state.isEditable ? 'd-none' : ''
-                  }`}
-                  onClick={e => {
-                    e.preventDefault();
-                    this.toggleEditMode();
-                  }}>
-                  Edit
-                </button>
-              </Form>
-            </Formik>
+                  <div className="form-group">
+                    <Field
+                      name="newPassword"
+                      className={`form-control ${
+                        !this.state.isEditable ? 'd-none' : ''
+                      }`}
+                      type="password"
+                      placeholder="New password"
+                      disabled={!this.state.isEditable}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      name="newPasswordRetype"
+                      className={`form-control ${
+                        !this.state.isEditable ? 'd-none' : ''
+                      }`}
+                      type="password"
+                      placeholder="Retype new password"
+                      disabled={!this.state.isEditable}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-check-label" for="dob">
+                      Birthday
+                    </label>
+                    <Field
+                      name="dob"
+                      className="form-control"
+                      type="date"
+                      disabled={!this.state.isEditable}
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className={`btn btn-primary col-4 ${!this.state
+                      .isEditable && 'd-none'}`}>
+                    Save
+                  </button>
+                  <button
+                    className={`btn btn-primary col-4 float-right ${
+                      this.state.isEditable ? 'd-none' : ''
+                    }`}
+                    onClick={e => {
+                      e.preventDefault();
+                      this.toggleEditMode();
+                    }}>
+                    Edit
+                  </button>
+                  <button
+                    className={`btn btn-primary col-4 float-right ${
+                      !this.state.isEditable ? 'd-none' : ''
+                    }`}
+                    onClick={props.handleReset}>
+                    Cancle
+                  </button>
+                </Form>
+              )}
+            />
           </div>
         </div>
       </div>
@@ -122,6 +176,7 @@ const mapDispatchToProps = dispatch => ({
       gender: values.gender,
       name: values.name,
       email: values.email,
+      password: values.newPassword,
       cell: values.cell,
       dob: values.dob
     };

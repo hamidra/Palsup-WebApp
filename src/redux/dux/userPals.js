@@ -3,13 +3,9 @@ import initialState from './initialState';
 
 export const actions = {
   fetchPalsStarted: createAction('USERPALS/FETCH_PALS_STARTED'),
-  fetchPalsSucceeded: createAction(
-    'USERPALS/FETCH_PALS_SUCCEEDED',
-    (pals, notificationCount) => ({
-      pals,
-      notificationCount
-    })
-  ),
+  fetchPalsSucceeded: createAction('USERPALS/FETCH_PALS_SUCCEEDED', pals => ({
+    pals
+  })),
   fetchPalsFailed: createAction('USERPALS/FETCH_PALS_FAILED', error => ({
     error
   })),
@@ -28,7 +24,7 @@ export const actions = {
     'USERPALS/FETCH_PAL_NOTIFICATION_COUNT_SUCCEEDED',
     notificationCount => ({ notificationCount })
   ),
-  markNotificationAsSeen: createAction(
+  markNotificationsAsSeen: createAction(
     'USERPALS/MARK_NOTIFICATION_AS_SEEN',
     (palId, seenCount) => ({ palId, seenCount })
   )
@@ -36,12 +32,15 @@ export const actions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchPalsStarted]: state => ({ ...state, isFetching: true }),
+    [actions.fetchPalsStarted]: state => ({
+      ...state,
+      isFetching: true,
+      items: {}
+    }),
     [actions.fetchPalsSucceeded]: (state, payload) => ({
       ...state,
       isFetching: false,
-      notificationCount: payload.notificationCount,
-      items: { ...payload.pals }
+      items: { ...state.items, ...payload.pals }
     }),
     [actions.createPalSucceeded]: (state, payload) => ({
       ...state,
@@ -51,14 +50,30 @@ const reducer = createReducer(
       let targetPal = state.items[payload.palId];
       let newState = {
         ...state,
-        notificationCount: state.notificationCount + 1
+        notificationCount: state.notificationCount || 0 + 1
       };
       if (targetPal) {
+        let total_count =
+          (targetPal.notification && targetPal.notification.total_count) ||
+          0 + 1;
+        let newInterestCount =
+          (targetPal.notification && targetPal.notification.newInterestCount) ||
+          0 + 1;
         targetPal = {
           ...targetPal,
-          notificationCount: targetPal.notificationCount
-            ? targetPal.notificationCount + 1
-            : 1
+          notification: {
+            ...targetPal.notification,
+            ...{
+              total_count,
+              newInterestCount,
+              newInterestedUsers: [
+                ...((targetPal.notification &&
+                  targetPal.notification.newInterestedUsers) ||
+                  []),
+                payload.interestedUserId
+              ]
+            }
+          }
         };
         newState.items = {
           ...state.items,
@@ -73,13 +88,17 @@ const reducer = createReducer(
       ...state,
       notificationCount: payload.notificationCount
     }),
-    [actions.markNotificationAsSeen]: (state, payload) => {
+    [actions.markNotificationsAsSeen]: (state, payload) => {
       let newState = state;
       let pal = state.items && state.items[payload.palId];
       if (pal) {
         newState = {
           ...state,
-          notificationCount: state.notificationCount - payload.seenCount,
+          notificationCount:
+            state.notificationCount &&
+            state.notificationCount > payload.seenCount
+              ? state.notificationCount - payload.seenCount
+              : 0,
           items: {
             ...state.items,
             [pal.id]: { ...pal, notification: undefined }

@@ -5,9 +5,8 @@ export const actions = {
   fetchEventsStarted: createAction('USEREVENTS/FETCH_EVENTS_STARTED'),
   fetchEventsSucceeded: createAction(
     'USEREVENTS/FETCH_EVENTS_SUCCEEDED',
-    (events, notificationCount) => ({
-      events,
-      notificationCount
+    events => ({
+      events
     })
   ),
   fetchEventsFailed: createAction('USEREVENTS/FETCH_EVENTS_FAILED', error => ({
@@ -34,7 +33,12 @@ export const actions = {
   newEventNotificationRecieved: createAction(
     'USEREVENTS/NEW_EVENT_NOTIFICATION_RECIEVED',
     event => ({
-      event: { [event.id]: { ...event, notificationCount: 1 } }
+      event: {
+        [event.id]: {
+          ...event,
+          notification: { total_count: 1, new: true, date: Date.now() }
+        }
+      }
     })
   ),
   newMessageNotificationRecieved: createAction(
@@ -68,12 +72,15 @@ export const actions = {
 
 const reducer = createReducer(
   {
-    [actions.fetchEventsStarted]: state => ({ ...state, isFetching: true }),
+    [actions.fetchEventsStarted]: state => ({
+      ...state,
+      isFetching: true,
+      items: {}
+    }),
     [actions.fetchEventsSucceeded]: (state, payload) => ({
       ...state,
       isFetching: false,
-      notificationCount: payload.notificationCount,
-      items: { ...payload.events }
+      items: { ...state.items, ...payload.events }
     }),
     [actions.createEventSucceeded]: (state, payload) => ({
       ...state,
@@ -93,25 +100,81 @@ const reducer = createReducer(
       state,
     [actions.newEventNotificationRecieved]: (state, payload) => ({
       ...state,
-      notificationCount: state.notificationCount + 1,
+      notificationCount: state.notificationCount || 0 + 1,
       items: { ...state.items, ...payload.event }
     }),
     [actions.newMessageNotificationRecieved]: (state, payload) => {
       let targetEvent = state.items && state.items[payload.message.to];
       let newState = {
         ...state,
-        notificationCount: state.notificationCount + 1
+        notificationCount: state.notificationCount || 0 + 1
       };
       if (targetEvent) {
+        let total_count =
+          (targetEvent.notification && targetEvent.notification.total_count) ||
+          0 + 1;
+        let newMessageCount =
+          (targetEvent.notification &&
+            targetEvent.notification.newMessageCount) ||
+          0 + 1;
         targetEvent = {
           ...targetEvent,
-          notificationCount: targetEvent.notificationCount
-            ? targetEvent.notificationCount + 1
-            : 1
+          notification: {
+            ...targetEvent.notification,
+            ...{
+              total_count,
+              newMessageCount,
+              newMessages: [
+                ...((targetEvent.notification &&
+                  targetEvent.notification.newMessages) ||
+                  []),
+                payload.message.id
+              ]
+            }
+          }
         };
         newState.items = {
           ...state.items,
           ...{ [payload.message.to]: targetEvent }
+        };
+      } else {
+        newState.items = { ...state.items };
+      }
+      return newState;
+    },
+    [actions.eventInterestNotificationRecieved]: (state, payload) => {
+      let targetEvent = state.items[payload.eventId];
+      let newState = {
+        ...state,
+        notificationCount: state.notificationCount || 0 + 1
+      };
+      if (targetEvent) {
+        let total_count =
+          (targetEvent.notification && targetEvent.notification.total_count) ||
+          0 + 1;
+        let newInterestCount =
+          (targetEvent.notification &&
+            targetEvent.notification.newInterestCount) ||
+          0 + 1;
+        targetEvent = {
+          ...targetEvent,
+          notification: {
+            ...targetEvent.notification,
+            ...{
+              total_count,
+              newInterestCount,
+              newInterestedUsers: [
+                ...((targetEvent.notification &&
+                  targetEvent.notification.newInterestedUsers) ||
+                  []),
+                payload.interestedUserId
+              ]
+            }
+          }
+        };
+        newState.items = {
+          ...state.items,
+          ...{ [payload.eventId]: targetEvent }
         };
       } else {
         newState.items = { ...state.items };
@@ -141,7 +204,7 @@ const reducer = createReducer(
               ...state.items,
               [payload.eventId]: {
                 ...event,
-                group: { ...event.group, waitlist: [...eventWaitlist] }
+                group: { ...event.group, waitlist: [...(eventWaitlist || [])] }
               }
             }
           };
@@ -159,7 +222,11 @@ const reducer = createReducer(
       if (event) {
         newState = {
           ...state,
-          notificationCount: state.notificationCount - payload.seenCount,
+          notificationCount:
+            state.notificationCount &&
+            state.notificationCount > payload.seenCount
+              ? state.notificationCount - payload.seenCount
+              : 0,
           items: {
             ...state.items,
             [event.id]: { ...event, notification: undefined }

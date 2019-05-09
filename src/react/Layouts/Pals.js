@@ -35,9 +35,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(dux.asyncActions.fetchUserPalsNotificationsOnTop());
   },
   markNotificationsAsSeen: palId => {
-    dispatch(
-      dux.asyncActions.markNotificationAsSeen({ id: palId, type: 'PAL' })
-    );
+    dispatch(dux.asyncActions.markPalNotificationsAsSeen(palId));
   }
 });
 

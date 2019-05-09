@@ -53,10 +53,10 @@ export const asyncActions = {
         var gqlPalNotifications = await gql.getPalNotificationsForUser(
           user.info.id
         );
-        if (gqlPalNotifications) {
+        if (gqlPalNotifications && gqlPalNotifications.length > 0) {
           var palsWithNotification = gqlPalNotifications.reduce(
             (pals, gqlNotification) => {
-              const pal = converter.toPal(gqlNotification.event);
+              const pal = converter.toPal(gqlNotification.pal);
               if (pal) {
                 notificationCount +=
                   (gqlNotification.info && gqlNotification.info.totalCount) ||
@@ -224,36 +224,21 @@ export const asyncActions = {
       console.log('no user is signed in');
     }
   },
-  fetchUserNotifications: () => async (dispatch, getState) => {
+  fetchNotificationCounts: () => async (dispatch, getState) => {
     const user = getState().user;
     if (user && user.isAuthenticated && user.info) {
-      var eventNotificationCount = 0;
-      var palNotificationCount = 0;
       try {
-        var gqlNotificationReport = await gql.getNotificationReportForUser(
+        var gqlNotificationCount = await gql.getNotificationCountsForUser(
           user.info.id
         );
-        gqlNotificationReport.forEach(summary => {
-          switch (summary.type) {
-          case enums.notificationType.NEW_EVENT:
-          case enums.notificationType.NEW_MESSAGE:
-          case enums.notificationType.NEW_EVENT_INTEREST:
-            eventNotificationCount += summary.count;
-            break;
-          case enums.notificationType.NEW_PAL_INTEREST:
-            palNotificationCount += summary.count;
-            break;
-          default:
-          }
-        });
         dispatch(
           userEvents.actions.fetchEventNotificationCountSucceeded(
-            eventNotificationCount
+            gqlNotificationCount.event
           )
         );
         dispatch(
           userPals.actions.fetchPalNotificationCountSucceeded(
-            palNotificationCount
+            gqlNotificationCount.pal
           )
         );
       } catch (err) {

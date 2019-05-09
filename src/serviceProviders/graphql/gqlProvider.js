@@ -519,44 +519,25 @@ export const getEventWaitlist = async eventId => {
   return data.getEventWaitlist;
 };
 
-export const getNotificationsForUser = async (userId, type) => {
-  const query = `
-  query ($userId: ID!, $type:NotificationType){
-    getNotificationsForUser(userId:$userId, type:$type) {
-      id
-      user
-      target
-      type
-      creationDate
-      data
-    }
-  }`;
-  const data = await graphqlCall({
-    query,
-    variables: { userId, type }
-  });
-  return data.getNotificationsForUser;
-};
-
-export const getNotificationReportForUser = async userId => {
+export const getNotificationCountsForUser = async userId => {
   const query = `
   query ($userId: ID!){
-    getNotificationReportForUser(userId:$userId) {
-      type
-      count
+    getNotificationCountsForUser(userId:$userId) {
+      event
+      pal
     }
   }`;
   const data = await graphqlCall({
     query,
     variables: { userId }
   });
-  return data.getNotificationReportForUser;
+  return data.getNotificationCountsForUser;
 };
 
 export const markEventNotificationsAsSeen = async (userId, eventId) => {
   const query = `
-  mutation($userId:ID, $eventId:ID){
-    markNotificationAsSeen(userId:$userId, eventId:$eventId)
+  mutation($userId:ID!, $eventId:ID!){
+    markEventNotificationsAsSeen(userId:$userId, eventId:$eventId)
   }`;
   const data = await graphqlCall({
     query,
@@ -567,7 +548,7 @@ export const markEventNotificationsAsSeen = async (userId, eventId) => {
 
 export const markPalNotificationsAsSeen = async (userId, palId) => {
   const query = `
-  mutation($userId:ID, $palId:ID){
+  mutation($userId:ID!, $palId:ID!){
     markPalNotificationsAsSeen(userId:$userId, palId:$palId)
   }`;
   const data = await graphqlCall({

@@ -1,4 +1,5 @@
 import React from 'react';
+import Circle from '../components/icons/circle';
 
 const PalTab = ({ pal, handlePalClick }) =>
   pal && (
@@ -15,7 +16,18 @@ const PalTab = ({ pal, handlePalClick }) =>
         }
         e.preventDefault();
       }}>
-      <h5>{pal.activity}</h5>
+      <div className="row">
+        <div className="col-10">
+          <h5>{pal.activity}</h5>
+        </div>
+        <div className="col-2 align-start">
+          {pal.notification &&
+          pal.notification.totalCount &&
+          pal.notification.totalCount > 0 ? (
+              <Circle className="notification-circle" />
+            ) : null}
+        </div>
+      </div>
     </button>
   );
 

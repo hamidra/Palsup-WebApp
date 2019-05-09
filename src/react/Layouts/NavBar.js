@@ -6,9 +6,31 @@ import Thumbnail from '../components/Thumbnail';
 import anonymousAvatar from '../../images/anonymousAvatar.png';
 import Circle from '../components/icons/circle';
 import * as userDux from '../../redux/dux/user';
+import * as dux from '../../redux/dux/index';
 
 const NavBar = withRouter(
   class extends Component {
+    componentDidMount() {
+      try {
+        this.props.fetchNotificationCounts();
+      } catch (err) {
+        console.log(`failed to fetch notification count for user err:${err}`);
+      }
+    }
+    componentDidUpdate(prevProps) {
+      console.log(`prev: ${JSON.stringify(prevProps.match)}`);
+      console.log(`prop: ${JSON.stringify(this.props.match)}`);
+      try {
+        if (
+          this.props.user &&
+          prevProps.location.pathname !== this.props.location.pathname
+        ) {
+          this.props.fetchNotificationCounts();
+        }
+      } catch (err) {
+        console.log(`failed to fetch notification count for user err:${err}`);
+      }
+    }
     render() {
       const {
         user,
@@ -110,6 +132,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleLogout: () => {
     dispatch(userDux.actions.loggedOut());
+  },
+  fetchNotificationCounts: () => {
+    dispatch(dux.asyncActions.fetchNotificationCounts());
   }
 });
 

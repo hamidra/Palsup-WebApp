@@ -13,7 +13,9 @@ const EventTab = ({ event, active, handleEventClick }) =>
           <p>{event.description}</p>
         </div>
         <div className="col-2 align-start">
-          {event.notificationCount > 0 && (
+          {event.notification &&
+            event.notification.totalCount &&
+            event.notification.totalCount > 0 && (
             <Circle className="notification-circle" />
           )}
         </div>
