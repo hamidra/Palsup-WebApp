@@ -53,8 +53,8 @@ const reducer = createReducer(
         notificationCount: state.notificationCount || 0 + 1
       };
       if (targetPal) {
-        let total_count =
-          (targetPal.notification && targetPal.notification.total_count) ||
+        let totalCount =
+          (targetPal.notification && targetPal.notification.totalCount) ||
           0 + 1;
         let newInterestCount =
           (targetPal.notification && targetPal.notification.newInterestCount) ||
@@ -64,7 +64,7 @@ const reducer = createReducer(
           notification: {
             ...targetPal.notification,
             ...{
-              total_count,
+              totalCount,
               newInterestCount,
               newInterestedUsers: [
                 ...((targetPal.notification &&

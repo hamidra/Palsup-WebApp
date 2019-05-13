@@ -51,7 +51,7 @@ const NavBar = withRouter(
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto">
                 <NavLink className="nav-link d-lg-none" to="/profile">
-                  Profile
+                  <Thumbnail user={user} />
                 </NavLink>
                 <NavLink className="nav-link" to="/events">
                   Events
@@ -69,9 +69,14 @@ const NavBar = withRouter(
                     </span>
                   )}
                 </NavLink>
-                <NavLink className="nav-link d-lg-none" to="/signin">
+                <button
+                  className="nav-link d-lg-none text-left"
+                  onClick={() => {
+                    handleLogout();
+                    this.props.history.push('/');
+                  }}>
                   Log out
-                </NavLink>
+                </button>
               </Nav>
               <Nav className="align-items-center ml-auto">
                 <button

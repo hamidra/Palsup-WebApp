@@ -36,7 +36,7 @@ export const actions = {
       event: {
         [event.id]: {
           ...event,
-          notification: { total_count: 1, new: true, date: Date.now() }
+          notification: { totalCount: 1, new: true, date: Date.now() }
         }
       }
     })
@@ -110,8 +110,8 @@ const reducer = createReducer(
         notificationCount: state.notificationCount || 0 + 1
       };
       if (targetEvent) {
-        let total_count =
-          (targetEvent.notification && targetEvent.notification.total_count) ||
+        let totalCount =
+          (targetEvent.notification && targetEvent.notification.totalCount) ||
           0 + 1;
         let newMessageCount =
           (targetEvent.notification &&
@@ -122,7 +122,7 @@ const reducer = createReducer(
           notification: {
             ...targetEvent.notification,
             ...{
-              total_count,
+              totalCount,
               newMessageCount,
               newMessages: [
                 ...((targetEvent.notification &&
@@ -149,8 +149,8 @@ const reducer = createReducer(
         notificationCount: state.notificationCount || 0 + 1
       };
       if (targetEvent) {
-        let total_count =
-          (targetEvent.notification && targetEvent.notification.total_count) ||
+        let totalCount =
+          (targetEvent.notification && targetEvent.notification.totalCount) ||
           0 + 1;
         let newInterestCount =
           (targetEvent.notification &&
@@ -161,7 +161,7 @@ const reducer = createReducer(
           notification: {
             ...targetEvent.notification,
             ...{
-              total_count,
+              totalCount,
               newInterestCount,
               newInterestedUsers: [
                 ...((targetEvent.notification &&
