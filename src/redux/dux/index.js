@@ -308,17 +308,7 @@ export const asyncActions = {
     if (state.user && state.user.isAuthenticated && state.user.info) {
       try {
         if (liked) {
-          const userPal = state.userPals.items[state.activity.palId];
-          const likedPal = state.activityPals.items[palId];
-          if (
-            state.user.info.id !== likedPal.userId &&
-            userPal &&
-            likedPal &&
-            isInterested(userPal, likedPal.userId)
-          ) {
-            dispatch(asyncActions.createEvent(userPal, likedPal));
-          }
-          await gql.addToPalsInterested(palId, getState().user.info.id);
+          await gql.addToPalsInterested(palId, state.activity.palId);
         } else {
           await gql.removeFromPalsInterested(palId, getState().user.info.id);
         }

@@ -124,14 +124,14 @@ export const createPal = async pal => {
   return data.createPal;
 };
 
-export const addToPalsInterested = async (palId, userId) => {
+export const addToPalsInterested = async (palId, interestedPalId) => {
   const query = `
-  mutation($palId:ID!, $userId:ID!){
-    addToPalsInterested(palId:$palId, userId:$userId)
+  mutation($palId:ID!, $interestedPalId:ID!){
+    addToPalsInterested(palId:$palId, interestedPalId:$interestedPalId)
   }`;
   var data = await graphqlCall({
     query,
-    variables: { palId: palId, userId: userId }
+    variables: { palId: palId, interestedPalId: interestedPalId }
   });
   return data.addToPalsInterested;
 };
