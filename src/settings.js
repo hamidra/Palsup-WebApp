@@ -1,1 +1,1 @@
-export const backend_endpoint = 'http://localhost:3000';
+export const backend_endpoint = 'http://api.palsup.com';
