@@ -3,6 +3,7 @@ import * as dux from '../../redux/dux/index';
 import EditableImageModal from '../components/modals/EditableImageModal';
 
 const mapStateToProps = state => ({
+  rotatable: true,
   image:
     state.user &&
     state.user.info &&

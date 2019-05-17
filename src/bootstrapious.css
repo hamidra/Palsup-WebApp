@@ -14315,13 +14315,13 @@ button.icon {
   stroke-width: 5;
 }
 
-.heart-icon {
+.large-icon {
   width: 2.5rem;
   height: 2.5rem;
   line-height: 2.5rem;
 }
 
-.thumbs-icon {
+.medium-icon {
   width: 2rem;
   height: 2rem;
   line-height: 2rem;

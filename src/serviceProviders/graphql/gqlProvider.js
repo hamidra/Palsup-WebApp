@@ -77,6 +77,34 @@ export const updateUser = async (id, user) => {
   return data.updateUser;
 };
 
+export const getUserById = async userId => {
+  const query = `
+  query ($ids:[ID!]){
+    getUsersById(ids:$ids) {
+      id
+      name{
+        ${nameFragment}
+      }
+      gender
+      registrationDate
+      dob
+      email
+      cell
+      location{
+        ${locationFragment}
+      }
+      absolutePicture{
+        ${pictureFragment}
+      }
+    }
+  }`;
+  var data = await graphqlCall({
+    query,
+    variables: { ids: [userId] }
+  });
+  return data.getUsersById && data.getUsersById[0];
+};
+
 export const getUserByAuthInfo = async authInfo => {
   const query = `
   query ($authInfo:AuthInfoInput){

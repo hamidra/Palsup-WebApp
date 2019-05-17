@@ -4,6 +4,7 @@ import EditableImageModal from '../components/modals/EditableImageModal';
 
 const mapStateToProps = (state, ownProps) => ({
   image: ownProps.event && ownProps.event.absoluteImage,
+  rotatable: true,
   height: 400,
   width: 600,
   scale: 1,

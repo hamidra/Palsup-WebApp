@@ -10,6 +10,9 @@ const UserProfile = class UserProfile extends Component {
     super(props);
     this.state = { isEditable: false };
   }
+  componentDidMount() {
+    this.props.fetchUser();
+  }
   toggleEditMode() {
     this.setState(state => ({
       isEditable: !state.isEditable
@@ -181,6 +184,9 @@ const mapDispatchToProps = dispatch => ({
       dob: values.dob
     };
     dispatch(dux.asyncActions.updateUser(userId, user));
+  },
+  fetchUser: async () => {
+    dispatch(dux.asyncActions.fetchUser());
   }
 });
 

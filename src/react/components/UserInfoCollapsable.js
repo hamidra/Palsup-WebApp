@@ -48,7 +48,7 @@ export default class UserInfoCollapsable extends Component {
                         e.preventDefault();
                         handleVoteOnWaitlist(user.id, false);
                       }}>
-                      <ThumbsDown className="action-icon thumbs-icon" />
+                      <ThumbsDown className="action-icon medium-icon" />
                       <span>No</span>
                     </button>
                     <button
@@ -57,7 +57,7 @@ export default class UserInfoCollapsable extends Component {
                         e.preventDefault();
                         handleVoteOnWaitlist(user.id, true);
                       }}>
-                      <ThumbsUp className="action-icon thumbs-icon" />
+                      <ThumbsUp className="action-icon medium-icon" />
                       <span>Yes</span>
                     </button>
                   </div>

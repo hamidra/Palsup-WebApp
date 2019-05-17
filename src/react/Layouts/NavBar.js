@@ -69,14 +69,14 @@ const NavBar = withRouter(
                     </span>
                   )}
                 </NavLink>
-                <button
-                  className="nav-link d-lg-none text-left"
+                <div
+                  className="nav-link  d-lg-none text-left"
                   onClick={() => {
                     handleLogout();
                     this.props.history.push('/');
                   }}>
                   Log out
-                </button>
+                </div>
               </Nav>
               <Nav className="align-items-center ml-auto">
                 <button

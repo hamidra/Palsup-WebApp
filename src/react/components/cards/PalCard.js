@@ -29,7 +29,7 @@ const PalCard = ({ pal, handleLikeClick, handleModalShow }) =>
             event.stopPropagation();
           }}>
           <HeartIcon
-            className="action-icon heart-icon"
+            className="action-icon large-icon"
             fill={pal.liked ? 'blue' : 'white'}
           />
         </button>

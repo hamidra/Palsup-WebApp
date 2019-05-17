@@ -161,6 +161,22 @@ export const asyncActions = {
       dispatch(userDux.actions.updateUserFailed(err));
     }
   },
+  fetchUser: () => async (dispatch, getState) => {
+    dispatch(userDux.actions.fetchUserStarted());
+    const user = getState().user;
+    if (user && user.isAuthenticated && user.info && user.info.id) {
+      try {
+        var gqlUser = await gql.getUserById(user.info.id);
+        return dispatch(
+          userDux.actions.fetchUserSucceeded(converter.toUser(gqlUser))
+        );
+      } catch (err) {
+        return dispatch(userDux.actions.fetchUserFailed(err));
+      }
+    } else {
+      console.log('no user is signed in');
+    }
+  },
   fetchUserByAuthInfo: authInfo => async (dispatch, getState) => {
     dispatch(userDux.actions.fetchUserStarted());
     try {

@@ -24,6 +24,7 @@ const EditableImageModal = class extends Component {
       scale,
       borderRadius,
       border,
+      rotatable,
       handleImageUpload
     } = this.props;
     return (
@@ -65,6 +66,7 @@ const EditableImageModal = class extends Component {
             scale={scale}
             borderRadius={borderRadius}
             border={border}
+            rotatable={rotatable}
             handleImageUpload={image => {
               handleImageUpload(image);
               this.handleHide();
