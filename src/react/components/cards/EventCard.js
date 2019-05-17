@@ -27,7 +27,7 @@ const EventCard = ({ event, handleLikeClick, handleModalShow }) => {
               e.stopPropagation();
             }}>
             <HeartIcon
-              className="action-icon heart-icon"
+              className="action-icon large-icon"
               fill={event.liked ? 'blue' : 'white'}
             />
           </button>
