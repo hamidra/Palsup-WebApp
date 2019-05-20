@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import * as dux from '../../redux/dux/index';
 import { Formik, Field, Form } from 'formik';
+import { Redirect } from 'react-router-dom';
 
-const SignUpForm = ({ onSubmit }) => (
+const SignUpForm = ({ onSubmit, isAuthenticated }) => (
   <div>
+    {isAuthenticated && <Redirect to="/" />}
     <div className=" row justify-content-center">
       <div className="col-12 col-lg-6 border p-5 m-5 rounded">
         <h1>Sign Up</h1>
@@ -80,7 +82,10 @@ const SignUpForm = ({ onSubmit }) => (
     </div>
   </div>
 );
-
+const mapStateToProps = state => ({
+  isAuthenticated:
+    state.user && state.user.isAuthenticated && state.user.info ? true : false
+});
 const mapDispatchToProps = dispatch => ({
   onSubmit: async values => {
     var user = {
@@ -96,6 +101,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(SignUpForm);

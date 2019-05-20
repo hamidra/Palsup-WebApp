@@ -41,7 +41,7 @@ const Search = class extends React.Component {
           initialValues={activity}
           handleSearchSubmit={this.handleActivitySearchSubmit}
         />
-        <ResultPanelContainer />
+        <ResultPanelContainer isAuthenticated={this.props.isAuthenticated} />
       </div>
     );
   }
@@ -54,7 +54,9 @@ const mapStateToProps = (state, ownProps) => {
     location: query && query.location,
     date: query && query.date
   };
-  return { activity };
+  let isAuthenticated =
+    state.user && state.user.isAuthenticated && state.user.info ? true : false;
+  return { activity, isAuthenticated };
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import EventsPanel from '../components/EventsPanel';
 import * as dux from '../../redux/dux/index';
-// need to add like actions
+import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = state => ({
   events:
@@ -10,11 +10,18 @@ const mapStateToProps = state => ({
       : {}
 });
 
-const mapDispatchToProps = dispatch => ({
-  handleLikeClick: (eventId, liked) =>
-    dispatch(dux.asyncActions.toggleLikeEvent(eventId, liked))
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  handleLikeClick: (eventId, liked) => {
+    if (ownProps.isAuthenticated) {
+      dispatch(dux.asyncActions.toggleLikeEvent(eventId, liked));
+    } else {
+      ownProps.history.push('/signin');
+    }
+  }
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EventsPanel);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(EventsPanel)
+);
