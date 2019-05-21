@@ -14267,6 +14267,19 @@ code {
     monospace;
 }
 
+.home-banner {
+  height: 100px;
+  width: 100%;
+  enable-background: new 0 0 1400 980;
+}
+
+@media (min-width: 768px) {
+  .home-banner {
+    height: 250px;
+    width: 100%;
+  }
+}
+
 .notification-circle {
   fill: #0fd983;
   height: 6px !important;

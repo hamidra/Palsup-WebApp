@@ -4,6 +4,7 @@ import ActivitySearchBox from '../containers/ActivitySearchBox';
 import * as activityDux from '../../redux/dux/activity';
 import { connect } from 'react-redux';
 import * as dux from '../../redux/dux/index';
+import communityBanner from '../../images/communityBanner.svg';
 import qs from 'qs';
 
 const Home = withRouter(
@@ -25,8 +26,11 @@ const Home = withRouter(
       return (
         <div>
           <div className="background" />
-          <div className="container py-3 py-md-5  z-index-20">
+          <div className="container z-index-20">
             <div className="row justify-content-center">
+              <div className="col-12  d-flex justify-content-center">
+                <img src={communityBanner} className="home-banner" />
+              </div>
               <div className="col-md-10">
                 <ActivitySearchBox
                   initialValues={{}}

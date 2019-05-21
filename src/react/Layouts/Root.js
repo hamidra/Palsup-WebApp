@@ -44,7 +44,7 @@ const Root = class extends Component {
           <div className="header">
             <NavBar />
           </div>
-          <div className="container-fluid mt-3">
+          <div className="container-fluid">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/events" component={user ? Events : SignIn} />
