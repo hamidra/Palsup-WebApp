@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import HeartIcon from '../icons/heart';
-import { displayDateFromNow } from '../../../utilities';
+import { displayDateFromNow, toCapCase } from '../../../utilities';
 
 const PalCard = ({ pal, handleLikeClick, handleModalShow }) =>
   pal &&
@@ -15,7 +15,7 @@ const PalCard = ({ pal, handleLikeClick, handleModalShow }) =>
       />
       <div className="card-body" onClick={handleModalShow}>
         <p className="card-title">
-          {`${pal.user.name && pal.user.name.first}'s down for`}
+          {`${toCapCase(pal.user.name.first)}'s down for`}
           <br />
           <h5>{pal.activity}</h5>
         </p>

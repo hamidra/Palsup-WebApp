@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Modal } from 'react-bootstrap';
 import PalCard from '../cards/PalCard';
-import { displayDateFromNow } from '../../../utilities';
+import { displayDateFromNow, toCapCase, toUpperCase } from '../../../utilities';
 import CloseIcon from '../icons/close';
 
 const PalModal = class extends Component {
@@ -40,12 +40,16 @@ const PalModal = class extends Component {
             <CloseIcon />
           </button>
           <Modal.Body className="modal-body">
-            <h5 className="modal-title">
-              {`${pal.user.name.first} ${pal.user.name.last}`}
-            </h5>
-            <p>{`${pal.location.city}, ${pal.location.state}`}</p>
+            <h5 className="modal-title">{`${toCapCase(
+              pal.user.name.first
+            )}`}</h5>
             <p>
-              {`down for ${pal.activity}`} <br /> {displayDateFromNow(pal.date)}
+              {`is down for ${pal.activity} ${displayDateFromNow(pal.date)}`}
+              <br />
+              {pal.location &&
+                `in 
+                ${toCapCase(pal.location.city)}, 
+                ${toUpperCase(pal.location.state) || ''}`}
             </p>
           </Modal.Body>
         </Modal>

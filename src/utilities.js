@@ -101,3 +101,35 @@ export const getTopN = (users, n) => {
   }
   return topUsers;
 };
+
+export const toCapCase = s => {
+  let capS = s && `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`;
+  return capS;
+};
+
+export const toCapFirst = s => {
+  let capFirstS = s && `${s.charAt(0).toUpperCase()}${s.slice(1)}`;
+  return capFirstS;
+};
+
+export const toTitleCase = s => {
+  let words = s ? s.split(' ') : [];
+  return (
+    s &&
+    words
+      .reduce((titleS, word) => {
+        return (titleS += `${toCapCase(word)} `);
+      }, '')
+      .trim()
+  );
+};
+
+export const toLowerCase = s => {
+  let lowerS = s && `${s.toLowerCase()}`;
+  return lowerS;
+};
+
+export const toUpperCase = s => {
+  let upperS = s && `${s.toUpperCase()}`;
+  return upperS;
+};

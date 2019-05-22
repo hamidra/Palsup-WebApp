@@ -3,6 +3,7 @@ import { Card } from 'react-bootstrap';
 import moment from 'moment';
 import ThumbsUp from './icons/Thumbsup';
 import ThumbsDown from './icons/ThumbsDown';
+import { toCapCase } from '../../utilities';
 
 export default class UserInfoCollapsable extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ export default class UserInfoCollapsable extends Component {
               </div>
               <div className="col-7">
                 <div className="w-100">
-                  {user.name && `${user.name.first}`}
+                  {`${toCapCase(user.name.first)}`}
                   <br />
                   {user.dob &&
                     `${moment().diff(moment(Number(user.dob)), 'years')}, `}
