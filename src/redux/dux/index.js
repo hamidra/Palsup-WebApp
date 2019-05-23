@@ -106,7 +106,7 @@ export const asyncActions = {
       var gqlPals = await gql.getPalsByActivity(userId, activityFilter);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         const pal = converter.toPal(gqlPal);
-        pal.id && (pals[pal.id] = pal);
+        pal.id && pal.user && (pals[pal.id] = pal); //drop pal if it has no user
         return pals;
       }, {});
       return dispatch(activityPals.actions.fetchPalsSucceeded(pals));

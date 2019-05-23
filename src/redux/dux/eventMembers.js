@@ -9,7 +9,7 @@ export const actions = {
     'USERCONVERSATIONS/FETCH_EVENT_MEMBERS_SUCCEEDED',
     (eventId, members) => ({
       eventId,
-      members
+      members: members.filter(e => e) //remove the null elements
     })
   ),
   fetchEventMembersFailed: createAction(

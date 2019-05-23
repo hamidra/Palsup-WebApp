@@ -9,7 +9,7 @@ export const actions = {
     'EVENTWAITLIST/FETCH_EVENT_WAITLIST_SUCCEEDED',
     (eventId, waitlist) => ({
       eventId,
-      waitlist
+      waitlist: waitlist && waitlist.filter(e => e)
     })
   ),
   fetchEventWaitlistFailed: createAction(
