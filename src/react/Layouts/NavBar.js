@@ -10,6 +10,14 @@ import * as dux from '../../redux/dux/index';
 
 const NavBar = withRouter(
   class extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        expanded: false
+      };
+      this.onSelect = this.onSelect.bind(this);
+      this.onToggle = this.onToggle.bind(this);
+    }
     componentDidMount() {
       try {
         this.props.fetchNotificationCounts();
@@ -31,6 +39,12 @@ const NavBar = withRouter(
         console.log(`failed to fetch notification count for user err:${err}`);
       }
     }
+    onSelect() {
+      this.setState({ expanded: false });
+    }
+    onToggle(expanded) {
+      this.setState({ expanded: expanded });
+    }
     render() {
       const {
         user,
@@ -45,13 +59,20 @@ const NavBar = withRouter(
             fixed="top"
             expand="lg"
             bg="light"
-            variant="light">
-            <Navbar.Brand href="/">Palz</Navbar.Brand>
+            variant="light"
+            onToggle={this.onToggle}
+            expanded={this.state.expanded}>
+            <Navbar.Brand href="/">
+              <div className="logo" />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav className="mr-auto">
+              <Nav className="mr-auto" onClick={() => this.onSelect()}>
                 <NavLink className="nav-link d-lg-none" to="/profile">
                   <Thumbnail user={user} />
+                </NavLink>
+                <NavLink exact className="nav-link" to="/">
+                  Home
                 </NavLink>
                 <NavLink className="nav-link" to="/events">
                   Events
@@ -99,7 +120,14 @@ const NavBar = withRouter(
       } else {
         return (
           <Navbar fixed="top" bg="light" variant="light">
-            <Navbar.Brand href="/">Palz</Navbar.Brand>
+            <Navbar.Brand href="/">
+              <div className="logo" />
+            </Navbar.Brand>
+            <Nav>
+              <NavLink exact className="nav-link" to="/">
+                Home
+              </NavLink>
+            </Nav>
             <Nav className="ml-auto d-lg-none">
               <NavLink className="nav-link" to="/signin">
                 Log in

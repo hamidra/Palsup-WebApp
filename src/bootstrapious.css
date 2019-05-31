@@ -14382,6 +14382,26 @@ button.icon {
 }
 
 /*
+  logo
+*/
+.logo {
+  background: transparent url("./logo/palsup-logo.svg") center center no-repeat;
+  background-size: contain;
+  height: 43px;
+  width: 43px;
+}
+
+@media (min-width: 768px) {
+  .logo {
+    background: transparent url("./logo/palsup-logo-text.svg") center center
+      no-repeat;
+    background-size: contain;
+    height: 43px;
+    width: 136px;
+  }
+}
+
+/*
   date buttons
 */
 
