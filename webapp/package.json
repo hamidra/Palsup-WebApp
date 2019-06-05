@@ -6,8 +6,10 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "copyfile": "^0.1.2",
     "cross-fetch": "^3.0.2",
     "formik": "^1.5.1",
+    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "qs": "^6.7.0",
     "react": "^16.8.6",
@@ -23,14 +25,14 @@
     "redux-act": "^1.7.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.0.0"
+    "typescript": "^3.5.1"
   },
   "scripts": {
-    "start": "serve -s build -l 80",
+    "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "rm -vfR ../webserver/public/*;cp -vfR ./build/* ../webserver/public/",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "react-scripts start"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
