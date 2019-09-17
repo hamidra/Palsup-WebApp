@@ -14340,6 +14340,12 @@ button.icon {
   line-height: 2rem;
 }
 
+.small-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+}
+
 .card-container {
   min-width: 18rem;
 }
@@ -14359,6 +14365,18 @@ button.icon {
   border-radius: 50%;
   background: #343a40;
   z-index: 5000;
+}
+
+.tab-expand {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.tab-collapse {
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
 }
 
 .thumbnail {

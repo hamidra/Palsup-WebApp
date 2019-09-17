@@ -39,6 +39,8 @@ const UserProfile = class UserProfile extends Component {
                 gender: user.gender,
                 name: user.name,
                 email: user.email,
+                work: user.work && user.work[0],
+                education: user.education && user.education[0],
                 currentPassword: '',
                 newPassword: '',
                 newPasswordRetype: '',
@@ -135,6 +137,48 @@ const UserProfile = class UserProfile extends Component {
                       disabled={!this.state.isEditable}
                     />
                   </div>
+                  <label className="form-check-label" for="dob">
+                    Education
+                  </label>
+                  <div className="form-row">
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="education.school"
+                        className="form-control mr-2"
+                        placeholder="school"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="education.class"
+                        className="form-control col"
+                        placeholder="class"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                  </div>
+                  <label className="form-check-label" for="dob">
+                    Work
+                  </label>
+                  <div className="form-row">
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="work.title"
+                        className="form-control mr-2"
+                        placeholder="title"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                    <div className="form-group col-sm-6">
+                      <Field
+                        name="work.organization"
+                        className="form-control col"
+                        placeholder="company"
+                        disabled={!this.state.isEditable}
+                      />
+                    </div>
+                  </div>
                   <button
                     type="submit"
                     className={`btn btn-primary col-4 ${!this.state
@@ -179,6 +223,8 @@ const mapDispatchToProps = dispatch => ({
       gender: values.gender,
       name: values.name,
       email: values.email,
+      education: [values.education],
+      work: [values.work],
       password: values.newPassword,
       cell: values.cell,
       dob: values.dob

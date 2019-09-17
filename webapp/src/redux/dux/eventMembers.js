@@ -3,17 +3,17 @@ import initialState from './initialState';
 
 export const actions = {
   fetchEventMembersStarted: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_MEMBERS_STARTED'
+    'EVENTMEMBERS/FETCH_EVENT_MEMBERS_STARTED'
   ),
   fetchEventMembersSucceeded: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_MEMBERS_SUCCEEDED',
+    'EVENTMEMBERS/FETCH_EVENT_MEMBERS_SUCCEEDED',
     (eventId, members) => ({
       eventId,
       members: members.filter(e => e) //remove the null elements
     })
   ),
   fetchEventMembersFailed: createAction(
-    'USERCONVERSATIONS/FETCH_EVENT_MEMBERS_FAILED',
+    'EVENTMEMBERS/FETCH_EVENT_MEMBERS_FAILED',
     error => ({
       error
     })

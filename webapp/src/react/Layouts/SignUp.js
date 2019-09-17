@@ -18,6 +18,11 @@ const SignUpForm = ({ onSubmit, isAuthenticated }) => (
               last: ''
             },
             gender: 'UNKNOWN',
+            education: {
+              school: '',
+              class: ''
+            },
+            work: { organization: '', title: '' },
             email: '',
             cell: '',
             password: '',
@@ -70,6 +75,40 @@ const SignUpForm = ({ onSubmit, isAuthenticated }) => (
               </label>
               <Field name="dob" className="form-control" type="date" />
             </div>
+            <label className="form-check-label">Education</label>
+            <div className="form-row">
+              <div className="form-group col-sm-6">
+                <Field
+                  name="education.school"
+                  className="form-control mr-2"
+                  placeholder="school"
+                />
+              </div>
+              <div className="form-group col-sm-6">
+                <Field
+                  name="education.class"
+                  className="form-control col"
+                  placeholder="class of"
+                />
+              </div>
+            </div>
+            <label className="form-check-label">Work</label>
+            <div className="form-row">
+              <div className="form-group col-sm-6">
+                <Field
+                  name="work.title"
+                  className="form-control mr-2"
+                  placeholder="title"
+                />
+              </div>
+              <div className="form-group col-sm-6">
+                <Field
+                  name="work.organization"
+                  className="form-control col"
+                  placeholder="company"
+                />
+              </div>
+            </div>
             <button type="submit" className="btn btn-primary col-sm-4 mb-1">
               SignUp
             </button>
@@ -94,6 +133,8 @@ const mapDispatchToProps = dispatch => ({
       email: values.email,
       cell: values.cell,
       password: values.password,
+      work: [values.work],
+      education: [values.education],
       dob: values.dob
     };
     dispatch(dux.asyncActions.createUser(user));

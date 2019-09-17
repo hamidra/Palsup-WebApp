@@ -21,6 +21,16 @@ const nameFragment = `
   last
 `;
 
+const educationFragment = `
+  school
+  class
+`;
+
+const workFragment = `
+  organization,
+  title
+`;
+
 const pictureFragment = `
   large
   medium
@@ -38,6 +48,12 @@ export const createUser = async user => {
           gender
           registrationDate
           dob
+          work {
+            ${workFragment}
+          }
+          education {
+            ${educationFragment}
+          }
           email
           cell
           location{
@@ -63,6 +79,12 @@ export const updateUser = async (id, user) => {
           gender
           registrationDate
           dob
+          work {
+            ${workFragment}
+          }
+          education {
+            ${educationFragment}
+          }
           email
           cell
           location{
@@ -88,6 +110,12 @@ export const getUserById = async userId => {
       gender
       registrationDate
       dob
+      work {
+        ${workFragment}
+      }
+      education {
+        ${educationFragment}
+      }
       email
       cell
       location{
@@ -116,6 +144,12 @@ export const getUserByAuthInfo = async authInfo => {
       gender
       registrationDate
       dob
+      work {
+        ${workFragment}
+      }
+      education {
+        ${educationFragment}
+      }
       email
       cell
       location{
@@ -510,6 +544,12 @@ export const getEventMembers = async eventId => {
       }
       gender,
       dob,
+      education {
+        ${educationFragment}
+      }
+      work {
+        ${workFragment}
+      }
       location {
         ${locationFragment}
       }
