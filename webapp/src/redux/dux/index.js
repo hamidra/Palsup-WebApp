@@ -13,6 +13,7 @@ import * as gql from '../../serviceProviders/graphql/gqlProvider';
 import * as converter from '../../serviceProviders/graphql/converters';
 import { backend_endpoint } from '../../settings';
 import * as enums from '../enums';
+import moment from 'moment';
 
 const isInterested = (pal, userId) => pal.interested.includes(userId);
 
@@ -102,7 +103,14 @@ export const asyncActions = {
         ? getState().user.info.id
         : null;
     try {
-      const activityFilter = { activity: getState().activity.activity };
+      const activityFilter = {
+        activity: getState().activity.activity,
+        date: getState().activity.date || {
+          startDate: moment(),
+          // if user searches for activities for anytime(no specific date range) we query for the pals for the next 10 years
+          endDate: moment().add(10, 'years')
+        }
+      };
       var gqlPals = await gql.getPalsByActivity(userId, activityFilter);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         const pal = converter.toPal(gqlPal);
@@ -307,7 +315,14 @@ export const asyncActions = {
         ? getState().user.info.id
         : null;
     try {
-      const activityFilter = { activity: getState().activity.activity };
+      const activityFilter = {
+        activity: getState().activity.activity,
+        date: getState().activity.date || {
+          startDate: moment(),
+          // if user searches for activities for anytime(no specific date range) we query for the events for the next 10 years
+          endDate: moment().add(10, 'years') 
+        }
+      };
       var gqlEvents = await gql.getEventsByActivity(userId, activityFilter);
       var events = gqlEvents.reduce((events, gqlEvent) => {
         const event = converter.toEvent(gqlEvent);

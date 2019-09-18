@@ -26,7 +26,8 @@ const SignUpForm = ({ onSubmit, isAuthenticated }) => (
             email: '',
             cell: '',
             password: '',
-            dob: ''
+            dob: '',
+            bio: ''
           }}
           onSubmit={async (
             values,
@@ -67,6 +68,16 @@ const SignUpForm = ({ onSubmit, isAuthenticated }) => (
                 className="form-control"
                 type="password"
                 placeholder="New password"
+              />
+            </div>
+            <div className="form-group">
+              <Field
+                name="bio"
+                className="form-control"
+                component="textarea"
+                rows="5"
+                maxlength="500"
+                placeholder="Tell your pals more about yourself in 500 characters"
               />
             </div>
             <div className="form-group">
@@ -135,7 +146,8 @@ const mapDispatchToProps = dispatch => ({
       password: values.password,
       work: [values.work],
       education: [values.education],
-      dob: values.dob
+      dob: values.dob,
+      bio: values.bio
     };
     dispatch(dux.asyncActions.createUser(user));
   }

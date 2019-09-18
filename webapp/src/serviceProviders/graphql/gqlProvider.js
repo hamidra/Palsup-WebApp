@@ -48,6 +48,7 @@ export const createUser = async user => {
           gender
           registrationDate
           dob
+          bio
           work {
             ${workFragment}
           }
@@ -79,6 +80,7 @@ export const updateUser = async (id, user) => {
           gender
           registrationDate
           dob
+          bio
           work {
             ${workFragment}
           }
@@ -110,6 +112,7 @@ export const getUserById = async userId => {
       gender
       registrationDate
       dob
+      bio
       work {
         ${workFragment}
       }
@@ -144,6 +147,7 @@ export const getUserByAuthInfo = async authInfo => {
       gender
       registrationDate
       dob
+      bio
       work {
         ${workFragment}
       }
@@ -260,6 +264,14 @@ export const getPalsByActivity = async (userId, activityFilter) => {
           name {
             ${nameFragment}
           }
+          dob
+          work {
+            ${workFragment}
+          }
+          education {
+            ${educationFragment}
+          }
+          bio
           absolutePicture {
             ${pictureFragment}
           }
@@ -542,8 +554,9 @@ export const getEventMembers = async eventId => {
       absolutePicture {
         ${pictureFragment}
       }
-      gender,
-      dob,
+      gender
+      dob
+      bio
       education {
         ${educationFragment}
       }

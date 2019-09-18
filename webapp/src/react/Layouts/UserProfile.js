@@ -38,6 +38,7 @@ const UserProfile = class UserProfile extends Component {
                 id: user.id,
                 gender: user.gender,
                 name: user.name,
+                bio: user.bio,
                 email: user.email,
                 work: user.work && user.work[0],
                 education: user.education && user.education[0],
@@ -123,6 +124,17 @@ const UserProfile = class UserProfile extends Component {
                       }`}
                       type="password"
                       placeholder="Retype new password"
+                      disabled={!this.state.isEditable}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      name="bio"
+                      className="form-control"
+                      component="textarea"
+                      rows="5"
+                      maxlength="500"
+                      placeholder="Tell your pals more about yourself in 500 characters"
                       disabled={!this.state.isEditable}
                     />
                   </div>
@@ -222,6 +234,7 @@ const mapDispatchToProps = dispatch => ({
     const user = {
       gender: values.gender,
       name: values.name,
+      bio: values.bio,
       email: values.email,
       education: [values.education],
       work: [values.work],

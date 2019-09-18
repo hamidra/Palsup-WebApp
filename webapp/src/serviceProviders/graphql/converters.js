@@ -44,6 +44,7 @@ export const toUser = gqlUser =>
     gender: gqlUser.gender,
     registrationDate: new Date(Number(gqlUser.registrationDate)),
     dob: new Date(Number(gqlUser.dob)),
+    bio: gqlUser.bio,
     education: gqlUser.education,
     work: gqlUser.work,
     email: gqlUser.email,

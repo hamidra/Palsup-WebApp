@@ -6,8 +6,7 @@ import ThumbsDown from './icons/ThumbsDown';
 import { toCapCase } from '../../utilities';
 import AngleUpCircle from './icons/angleUpCircle';
 import AngleDownCircle from './icons/angleDownCircle';
-import Work from './icons/work';
-import Education from './icons/education';
+import UserInfoLong from './UserInfoLong';
 
 const UserInfoCollapsed = ({ user, handleVoteOnWaitlist, toggleCollapse }) => {
   return (
@@ -80,43 +79,8 @@ const UserInfoExpanded = ({ user, handleVoteOnWaitlist, toggleCollapse }) => {
               alt="..."
             />
           </div>
+          <UserInfoLong className="w-100" user={user} />
           <div className="col-12 mt-3">
-            <div className="w-100">
-              <div>
-                <span style={{ fontSize: '26px', fontWeight: '800' }}>
-                  {`${toCapCase(user.name.first)}`}
-                </span>
-                ,
-                <span style={{ fontSize: '26px' }}>
-                  {user.dob &&
-                    ` ${moment().diff(moment(Number(user.dob)), 'years')}`}
-                </span>
-              </div>
-              <div>
-                {user.location &&
-                  `${toCapCase(user.location.city)}, ${user.location.state}`}
-              </div>
-              {user.work && user.work[0] && (
-                <div className="row no-gutters">
-                  <div className="col-1">
-                    <Work className="small-icon " />
-                  </div>
-                  <div className="col-11">
-                    {`${user.work[0].title} at ${user.work[0].organization}`}
-                  </div>
-                </div>
-              )}
-              {user.education && user.education[0] && (
-                <div className="row no-gutters">
-                  <div className="col-1">
-                    <Education className="small-icon " />
-                  </div>
-                  <div className="col-11">
-                    {`${user.education[0].school} class of ${user.education[0].class}`}
-                  </div>
-                </div>
-              )}
-            </div>
             {handleVoteOnWaitlist && (
               <div className="row border-top mt-1 pt-3 w-100">
                 <button
