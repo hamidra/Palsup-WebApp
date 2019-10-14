@@ -4768,6 +4768,26 @@ input[type="button"].btn-block {
   color: #000;
 }
 
+.navbar-light .nav-link {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.navbar-light .nav-link:hover,
+.navbar-light .nav-link:focus {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.navbar-light .nav-link.disabled {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.navbar-light .show > .nav-link,
+.navbar-light .active > .nav-link,
+.navbar-light .nav-link.show,
+.navbar-light .nav-link.active {
+  color: #000;
+}
+
 .navbar-light .navbar-toggler {
   color: rgba(0, 0, 0, 0.5);
   border-color: rgba(0, 0, 0, 0.1);
@@ -14398,6 +14418,13 @@ button.icon {
   top: 10%;
   background: white;
 }
+
+.message-box {
+  resize:none
+}
+ .form-error {
+   color:red
+ }
 
 /*
   logo

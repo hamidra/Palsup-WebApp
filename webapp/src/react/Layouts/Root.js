@@ -93,11 +93,11 @@ const mapDispatchToProps = dispatch => ({
     const data = JSON.parse(sse.data);
     console.log(sse.data);
     data.eventId &&
-      data.interestedUserId &&
+      data.interestedUser &&
       dispatch(
         userEventsDux.actions.eventInterestNotificationRecieved(
           data.eventId,
-          data.interestedUserId
+          data.interestedUser
         )
       );
   },

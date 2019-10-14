@@ -500,6 +500,7 @@ export const getEventNotificationsForUser = async userId => {
           new
           newMessageCount
           newInterestCount
+          newMembersCount
           date
         }
       }

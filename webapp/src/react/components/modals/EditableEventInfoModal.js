@@ -5,6 +5,14 @@ import { Formik, Field, Form } from 'formik';
 import { displayEventDate, displayAddress } from '../../../utilities';
 import moment from 'moment';
 
+const validateEventInfo = values => {
+  let errors = {};
+  const datetime = new Date(`${values.date} ${values.time || ''}`);
+  if (datetime < Date.now()) {
+    errors.date = 'Event time can not be in the past!';
+  }
+  return errors;
+};
 export default class EditableEventInfoModal extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +29,7 @@ export default class EditableEventInfoModal extends Component {
   }
   handleSubmit(values, { setSubmitting, initialValues, resetForm }) {
     if (this.props.handleSubmit && this.props.event) {
-      const datetime = new Date(`${values.date} ${values.time}`);
+      const datetime = new Date(`${values.date} ${values.time || ''}`);
       const eventPatch = {
         activity: values.activity,
         date:
@@ -79,51 +87,67 @@ export default class EditableEventInfoModal extends Component {
                   location: event.location && event.location.address,
                   description: event.description
                 }}
+                validate={validateEventInfo}
                 onSubmit={this.handleSubmit}>
-                <Form className="py-5">
-                  <div className="form-group">
-                    <label className="form-check-label" for="description">
-                      Title
-                    </label>
-                    <Field name="activity" className="form-control w-50" />
-                  </div>
-                  <label className="form-check-label" for="time">
-                    Time
-                  </label>
-                  <div className="form-row">
-                    <div className="form-group col-6">
-                      <Field name="date" className="form-control" type="date" />
-                    </div>
-                    <div className="form-group col-5">
-                      <Field name="time" className="form-control" type="time" />
-                    </div>
-                    <div className="form-group col-1">
-                      <label className="form-check-label" for="time">
-                        PDT
+                {({ errors, touched }) => (
+                  <Form className="py-5">
+                    <div className="form-group">
+                      <label className="form-check-label" for="description">
+                        Title
                       </label>
+                      <Field name="activity" className="form-control w-50" />
                     </div>
-                  </div>
-                  <div className="form-group">
                     <label className="form-check-label" for="time">
-                      Location
+                      Time
                     </label>
-                    <Field name="location" className="form-control" />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-check-label" for="description">
-                      Description
-                    </label>
-                    <Field
-                      name="description"
-                      component="textarea"
-                      className="form-control"
-                      rows="4"
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary col-4">
-                    Save
-                  </button>
-                </Form>
+                    <div className="form-row">
+                      <div className="form-group col-6">
+                        <Field
+                          name="date"
+                          className="form-control"
+                          type="date"
+                        />
+                      </div>
+                      <div className="form-group col-5">
+                        <Field
+                          name="time"
+                          className="form-control"
+                          type="time"
+                        />
+                      </div>
+                      <div className="form-group col-1">
+                        <label className="form-check-label" for="time">
+                          PDT
+                        </label>
+                      </div>
+                      {errors.date && touched.date && (
+                        <div className="form-group col form-error">
+                          {errors.date}
+                        </div>
+                      )}
+                    </div>
+                    <div className="form-group">
+                      <label className="form-check-label" for="time">
+                        Location
+                      </label>
+                      <Field name="location" className="form-control" />
+                    </div>
+                    <div className="form-group">
+                      <label className="form-check-label" for="description">
+                        Description
+                      </label>
+                      <Field
+                        name="description"
+                        component="textarea"
+                        className="form-control"
+                        rows="4"
+                      />
+                    </div>
+                    <button type="submit" className="btn btn-primary col-4">
+                      Save
+                    </button>
+                  </Form>
+                )}
               </Formik>
             </Modal.Body>
           </Modal>

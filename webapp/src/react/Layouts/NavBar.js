@@ -65,30 +65,30 @@ const NavBar = withRouter(
             <Navbar.Brand href="/">
               <div className="logo" />
             </Navbar.Brand>
+            <NavLink exact className="nav-link" to="/">
+              Home
+            </NavLink>
+            <NavLink className="nav-link nav-item" to="/events">
+              Events
+              {eventNotificationCount > 0 && (
+                <span>
+                  <Circle className="notification-circle" />
+                </span>
+              )}
+            </NavLink>
+            <NavLink className="nav-link nav-item" to="/pals">
+              Activities
+              {palNotificationCount > 0 && (
+                <span>
+                  <Circle className="notification-circle" />
+                </span>
+              )}
+            </NavLink>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="mr-auto" onClick={() => this.onSelect()}>
                 <NavLink className="nav-link d-lg-none" to="/profile">
                   <Thumbnail user={user} />
-                </NavLink>
-                <NavLink exact className="nav-link" to="/">
-                  Home
-                </NavLink>
-                <NavLink className="nav-link" to="/events">
-                  Events
-                  {eventNotificationCount > 0 && (
-                    <span>
-                      <Circle className="notification-circle" />
-                    </span>
-                  )}
-                </NavLink>
-                <NavLink className="nav-link" to="/pals">
-                  Activities
-                  {palNotificationCount > 0 && (
-                    <span>
-                      <Circle className="notification-circle" />
-                    </span>
-                  )}
                 </NavLink>
                 <div
                   className="nav-link  d-lg-none text-left"

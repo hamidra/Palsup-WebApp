@@ -79,10 +79,13 @@ export const displayAddress = location => {
 
 export const displayEventDate = dateRange => {
   let displayDate;
-  if (!dateRange) {
+  if (!dateRange || !dateRange.startDate) {
     displayDate = 'Anytime';
-  } else if (dateRange.startDate === dateRange.endDate) {
-    displayDate = moment(dateRange.startDate).calendar();
+  } else if (
+    !dateRange.endDate ||
+    dateRange.startDate.getTime() === dateRange.endDate.getTime()
+  ) {
+    displayDate = moment(dateRange.startDate).format('lll');
   } else {
     displayDate = `${moment(dateRange.startDate).format('lll')} - ${moment(
       dateRange.endDate

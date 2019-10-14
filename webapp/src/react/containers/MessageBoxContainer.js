@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { connect } from 'react-redux';
+import SendGlider from '../components/icons/SendGlider';
 import * as dux from '../../redux/dux/index';
 
 const MessageBox = class extends Component {
@@ -23,14 +24,14 @@ const MessageBox = class extends Component {
               <Field
                 name="messageText"
                 component="textarea"
-                className="form-control"
+                className="form-control message-box"
                 placeholder="Type a message"
                 rows="2"
               />
               <button
                 type="submit"
-                className="btn btn-primary input-group-append">
-                <span>s</span>
+                className="btn btn-warning input-group-append">
+                <SendGlider className="medium-icon" />
               </button>
             </div>
           </Form>

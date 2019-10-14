@@ -47,6 +47,10 @@ export const actions = {
       message
     })
   ),
+  eventInterestNotificationRecieved: createAction(
+    'USEREVENTS/EVENT_INTEREST_NOTIFICATION_RECIEVED',
+    (eventId, interestedUser) => ({ eventId, interestedUser })
+  ),
   fetchEventNotificationCountSucceeded: createAction(
     'USEREVENTS/FETCH_EVENT_NOTIFICATION_COUNT_SUCCEEDED',
     notificationCount => ({ notificationCount })
@@ -167,7 +171,16 @@ const reducer = createReducer(
                 ...((targetEvent.notification &&
                   targetEvent.notification.newInterestedUsers) ||
                   []),
-                payload.interestedUserId
+                payload.interestedUser
+              ]
+            }
+          },
+          group: {
+            ...targetEvent.group,
+            ...{
+              waitlist: [
+                ...((targetEvent.group && targetEvent.group.waitlist) || []),
+                payload.interestedUser
               ]
             }
           }
