@@ -65,7 +65,7 @@ const NavBar = withRouter(
             <Navbar.Brand href="/">
               <div className="logo" />
             </Navbar.Brand>
-            <NavLink exact className="nav-link" to="/">
+            <NavLink exact className="nav-link d-none d-md-inline-block" to="/">
               Home
             </NavLink>
             <NavLink className="nav-link nav-item" to="/events">

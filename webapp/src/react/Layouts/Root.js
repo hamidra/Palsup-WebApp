@@ -34,6 +34,9 @@ const Root = class extends Component {
       es.addEventListener('NEW_PAL_INTEREST', sse =>
         this.props.handlePalInterestSse(sse)
       );
+      es.addEventListener('NEW_EVENT_MEMBER', sse =>
+        this.props.handleNewMemberSse(sse)
+      );
     }
   }
   render() {
@@ -98,6 +101,18 @@ const mapDispatchToProps = dispatch => ({
         userEventsDux.actions.eventInterestNotificationRecieved(
           data.eventId,
           data.interestedUser
+        )
+      );
+  },
+  handleNewMemberSse: async sse => {
+    const data = JSON.parse(sse.data);
+    console.log(sse.data);
+    data.eventId &&
+      data.memberUser &&
+      dispatch(
+        userEventsDux.actions.newMemberNotificationRecieved(
+          data.eventId,
+          data.memberUser
         )
       );
   },

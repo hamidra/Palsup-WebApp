@@ -51,6 +51,10 @@ export const actions = {
     'USEREVENTS/EVENT_INTEREST_NOTIFICATION_RECIEVED',
     (eventId, interestedUser) => ({ eventId, interestedUser })
   ),
+  newMemberNotificationRecieved: createAction(
+    'USEREVENTS/NEW_MEMBER_NOTIFICATION_RECIEVED',
+    (eventId, memberUser) => ({ eventId, memberUser })
+  ),
   fetchEventNotificationCountSucceeded: createAction(
     'USEREVENTS/FETCH_EVENT_NOTIFICATION_COUNT_SUCCEEDED',
     notificationCount => ({ notificationCount })
@@ -181,6 +185,68 @@ const reducer = createReducer(
               waitlist: [
                 ...((targetEvent.group && targetEvent.group.waitlist) || []),
                 payload.interestedUser
+              ]
+            }
+          }
+        };
+        newState.items = {
+          ...state.items,
+          ...{ [payload.eventId]: targetEvent }
+        };
+      } else {
+        newState.items = { ...state.items };
+      }
+      return newState;
+    },
+    [actions.newMemberNotificationRecieved]: (state, payload) => {
+      let targetEvent = state.items[payload.eventId];
+      let newState = {
+        ...state,
+        notificationCount: state.notificationCount || 0 + 1
+      };
+      if (targetEvent) {
+        let totalCount =
+          (targetEvent.notification && targetEvent.notification.totalCount) ||
+          0 + 1;
+        let newMemberCount =
+          (targetEvent.notification &&
+            targetEvent.notification.newMemberCount) ||
+          0 + 1;
+        let newInterestedUsers =
+          targetEvent.notification &&
+          targetEvent.notification.newInterestedUsers &&
+          targetEvent.notification.newInterestedUsers.filter(
+            user => user.id != payload.memberUser.id
+          );
+        let newWaitlist =
+          targetEvent.group &&
+          targetEvent.group.waitlist &&
+          targetEvent.group.waitlist.filter(
+            user => user.id != payload.memberUser.id
+          );
+        targetEvent = {
+          ...targetEvent,
+          notification: {
+            ...targetEvent.notification,
+            ...{
+              totalCount,
+              newMemberCount,
+              newInterestedUsers: newInterestedUsers || [],
+              newMembers: [
+                ...((targetEvent.notification &&
+                  targetEvent.notification.newMembers) ||
+                  []),
+                payload.memberUser
+              ]
+            }
+          },
+          group: {
+            ...targetEvent.group,
+            ...{
+              waitlist: newWaitlist || [],
+              members: [
+                ...((targetEvent.group && targetEvent.group.members) || []),
+                payload.memberUser
               ]
             }
           }

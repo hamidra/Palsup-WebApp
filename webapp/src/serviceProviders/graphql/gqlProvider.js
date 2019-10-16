@@ -359,13 +359,13 @@ export const createEvent = async event => {
 
 export const updateEvent = async (id, patch) => {
   const query = `
-    mutation($id:ID!, $patch: EventInput){
+    mutation($id:ID!, $patch: EventInput) {
       updateEvent(id:$id, patch:$patch ) {
         id
         description
         activity
         date {
-           ${dateRangeFragment}
+          ${dateRangeFragment}
         }
         location {
           ${locationFragment}

@@ -7,8 +7,8 @@ import moment from 'moment';
 
 const validateEventInfo = values => {
   let errors = {};
-  const datetime = new Date(`${values.date} ${values.time || ''}`);
-  if (datetime < Date.now()) {
+  const datetime = moment(`${values.date} ${values.time || ''}`);
+  if (datetime.isBefore(moment())) {
     errors.date = 'Event time can not be in the past!';
   }
   return errors;
@@ -29,12 +29,13 @@ export default class EditableEventInfoModal extends Component {
   }
   handleSubmit(values, { setSubmitting, initialValues, resetForm }) {
     if (this.props.handleSubmit && this.props.event) {
-      const datetime = new Date(`${values.date} ${values.time || ''}`);
+      const datetime = moment(`${values.date} ${values.time || ''}`);
+      console.log(datetime);
       const eventPatch = {
         activity: values.activity,
         date:
-          datetime && datetime > Date.now()
-            ? { startDate: datetime, endDate: datetime }
+          datetime && datetime.isAfter(moment())
+            ? { startDate: datetime.toDate(), endDate: datetime.toDate() }
             : undefined,
         location: {
           ...this.props.event.location,
@@ -42,6 +43,7 @@ export default class EditableEventInfoModal extends Component {
         },
         description: values.description
       };
+      console.log(JSON.stringify(eventPatch));
       this.props.handleSubmit(this.props.event.id, eventPatch);
     }
     this.handleHide();
@@ -80,12 +82,15 @@ export default class EditableEventInfoModal extends Component {
                 initialValues={{
                   activity: event.activity,
                   date:
-                    event.date &&
-                    moment(event.date.startDate).format('YYYY-MM-DD'),
+                    (event.date &&
+                      moment(event.date.startDate).format('YYYY-MM-DD')) ||
+                    '',
                   time:
-                    event.date && moment(event.date.startDate).format('HH:mm'),
-                  location: event.location && event.location.address,
-                  description: event.description
+                    (event.date &&
+                      moment(event.date.startDate).format('HH:mm')) ||
+                    '',
+                  location: (event.location && event.location.address) || '',
+                  description: event.description || ''
                 }}
                 validate={validateEventInfo}
                 onSubmit={this.handleSubmit}>

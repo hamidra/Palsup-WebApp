@@ -5,10 +5,16 @@ export default class ActivitySearchBox extends Component {
   constructor(props) {
     super(props);
     this.handleValueChange = this.handleValueChange.bind(this);
+    this.setActivityToTrend = this.setActivityToTrend.bind(this);
     this.state = {
       ...props.initialValues,
       location: { city: 'Seattle' }
     };
+  }
+  setActivityToTrend(event) {
+    event &&
+      event.target &&
+      this.setState({ activity: event.target.textContent });
   }
   handleValueChange(event) {
     let update;
@@ -62,6 +68,36 @@ export default class ActivitySearchBox extends Component {
             </div>
           </div>
         </form>
+        <div className="row">
+          <div className="col-12 mt-2">Trending: </div>
+          <div className="col mt-1 d-flex flex-wrap align-items-center form-group">
+            <button
+              className="btn btn-sm rounded-pill btn-outline-success text-capitalize font-italic"
+              onClick={this.setActivityToTrend}>
+              coffee
+            </button>
+            <button
+              className="btn btn-sm rounded-pill btn-outline-success text-capitalize font-italic"
+              onClick={this.setActivityToTrend}>
+              bar hopping
+            </button>
+            <button
+              className="btn btn-sm rounded-pill btn-outline-success text-capitalize font-italic"
+              onClick={this.setActivityToTrend}>
+              hiking
+            </button>
+            <button
+              className="btn btn-sm rounded-pill btn-outline-success text-capitalize font-italic"
+              onClick={this.setActivityToTrend}>
+              board games
+            </button>
+            <button
+              className="btn btn-sm rounded-pill btn-outline-success text-capitalize font-italic"
+              onClick={this.setActivityToTrend}>
+              running
+            </button>
+          </div>
+        </div>
         <div className="row py-1 justify-content-center">
           <div className="card-container m-1">
             <button
