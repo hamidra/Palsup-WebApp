@@ -92,8 +92,8 @@ const UserProfile = class UserProfile extends Component {
                         errors.name.first &&
                         touched.name &&
                         touched.name.first && (
-                        <div className="form-error">{errors.name.first}</div>
-                      )}
+                          <div className="form-error">{errors.name.first}</div>
+                        )}
                     </div>
                     <div className="form-group col-sm-6">
                       <Field
@@ -292,7 +292,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

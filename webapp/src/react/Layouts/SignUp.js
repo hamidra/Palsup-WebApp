@@ -72,8 +72,8 @@ const SignUpForm = ({ onSubmit, isAuthenticated }) => (
                   errors.name.first &&
                   touched.name &&
                   touched.name.first ? (
-                      <div className="form-error">{errors.name.first}</div>
-                    ) : null}
+                    <div className="form-error">{errors.name.first}</div>
+                  ) : null}
                 </div>
                 <div className="form-group col-sm-6">
                   <Field
@@ -228,7 +228,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SignUpForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

@@ -5,10 +5,12 @@ import { withRouter } from 'react-router-dom';
 
 const mapStateToProps = state => ({
   user: state.user && state.user.isAuthenticated && state.user.info,
+  activityFilter: state.activity,
   pals:
     state.activityPals && state.activityPals.items
       ? state.activityPals.items
-      : {}
+      : {},
+  topPals: state.topPals && state.topPals.items ? state.topPals.items : {}
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -22,8 +24,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(PalsPanel)
+  connect(mapStateToProps, mapDispatchToProps)(PalsPanel)
 );

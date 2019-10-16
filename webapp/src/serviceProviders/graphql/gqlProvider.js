@@ -41,28 +41,28 @@ export const createUser = async user => {
   const query = `
     mutation($user:UserInput){
       createUser(user:$user ) {
-          id
-          name{
-            ${nameFragment}
-          }
-          gender
-          registrationDate
-          dob
-          bio
-          work {
-            ${workFragment}
-          }
-          education {
-            ${educationFragment}
-          }
-          email
-          cell
-          location{
-           ${locationFragment}
-          }
-          absolutePicture{
-            ${pictureFragment}
-          }
+        id
+        name{
+          ${nameFragment}
+        }
+        gender
+        registrationDate
+        dob
+        bio
+        work {
+          ${workFragment}
+        }
+        education {
+          ${educationFragment}
+        }
+        email
+        cell
+        location{
+          ${locationFragment}
+        }
+        absolutePicture{
+          ${pictureFragment}
+        }
       }
     }`;
   var data = await graphqlCall({ query, variables: { user: user } });
@@ -74,7 +74,7 @@ export const updateUser = async (id, user) => {
     mutation($id:ID!, $user:UserInput){
       updateUser(id:$id, user:$user ) {
           id
-          name{
+          name {
             ${nameFragment}
           }
           gender
@@ -89,10 +89,10 @@ export const updateUser = async (id, user) => {
           }
           email
           cell
-          location{
+          location {
             ${locationFragment}
           }
-          absolutePicture{
+          absolutePicture {
             ${pictureFragment}
           }
       }
@@ -103,10 +103,10 @@ export const updateUser = async (id, user) => {
 
 export const getUserById = async userId => {
   const query = `
-  query ($ids:[ID!]){
+  query ($ids:[ID!]) {
     getUsersById(ids:$ids) {
       id
-      name{
+      name {
         ${nameFragment}
       }
       gender
@@ -121,10 +121,10 @@ export const getUserById = async userId => {
       }
       email
       cell
-      location{
+      location {
         ${locationFragment}
       }
-      absolutePicture{
+      absolutePicture {
         ${pictureFragment}
       }
     }
@@ -138,7 +138,7 @@ export const getUserById = async userId => {
 
 export const getUserByAuthInfo = async authInfo => {
   const query = `
-  query ($authInfo:AuthInfoInput){
+  query ($authInfo:AuthInfoInput) {
     getUserByAuthInfo(authInfo:$authInfo) {
       id
       name{
@@ -156,10 +156,10 @@ export const getUserByAuthInfo = async authInfo => {
       }
       email
       cell
-      location{
+      location {
         ${locationFragment}
       }
-      absolutePicture{
+      absolutePicture {
         ${pictureFragment}
       }
     }
@@ -173,14 +173,14 @@ export const getUserByAuthInfo = async authInfo => {
 
 export const createPal = async pal => {
   const query = `
-    mutation($pal:PalInput){
+    mutation($pal:PalInput) {
       createPal(pal:$pal ) {
         id,
         activity
         location {
          ${locationFragment}
         }
-        date{
+        date {
          ${dateRangeFragment}
         }
         interested
@@ -192,7 +192,7 @@ export const createPal = async pal => {
 
 export const addToPalsInterested = async (palId, interestedPalId) => {
   const query = `
-  mutation($palId:ID!, $interestedPalId:ID!){
+  mutation($palId:ID!, $interestedPalId:ID!) {
     addToPalsInterested(palId:$palId, interestedPalId:$interestedPalId)
   }`;
   var data = await graphqlCall({
@@ -204,7 +204,7 @@ export const addToPalsInterested = async (palId, interestedPalId) => {
 
 export const removeFromPalsInterested = async (palId, userId) => {
   const query = `
-  mutation($palId:ID!, $userId:ID!){
+  mutation($palId:ID!, $userId:ID!) {
     removeFromPalsInterested(palId:$palId, userId:$userId)
   }`;
   var data = await graphqlCall({
@@ -216,7 +216,7 @@ export const removeFromPalsInterested = async (palId, userId) => {
 
 export const addToEventsWaitlist = async (eventId, userId) => {
   const query = `
-  mutation($eventId:ID!, $userId:ID!){
+  mutation($eventId:ID!, $userId:ID!) {
     addToEventsWaitlist(eventId:$eventId, userId:$userId)
   }`;
   var data = await graphqlCall({
@@ -228,7 +228,7 @@ export const addToEventsWaitlist = async (eventId, userId) => {
 
 export const removeFromEventsWaitlist = async (eventId, userId) => {
   const query = `
-  mutation($eventId:ID!, $userId:ID!){
+  mutation($eventId:ID!, $userId:ID!) {
     removeFromEventsWaitlist(eventId:$eventId, userId:$userId)
   }`;
   var data = await graphqlCall({
@@ -244,7 +244,7 @@ export const submitVoteOnEventsWaitlist = async (
   vote
 ) => {
   const query = `
-  mutation($eventId:ID!, $waitlistUserId:ID!, $vote:Boolean){
+  mutation($eventId:ID!, $waitlistUserId:ID!, $vote:Boolean) {
     submitVoteOnEventsWaitlist(eventId:$eventId, waitlistUserId:$waitlistUserId, vote:$vote)
   }`;
   var data = await graphqlCall({
@@ -256,7 +256,7 @@ export const submitVoteOnEventsWaitlist = async (
 
 export const getPalsByActivity = async (userId, activityFilter) => {
   const query = `
-    query ($userId: ID, $activityFilter: ActivityFilterInput){
+    query ($userId: ID, $activityFilter: ActivityFilterInput) {
       getPalsByActivity(userId:$userId, activityFilter:$activityFilter) {
         id,
         user {
@@ -293,9 +293,48 @@ export const getPalsByActivity = async (userId, activityFilter) => {
   return data.getPalsByActivity;
 };
 
+export const getTopPals = async (userId, limit = 50) => {
+  const query = `
+    query ($userId: ID, $limit: Int) {
+      getTopPals(userId:$userId, limit:$limit) {
+        id,
+        user {
+          id
+          name {
+            ${nameFragment}
+          }
+          dob
+          work {
+            ${workFragment}
+          }
+          education {
+            ${educationFragment}
+          }
+          bio
+          absolutePicture {
+            ${pictureFragment}
+          }
+        }
+        activity
+        date {
+         ${dateRangeFragment}
+        }
+        location {
+          ${locationFragment}
+        }
+        interested
+      }
+    }`;
+  var data = await graphqlCall({
+    query,
+    variables: { userId: userId, limit: limit }
+  });
+  return data.getTopPals;
+};
+
 export const getPalsForUser = async (userId, excludeIds) => {
   const query = `
-    query ($userId: ID!, $excludeIds:[ID]){
+    query ($userId: ID!, $excludeIds:[ID]) {
       getPalsForUserSortedByDate(userId:$userId, excludeIds:$excludeIds) {
         id
         activity
@@ -313,7 +352,7 @@ export const getPalsForUser = async (userId, excludeIds) => {
 };
 export const getPalNotificationsForUser = async userId => {
   const query = `
-    query ($userId: ID!){
+    query ($userId: ID!) {
       getPalNotificationsForUser(userId:$userId) {
         pal {
           id
@@ -339,7 +378,7 @@ export const getPalNotificationsForUser = async userId => {
 
 export const createEvent = async event => {
   const query = `
-    mutation($event:EventInput){
+    mutation($event:EventInput) {
       createEvent(event:$event ) {
         id
         description
@@ -393,7 +432,7 @@ export const updateEvent = async (id, patch) => {
 
 export const getEventsByActivity = async (userId, activityFilter) => {
   const query = `
-    query ($userId:ID, $activityFilter: ActivityFilterInput){
+    query ($userId:ID, $activityFilter: ActivityFilterInput) {
       getEventsByActivity(userId:$userId, activityFilter:$activityFilter) {
         id
         description
@@ -430,7 +469,7 @@ export const getEventsByActivity = async (userId, activityFilter) => {
 
 export const getEventsForUser = async (userId, excludeIds) => {
   const query = `
-    query ($userId: ID!, $excludeIds:[ID]){
+    query ($userId: ID!, $excludeIds:[ID]) {
       getEventsForUserSortedByDate(userId:$userId, excludeIds:$excludeIds) {
         id
         description
@@ -467,7 +506,7 @@ export const getEventsForUser = async (userId, excludeIds) => {
 
 export const getEventNotificationsForUser = async userId => {
   const query = `
-    query ($userId: ID!){
+    query ($userId: ID!) {
       getEventNotificationsForUser(userId:$userId) {
         event {
           id
@@ -546,7 +585,7 @@ export const getEventConversation = async eventId => {
 
 export const getEventMembers = async eventId => {
   const query = `
-  query ($eventId: ID!){
+  query ($eventId: ID!) {
     getEventMembers(eventId:$eventId) {
       id
       name {
@@ -578,7 +617,7 @@ export const getEventMembers = async eventId => {
 
 export const getEventWaitlist = async eventId => {
   const query = `
-  query ($eventId: ID!){
+  query ($eventId: ID!) {
     getEventWaitlist(eventId:$eventId) {
       id
       name {
@@ -603,7 +642,7 @@ export const getEventWaitlist = async eventId => {
 
 export const getNotificationCountsForUser = async userId => {
   const query = `
-  query ($userId: ID!){
+  query ($userId: ID!) {
     getNotificationCountsForUser(userId:$userId) {
       event
       pal
@@ -618,7 +657,7 @@ export const getNotificationCountsForUser = async userId => {
 
 export const markEventNotificationsAsSeen = async (userId, eventId) => {
   const query = `
-  mutation($userId:ID!, $eventId:ID!){
+  mutation($userId:ID!, $eventId:ID!) {
     markEventNotificationsAsSeen(userId:$userId, eventId:$eventId)
   }`;
   const data = await graphqlCall({
@@ -630,7 +669,7 @@ export const markEventNotificationsAsSeen = async (userId, eventId) => {
 
 export const markPalNotificationsAsSeen = async (userId, palId) => {
   const query = `
-  mutation($userId:ID!, $palId:ID!){
+  mutation($userId:ID!, $palId:ID!) {
     markPalNotificationsAsSeen(userId:$userId, palId:$palId)
   }`;
   const data = await graphqlCall({

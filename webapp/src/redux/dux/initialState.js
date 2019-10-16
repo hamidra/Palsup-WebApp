@@ -43,6 +43,7 @@ const initialState = {
   },
   activityEvents: { timestamp: Date.now(), isFetching: false, items: {} },
   activityPals: { timestamp: Date.now(), isFetching: false, items: {} },
+  topPals: { timestamp: Date.now(), isFetching: false, items: {} },
   filter: { viewFilter: types.viewFilter.SHOW_PALS }
 };
 

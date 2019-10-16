@@ -24,8 +24,8 @@ const PalTab = ({ pal, handlePalClick }) =>
           {pal.notification &&
           pal.notification.totalCount &&
           pal.notification.totalCount > 0 ? (
-              <Circle className="notification-circle" />
-            ) : null}
+            <Circle className="notification-circle" />
+          ) : null}
         </div>
       </div>
     </button>

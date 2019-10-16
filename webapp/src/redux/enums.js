@@ -15,7 +15,7 @@ export const messageType = Object.freeze({
   GROUP: 'GROUP'
 });
 
-export const genger = Object.freeze({
+export const gender = Object.freeze({
   MALE: 'MALE',
   FEMALE: 'FEMALE',
   UNKNOWN: 'UNKNOWN',

@@ -6,6 +6,7 @@ import userConversationsReducer, * as userConversations from './userConversation
 import activityReducer, * as activity from './activity';
 import activityEventReducer, * as activityEvents from './activityEvents';
 import activityPalReducer, * as activityPals from './activityPals';
+import topPalReducer, * as topPals from './topPals';
 import eventMemberReducer, * as eventMembers from './eventMembers';
 import eventWaitlistReducer, * as eventWaitlist from './eventWaitlist';
 import filterReducer from './filter';
@@ -97,29 +98,46 @@ export const asyncActions = {
     }
   },
   fetchActivityPals: () => async (dispatch, getState) => {
-    dispatch(activityPals.actions.fetchPalsStarted());
     const userId =
       getState().user && getState().user.info && getState().user.isAuthenticated
         ? getState().user.info.id
         : null;
+    const activityFilter = {
+      activity: getState().activity.activity,
+      date: getState().activity.date || {
+        startDate: moment(),
+        // if user searches for activities for anytime(no specific date range) we query for the pals for the next 10 years
+        endDate: moment().add(10, 'years')
+      }
+    };
+
     try {
-      const activityFilter = {
-        activity: getState().activity.activity,
-        date: getState().activity.date || {
-          startDate: moment(),
-          // if user searches for activities for anytime(no specific date range) we query for the pals for the next 10 years
-          endDate: moment().add(10, 'years')
-        }
-      };
+      dispatch(activityPals.actions.fetchPalsStarted());
       var gqlPals = await gql.getPalsByActivity(userId, activityFilter);
       var pals = gqlPals.reduce((pals, gqlPal) => {
         const pal = converter.toPal(gqlPal);
         pal.id && pal.user && (pals[pal.id] = pal); //drop pal if it has no user
         return pals;
       }, {});
-      return dispatch(activityPals.actions.fetchPalsSucceeded(pals));
+      dispatch(activityPals.actions.fetchPalsSucceeded(pals));
     } catch (err) {
       return dispatch(activityPals.actions.fetchPalsFailed(err));
+    }
+
+    // if there are no pals for the ActivityFilter fetch the top Pals for the user
+    if (gqlPals.length === 0) {
+      try {
+        dispatch(topPals.actions.fetchPalsStarted());
+        gqlPals = await gql.getTopPals(userId);
+        pals = gqlPals.reduce((pals, gqlPal) => {
+          const pal = converter.toPal(gqlPal);
+          pal.id && pal.user && (pals[pal.id] = pal); //drop pal if it has no user
+          return pals;
+        }, {});
+        dispatch(topPals.actions.fetchPalsSucceeded(pals));
+      } catch (err) {
+        return dispatch(topPals.actions.fetchPalsFailed(err));
+      }
     }
   },
   createEvent: (userPal, interestedPal) => async (dispatch, getState) => {
@@ -320,7 +338,7 @@ export const asyncActions = {
         date: getState().activity.date || {
           startDate: moment(),
           // if user searches for activities for anytime(no specific date range) we query for the events for the next 10 years
-          endDate: moment().add(10, 'years') 
+          endDate: moment().add(10, 'years')
         }
       };
       var gqlEvents = await gql.getEventsByActivity(userId, activityFilter);
@@ -534,6 +552,7 @@ export default combineReducers({
   activity: activityReducer,
   activityEvents: activityEventReducer,
   activityPals: activityPalReducer,
+  topPals: topPalReducer,
   eventMembers: eventMemberReducer,
   eventWaitlist: eventWaitlistReducer,
   filter: filterReducer

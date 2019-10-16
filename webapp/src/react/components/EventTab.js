@@ -16,8 +16,8 @@ const EventTab = ({ event, active, handleEventClick }) =>
           {event.notification &&
             event.notification.totalCount &&
             event.notification.totalCount > 0 && (
-            <Circle className="notification-circle" />
-          )}
+              <Circle className="notification-circle" />
+            )}
         </div>
       </div>
     </button>

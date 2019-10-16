@@ -10,7 +10,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(filter.actions.viewFilterChanged(viewFilter))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SwitchView);
+export default connect(mapStateToProps, mapDispatchToProps)(SwitchView);

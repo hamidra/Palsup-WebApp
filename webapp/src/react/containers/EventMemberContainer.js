@@ -18,7 +18,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(dux.asyncActions.fetchEventMembers(ownProps.event.id))
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserListModal);
+export default connect(mapStateToProps, mapDispatchToProps)(UserListModal);

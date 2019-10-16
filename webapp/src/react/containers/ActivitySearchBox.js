@@ -39,7 +39,7 @@ export default class ActivitySearchBox extends Component {
                 <input
                   type="text"
                   name="activity"
-                  placeholder="Coffee, Swimming, Hiking, ..."
+                  placeholder="Search your favorite activities"
                   className="form-control border-0 shadow-0"
                   autoComplete="off"
                   value={this.state.activity || ''}

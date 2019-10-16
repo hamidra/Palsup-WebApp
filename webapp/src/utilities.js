@@ -3,47 +3,47 @@ import moment from 'moment';
 export const convertSearchDateToDateRange = search => {
   let date;
   switch (search) {
-  case 'soon':
-    date = {
-      startDate: moment().toDate(),
-      endDate: moment()
-        .add(5, 'h')
-        .toDate()
-    };
-    break;
-  case 'today':
-    date = {
-      startDate: moment().toDate(),
-      endDate: moment()
-        .add(1, 'd')
-        .toDate()
-    };
-    break;
-  case 'week':
-    date = {
-      startDate: moment()
-        .startOf('day')
-        .toDate(),
-      endDate: moment()
-        .day(8)
-        .startOf('day')
-        .toDate()
-    };
-    break;
-  case 'weekend':
-    date = {
-      startDate: moment()
-        .day(6)
-        .startOf('day')
-        .toDate(),
-      endDate: moment()
-        .day(8)
-        .startOf('day')
-        .toDate()
-    };
-    break;
-  default:
-    date = undefined;
+    case 'soon':
+      date = {
+        startDate: moment().toDate(),
+        endDate: moment()
+          .add(5, 'h')
+          .toDate()
+      };
+      break;
+    case 'today':
+      date = {
+        startDate: moment().toDate(),
+        endDate: moment()
+          .add(1, 'd')
+          .toDate()
+      };
+      break;
+    case 'week':
+      date = {
+        startDate: moment()
+          .startOf('day')
+          .toDate(),
+        endDate: moment()
+          .day(8)
+          .startOf('day')
+          .toDate()
+      };
+      break;
+    case 'weekend':
+      date = {
+        startDate: moment()
+          .day(6)
+          .startOf('day')
+          .toDate(),
+        endDate: moment()
+          .day(8)
+          .startOf('day')
+          .toDate()
+      };
+      break;
+    default:
+      date = undefined;
   }
   if (!date && search && search.from && search.to) {
     date = { startDate: search.from, endDate: search.to };
