@@ -7,8 +7,8 @@ const locationFragment = `
   coordinates {
     latitude
     longitude
-    raidus
   }
+  radius
 `;
 
 const dateRangeFragment = `
